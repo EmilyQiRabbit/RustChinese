@@ -2,7 +2,7 @@
 
 *编辑者：Steve Klabnik 和 Carol Nichols，同时感谢 Rust 社区的贡献*
 
-本文档假设读者在所有项目的 *Cargo.toml* 中配置了 `edition="2018"` 以便使用 2018 版 Rust 语法，并且使用 1.37.0 或更新版本的 Rust。如果您想要安装或更新 Rust，可以参考[第一章节的安装教程](https://doc.rust-lang.org/book/ch01-01-installation.html)；关于版本信息，可以查看最新章节[附录 E](https://doc.rust-lang.org/book/appendix-05-editions.html)。
+本文档假设读者使用 1.37.0 或更新版本的 Rust，并在所有项目的 *Cargo.toml* 中配置了 `edition="2018"` 以便使用 2018 版 Rust 语法。如果您想要安装或更新 Rust，可以参考[第一章节的安装教程](https://doc.rust-lang.org/book/ch01-01-installation.html)；如果您想了解版本信息，可以查看最新章节[附录 E](https://doc.rust-lang.org/book/appendix-05-editions.html)。
 
 2018 版 Rust 引入了众多优化，这让 Rust 变得更友好并且易于掌握。本文档这次迭代作出了大量修改，可以反映出这些优化：
 
@@ -24,6 +24,6 @@
 
 注意，即使你升级了 Rust 编译器，已经编译了的任何更早版本的 Rust 代码还是可以继续编译，无需项目在 *Cargo.toml* 中配置 `edition="2018"`。Rust 的向后兼容性能保证这一点！
 
-HTML 版在线文档在：https://doc.rust-lang.org/stable/book/，离线时可使用 `rustup` 命令，它同时也是 Rust 版本管理工具；运行 `run rustup docs --book` 即可打开。
+本书的在线版 HTML 文档在：https://doc.rust-lang.org/stable/book/，离线版会和 Rust 一起使用 `rustup` 命令安装；运行 `run rustup docs --book` 即可打开。
 
 本书可以在[paperback and ebook format from No Starch Press](https://nostarch.com/rust)网站获取。
