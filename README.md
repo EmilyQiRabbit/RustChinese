@@ -8,3 +8,4 @@
    3. [概述](https://github.com/EmilyQiRabbit/RustChinese/blob/master/2-Introduction.md)
 1. 入门教程
    1. [入门教程](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/1-Getting-Started.md)
+   2. [Rust 安装](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/2-Installation.md)

@@ -1,83 +1,83 @@
-# Installation
+# Rust 安装
 
-The first step is to install Rust. We’ll download Rust through `rustup`, a command line tool for managing Rust versions and associated tools. You’ll need an internet connection for the download.
+我们要做的第一步是安装 Rust。我们将会通过使用 `rustup` 完成 Rust 的安装，它是用于管理 Rust 版本和相关工具的命令行工具。这一步需要联网下载。
 
-> Note: If you prefer not to use `rustup` for some reason, please see [the Rust installation page](https://www.rust-lang.org/tools/install) for other options.
+> 注意：如果您出于某些原因不想使用 `rustup`，那么请查阅 [Rust 官方安装文档](https://www.rust-lang.org/tools/install)寻求备选项。
 
-The following steps install the latest stable version of the Rust compiler. Rust’s stability guarantees ensure that all the examples in the book that compile will continue to compile with newer Rust versions. The output might differ slightly between versions, because Rust often improves error messages and warnings. In other words, any newer, stable version of Rust you install using these steps should work as expected with the content of this book.
+下面的步骤将会安装最新稳定版本 Rust 编译器。Rust 的稳定性能确保本书所有编译示例将能够使用 Rust 最新版本继续完成编译。不同版本之间的编译输出可能稍有不同，这是由于 Rust 会经常优化其错误提示和警告信息。换言之，您使用如下步骤安装的最新稳定版本 Rust，都能如你我所期的正常运行本书中的内容。
 
-> ### Command Line Notation
+> ### 命令行标记
 
-> In this chapter and throughout the book, we’ll show some commands used in the terminal. Lines that you should enter in a terminal all start with $. You don’t need to type in the $ character; it indicates the start of each command. Lines that don’t start with $ typically show the output of the previous command. Additionally, PowerShell-specific examples will use > rather than $.
+> 在本书所有章节中，我们都将展示一些用于终端的命令。这些需要您输入至终端的命令行将会以 `$` 符号开始。您无需键入 `$`；它只是用作命令行起始符号。而那些没有以 `$` 开始的段落通常代表前一个命令的输出。另外，PowerShell 专用示例将会使用符号 `>` 而非 `$`。
 
-## Installing `rustup` on Linux or macOS
+## 在 Linux 或 macOS 系统安装 `rustup`
 
-If you’re using Linux or macOS, open a terminal and enter the following command:
+如果您使用的系统是 Linux 或 macOS，那么请打开终端，并输入如下命令：
 
 ```sh
 $ curl https://sh.rustup.rs -sSf | sh
 ```
 
-The command downloads a script and starts the installation of the `rustup` tool, which installs the latest stable version of Rust. You might be prompted for your password. If the install is successful, the following line will appear:
+此命令将会下载一段脚本，并开始安装 `rustup` 工具，它将会帮我们安装最新稳定版本 Rust。过程中可能需要您输入密码。如果安装成功，将会显示出：
 
 ```sh
 Rust is installed now. Great!
 ```
 
-If you prefer, feel free to download the script and inspect it before running it.
+如果您乐于探索，可以下载这段脚本并在运行之前先研究一下。
 
-The installation script automatically adds Rust to your system PATH after your next login. If you want to start using Rust right away instead of restarting your terminal, run the following command in your shell to add Rust to your system PATH manually:
+安装脚本会自动将 Rust 添加至系统环境变量 PATH 中，并于下次登录时生效。如果您希望马上开始使用而无需重启终端，可在 shell 中运行如下命令，手动将 Rust 添加至系统环境变量 PATH：
 
 ```sh
 $ source $HOME/.cargo/env
 ```
 
-Alternatively, you can add the following line to your ~/.bash_profile:
+或者您可以将下面这行代码加入到 *~/.bash_profile* 文件中：
 
 ```sh
 $ export PATH="$HOME/.cargo/bin:$PATH"
 ```
 
-Additionally, you’ll need a linker of some kind. It’s likely one is already installed, but when you try to compile a Rust program and get errors indicating that a linker could not execute, that means a linker isn’t installed on your system and you’ll need to install one manually. C compilers usually come with the correct linker. Check your platform’s documentation for how to install a C compiler. Also, some common Rust packages depend on C code and will need a C compiler. Therefore, it might be worth installing one now.
+另外，您还需要某种类型的链接器（linker）。您可能已经安装过，但如果您在尝试编译 Rust 程序时发现了链接器无法执行的错误，那么就意味着您的系统中还没有安装，需要手动安装一下。C 编译器通常都带有正确的链接器。查看您的平台文档即可了解如何安装 C 编译器。同样的，依赖于 C 代码的一些 Rust 常用包也需要 C 编译器。因此，费心安装一下也是值得的。
 
-## Installing rustup on Windows
+## 在 Windows 系统安装 `rustup`
 
-On Windows, go to https://www.rust-lang.org/tools/install and follow the instructions for installing Rust. At some point in the installation, you’ll receive a message explaining that you’ll also need the C++ build tools for Visual Studio 2013 or later. The easiest way to acquire the build tools is to install [Build Tools for Visual Studio 2019](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2019). The tools are in the Other Tools and Frameworks section.
+如果您使用 Windows，请在浏览器打开 https://www.rust-lang.org/tools/install 并按照说明安装 Rust。安装过程中，您将收到一条消息，为您说明您需要 Visual Studio 2013 或更新版的 C++ 构建工具。获取该构建工具最简单的方法是安装 [Visual Studio 2019 版构建工具](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2019)。相关工具及说明位于「其他工具和框架」章节。
 
-The rest of this book uses commands that work in both cmd.exe and PowerShell. If there are specific differences, we’ll explain which to use.
+本书中使用的命令都能在 *cmd.exe* 和 PowerShell 两者中运行。如果存在特殊命令需要有所区别的，我们将会说明应该使用哪个运行。
 
-## Updating and Uninstalling
+## 更新与卸载
 
-After you’ve installed Rust via `rustup`, updating to the latest version is easy. From your shell, run the following update script:
+当您使用 `rustup` 安装 Rust 后，更新至最新版本是非常简单的。在 shell 中运行如下更新脚本：
 
 ```sh
 $ rustup update
 ```
 
-To uninstall Rust and `rustup`, run the following uninstall script from your shell:
+如果需要卸载 Rust 和 `rustup`，在 shell 中运行如下卸载脚本：
 
 ```sh
 $ rustup self uninstall
 ```
 
-## Troubleshooting
+## 排除故障
 
-To check whether you have Rust installed correctly, open a shell and enter this line:
+如果想要检查自己是否正确安装 Rust，可在 shell 中输入：
 
 ```sh
 $ rustc --version
 ```
 
-You should see the version number, commit hash, and commit date for the latest stable version that has been released in the following format:
+您将能够看到最新稳定版的版本号、提交（commit）哈希值，以及提交日期，显示信息格式如下：
 
 ```sh
 rustc x.y.z (abcabcabc yyyy-mm-dd)
 ```
 
-If you see this information, you have installed Rust successfully! If you don’t see this information and you’re on Windows, check that Rust is in your `%PATH%` system variable. If that’s all correct and Rust still isn’t working, there are a number of places you can get help. The easiest is the #beginners channel on [the official Rust Discord](). There, you can chat with other Rustaceans (a silly nickname we call ourselves) who can help you out. Other great resources include [the Users forum]() and [Stack Overflow]().
+如果您看到了这条信息，那就说明 Rust 已经成功安装了！但如果您没有看到并且您使用得是 Windows 系统，请检查 Rust 是否在系统变量 `%PATH%` 中。如果系统变量无误但是 Rust 依旧没能正常工作，那接下来可以通过如下数个方式寻求帮助。最简单的方法是去 [Discord 网站 Rust 官方](https://discordapp.com/invite/rust-lang)的 #beginners 频道。在这里，你可以和其他 Rustacean（我们给自己的傻傻昵称）一起讨论解决方案。另外一些优质资源比如 [Rust 用户论坛](https://users.rust-lang.org) 以及 [Stack Overflow](https://stackoverflow.com/questions/tagged/rust)。
 
-## Local Documentation
+## 本地文档
 
-The installation of Rust also includes a copy of the documentation locally, so you can read it offline. Run `rustup doc` to open the local documentation in your browser.
+Rust 安装包括了本文档的本地拷贝，您可以用于离线阅读。运行 `rustup doc` 即可在浏览器打开本地文档。
 
-Any time a type or function is provided by the standard library and you’re not sure what it does or how to use it, use the application programming interface (API) documentation to find out!
+当您不确定标准库中类型/函数的功能或使用方法的时候，都可以参考应用程序接口（即 application programming interface，API）文档！
