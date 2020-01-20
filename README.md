@@ -11,3 +11,6 @@
    2. [Rust 安装](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/2-Installation.md)
    3. [Hello, World!](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/3-Hello-World.md)
    4. [Hello, Cargo!](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/4-Hello-Cargo.md)
+2. Programming a Guessing Game
+3. 常用 Rust 编程概念
+   1. [常用 Rust 编程概念]()
