@@ -1,9 +1,9 @@
-# Common Programming Concepts
+# 常用 Rust 编程概念
 
-This chapter covers concepts that appear in almost every programming language and how they work in Rust. Many programming languages have much in common at their core. None of the concepts presented in this chapter are unique to Rust, but we’ll discuss them in the context of Rust and explain the conventions around using these concepts.
+本章涵盖了绝大多数编程语言常用的概念以及这些概念的 Rust 实现。很多编程语言的核心其实是有大量相同之处的。本章中所有的概念都不是 Rust 独有的，但我们只在 Rust 上下文中讨论它们，并讲解使用这些概念时需要遵循的惯例。
 
-Specifically, you’ll learn about variables, basic types, functions, comments, and control flow. These foundations will be in every Rust program, and learning them early will give you a strong core to start from.
+具体来说，我们将会学习变量、基本类型、函数、注释以及控制流。所有的 Rust 编程都会需要这些基础知识，尽早学习能让您在起步时就打下坚实基础。
 
-> **Keywords**
+> **关键字（Keyword）**
 
-> The Rust language has a set of keywords that are reserved for use by the language only, much as in other languages. Keep in mind that you cannot use these words as names of variables or functions. Most of the keywords have special meanings, and you’ll be using them to do various tasks in your Rust programs; a few have no current functionality associated with them but have been reserved for functionality that might be added to Rust in the future. You can find a list of the keywords in Appendix A.
+> 和其他语言类似，Rust 语言规定了一系列被保留的关键字，它们只允许 Rust 语言本身使用。时刻牢记，开发者不可以将这些关键字作为变量名或函数名使用。大多数关键字都有特殊含义，在 Rust 编程中可用于完成不同的任务；还有一些目前并没有绑定相关功能，但是依旧作为关键字保留下来，用于未来可能需要的功能。您可在附录 A 中查阅关键字列表。
