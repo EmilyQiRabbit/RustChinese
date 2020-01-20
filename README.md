@@ -13,4 +13,4 @@
    4. [Hello, Cargo!](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/4-Hello-Cargo.md)
 2. Programming a Guessing Game
 3. 常用 Rust 编程概念
-   1. [常用 Rust 编程概念]()
+   1. [常用 Rust 编程概念](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/1-Common-Programming-Concepts.md)
