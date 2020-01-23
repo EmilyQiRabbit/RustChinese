@@ -1,5 +1,10 @@
 ## Rust 中文文档 
 
+**几点说明：**
+
+1. 参与文档校对的 Rustacean 们：「虚位以待」
+2. [原文链接](https://doc.rust-lang.org/book/title-page.html)
+
 ### 目录
 
 0. 开篇词
@@ -14,3 +19,4 @@
 2. Programming a Guessing Game
 3. 常用 Rust 编程概念
    1. [常用 Rust 编程概念](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/1-Common-Programming-Concepts.md)
+   2. [变量与可变性](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/2-Variables-and-Mutability.md)

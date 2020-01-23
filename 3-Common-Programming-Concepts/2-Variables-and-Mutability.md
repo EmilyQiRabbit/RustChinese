@@ -1,14 +1,14 @@
-# Variables and Mutability
+# 变量与可变性
 
-As mentioned in Chapter 2, by default variables are immutable. This is one of many nudges Rust gives you to write your code in a way that takes advantage of the safety and easy concurrency that Rust offers. However, you still have the option to make your variables mutable. Let’s explore how and why Rust encourages you to favor immutability and why sometimes you might want to opt out.
+我们在第二章提到过，变量都是默认不可修改的。这是 Rust 为开发者编程提供的的众多便捷之一，如此可以充分发挥出 Rust 的安全性和轻松并发的优势。但无论如何，我们还是有办法可以修改变量。下面就让我们一起探索为何 Rust 要支持开发者使用不可变量，以及什么时候我们需要修改变量。
 
-When a variable is immutable, once a value is bound to a name, you can’t change that value. To illustrate this, let’s generate a new project called variables in your projects directory by using `cargo new variables`.
+如果变量不可修改，那么一旦将某个值赋值给变量名，这个值就不能被修改了。下面我们通过实践来更好的说明这一点，首先通过命令 `cargo new variables` 在 projects 目录下新建一个名为 variables 的项目。
 
-Then, in your new variables directory, open src/main.rs and replace its code with the following code that won’t compile just yet:
+然后，在 variables 目录下，打开 src/main.rs 文件，使用如下还无法编译的代码替换掉原来的内容：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
-(This code does not compile!)
+（注：这些代码无法编译）
 ```rs
 fn main() {
     let x = 5;
@@ -18,7 +18,7 @@ fn main() {
 }
 ```
 
-Save and run the program using `cargo run`. You should receive an error message, as shown in this output:
+保存代码然后使用 `cargo run` 运行程序。我们将会看到类似如下的报错信息：
 
 ```sh
 error[E0384]: cannot assign twice to immutable variable `x`
@@ -31,19 +31,19 @@ error[E0384]: cannot assign twice to immutable variable `x`
   |     ^^^^^ cannot assign twice to immutable variable
 ```
 
-This example shows how the compiler helps you find errors in your programs. Even though compiler errors can be frustrating, they only mean your program isn’t safely doing what you want it to do yet; they do not mean that you’re not a good programmer! Experienced Rustaceans still get compiler errors.
+本示例说明了编译器是如何帮助我们在程序中发现错误的。尽管如此，编译错误还是挺让人感到泄气的，记住，错误仅仅意味着您的程序还没能安全的完成预期的功能；但并不能说明您的编程能力不够好！非常有经验的 Rust 开发者也一样会遇到编译错误。
 
-The error message indicates that the cause of the error is that you `cannot assign twice to immutable variable x`, because you tried to assign a second value to the immutable `x` variable.
+错误信息说明了错误的原因是 `cannot assign twice to immutable variable x`，即不能为不可变量赋值两次；而在示例代码中，我们尝试为不可变量 `x` 做了第二次赋值。
 
-It’s important that we get compile-time errors when we attempt to change a value that we previously designated as immutable because this very situation can lead to bugs. If one part of our code operates on the assumption that a value will never change and another part of our code changes that value, it’s possible that the first part of the code won’t do what it was designed to do. The cause of this kind of bug can be difficult to track down after the fact, especially when the second piece of code changes the value only sometimes.
+当我们试图修改一个被指定为不可变的变量值的时候，我们会获取到编译错误，这是非常重要的，因为这种情况下很可能出现问题。如果我们在一段代码中假定变量值绝不会改变，而在另一段代码中却修改了变量值，那么很可能第一段代码就无法按照预期工作。这种错误的原因可能很难追踪，尤其是当第二段代码仅在某些情况下会修改变量值，而某些情况不会的时候。
 
-In Rust, the compiler guarantees that when you state that a value won’t change, it really won’t change. That means that when you’re reading and writing code, you don’t have to keep track of how and where a value might change. Your code is thus easier to reason through.
+Rust 编译器能保证您声明的变量值不会被修改。这意味着当您在读写代码时，不需要追踪变量值在何时何处可能被修改。因此代码将更易于解读。
 
-But mutability can be very useful. Variables are immutable only by default; as you did in Chapter 2, you can make them mutable by adding `mut` in front of the variable name. In addition to allowing this value to change, `mut` conveys intent to future readers of the code by indicating that other parts of the code will be changing this variable’s value.
+但同时，可变性也很实用。变量仅在默认情况下是不可修改的；但是正如我们第二章中的做法，在变量名前添加 `mut` 即可让变量可修改。除了让变量值变得可以修改，`mut` 还能够向后来的代码阅读者传达这样的信息，即其他代码此后可以修改该变量的值。
 
-For example, let’s change src/main.rs to the following:
+例如，我们将 src/main.rs 修改为：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -54,7 +54,7 @@ fn main() {
 }
 ```
 
-When we run the program now, we get this:
+然后运行项目，我们将在终端看到：
 
 ```sh
 $ cargo run
@@ -65,42 +65,40 @@ The value of x is: 5
 The value of x is: 6
 ```
 
-We’re allowed to change the value that `x` binds to from `5` to `6` when `mut` is used. In some cases, you’ll want to make a variable mutable because it makes the code more convenient to write than if it had only immutable variables.
+使用 `mut` 之后，我们可以将 `x` 的值从 `5` 修改为 `6` 了。某些场景下，我们希望让变量可修改，相比于代码只能定义不可改变量，这样能更加简便。
 
-There are multiple trade-offs to consider in addition to the prevention of bugs. For example, in cases where you’re using large data structures, mutating an instance in place may be faster than copying and returning newly allocated instances. With smaller data structures, creating new instances and writing in a more functional programming style may be easier to think through, so lower performance might be a worthwhile penalty for gaining that clarity.
+除了要防止错误，开发者还需要多方权衡考虑。例如我们想要使用一个很大的数据结构，那么直接修改该实例就要比拷贝然后返回新创建的实例要快得多。而对于相对小的数据结构，创建新的实例，并使用更函数化的编程方式可能会更直观，这时候牺牲一些性能来换取清晰的逻辑，可能就是值得的了。
 
-## Differences Between Variables and Constants
+## 变量和常量的区别
 
-Being unable to change the value of a variable might have reminded you of another programming concept that most other languages have: constants. Like immutable variables, constants are values that are bound to a name and are not allowed to change, but there are a few differences between constants and variables.
+无法修改的变量值，这可能会让你想起另一个大多数编程语言都有的概念：常量。和不可修改变量类似，常量也同样是一旦赋值就不可修改，但是常量和不可修改的变量之间还是稍有区别的。
 
-First, you aren’t allowed to use `mut` with constants. Constants aren’t just immutable by default—they’re always immutable.
+首先，不允许使用 `mut` 修饰常量。常量不是默认配置了不可修改（意味着还可以配置为可修改） —— 它们就是永远不可修改。
 
-You declare constants using the `const` keyword instead of the `let` keyword, and the type of the value must be annotated. We’re about to cover types and type annotations in the next section, [“Data Types,”]() so don’t worry about the details right now. Just know that you must always annotate the type.
+使用关键字 `const` 而不是 `let` 来声明常量，同时必须注明值的类型。我们将会在下一章“数据类型”中为您讲解类型和类型注解，这里我们先略过细节，只需要知道此时必须注明类型即可。
 
-Constants can be declared in any scope, including the global scope, which makes them useful for values that many parts of code need to know about.
+常量可在任何作用域内声明，当然也包括全局作用域，此时任何代码都可以使用这些常量。
 
-The last difference is that constants may be set only to a constant expression, not the result of a function call or any other value that could only be computed at runtime.
+最后一点区别是，常量必须使用常量表达式赋值，而不可使用函数的结果或者其他任何只能在运行时才能被计算出的值。
 
-Here’s an example of a constant declaration where the constant’s name is `MAX_POINTS` and its value is set to 100,000. (Rust’s naming convention for constants is to use all uppercase with underscores between words, and underscores can be inserted in numeric literals to improve readability):
+下面是一个常量声明的示例，常量名为 `MAX_POINTS`，值为 100,000。（Rust 常量命名的惯例是使用下划线链接大写字母组成的单词，同时，在数字中插入下划线可以增加可读性）：
 
 ```rs
-
 #![allow(unused_variables)]
 fn main() {
 const MAX_POINTS: u32 = 100_000;
 }
-
 ```
 
-Constants are valid for the entire time a program runs, within the scope they were declared in, making them a useful choice for values in your application domain that multiple parts of the program might need to know about, such as the maximum number of points any player of a game is allowed to earn or the speed of light.
+程序运行时，作用域内的常量始终保持不变；所以当应用中程序的多个部分都需要某一值的时候，常量就有了用武之地，例如游戏玩家可以获得的最高分或者光速。
 
-Naming hardcoded values used throughout your program as constants is useful in conveying the meaning of that value to future maintainers of the code. It also helps to have only one place in your code you would need to change if the hardcoded value needed to be updated in the future.
+在程序中将硬编码值声明为常量，能向代码将来的维护者传递出有效的信息。同时如果后续硬编码值需要更新，开发者只需要修改常量声明处的代码即可。
 
-## Shadowing
+## 遮盖
 
-As you saw in the guessing game tutorial in the “Comparing the Guess to the Secret Number” section in Chapter 2, you can declare a new variable with the same name as a previous variable, and the new variable shadows the previous variable. Rustaceans say that the first variable is shadowed by the second, which means that the second variable’s value is what appears when the variable is used. We can shadow a variable by using the same variable’s name and repeating the use of the `let` keyword as follows:
+正如在第二章游戏教程的“对比猜谜结果”章节中讨论的那样，我们可以声明已有变量的同名的变量，此时新的变量将会把前面已有变量遮盖掉。Rust 开发者将其称为，第一个变量被第二个变量遮盖了，意味着第二个变量的值最终会被使用。我们可以通过使用同名变量并重复使用 `let` 关键字来遮盖变量，如下所示：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -114,7 +112,7 @@ fn main() {
 }
 ```
 
-This program first binds `x` to a value of `5`. Then it shadows `x` by repeating `let x =`, taking the original value and adding `1` so the value of `x` is then `6`. The third `let` statement also shadows `x`, multiplying the previous value by `2` to give `x` a final value of `12`. When we run this program, it will output the following:
+该程序首先将 `x` 赋值为 `5`。然后重复使用 `let x =` 遮盖了前面的 `x`，表达式使用了初始值并加 `1`，那么当前 `x` 值就是 `6`。第三个 `let` 语句再次遮盖了 `x`，表达式将 `x` 乘以 `2`，它最终的值变成了 `12`。当我们运行程序时，终端将会输出：
 
 ```sh
 $ cargo run
@@ -124,23 +122,23 @@ $ cargo run
 The value of x is: 12
 ```
 
-Shadowing is different from marking a variable as `mut`, because we’ll get a compile-time error if we accidentally try to reassign to this variable without using the `let` keyword. By using `let`, we can perform a few transformations on a value but have the variable be immutable after those transformations have been completed.
+遮盖和使用 `mut` 变量是不同的，当我们不小心忘记使用 `let` 关键字而试图重新为变量赋值时，编译器会报编译时错误。而如果使用 `let`，就可以在修改变量值的同时，保留修改完成后变量的不可改性。
 
-The other difference between `mut` and shadowing is that because we’re effectively creating a new variable when we use the `let` keyword again, we can change the type of the value but reuse the same name. For example, say our program asks a user to show how many spaces they want between some text by inputting space characters, but we really want to store that input as a number:
+另一个区别是，当再次使用 `let` 关键字时，我们其实是高效创建了一个新的变量，即可以修改变量的类型和值，但是重复使用变量名。例如，假如程序希望用户通过输入空格，给出他们希望的字符间距，而是我们希望保存的数据的是空格的个数：
 
 ```rs
 let spaces = "   ";
 let spaces = spaces.len();
 ```
 
-This construct is allowed because the first `spaces` variable is a string type and the second `spaces` variable, which is a brand-new variable that happens to have the same name as the first one, is a number type. Shadowing thus spares us from having to come up with different names, such as `spaces_str` and `spaces_num`; instead, we can reuse the simpler `spaces` name. However, if we try to use `mut` for this, as shown here, we’ll get a compile-time error:
+这样构建代码是合法的，因为第一个 `spaces` 变量是字符串类型，而第二个新建的同名 `spaces` 变量是数字类型。遮盖特性让我们可以不必非要使用不同的变量名，例如 `spaces_str` 和 `spaces_num`，而是可以重复使用更简单的 `spaces`。但是，如果我们此时尝试使用 `mut`，编译器也会报编译时错误：
 
 ```rs
 let mut spaces = "   ";
 spaces = spaces.len();
 ```
 
-The error says we’re not allowed to mutate a variable’s type:
+错误表明，我们不可以修改变量类型：
 
 ```sh
 error[E0308]: mismatched types
@@ -153,4 +151,4 @@ error[E0308]: mismatched types
              found type `usize`
 ```
 
-Now that we’ve explored how variables work, let’s look at more data types they can have.
+本章节的内容就是这样啦，我们探索了变量的知识和运作原理，下一章节我们将会学习变量数据类型。
