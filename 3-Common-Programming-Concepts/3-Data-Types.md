@@ -47,7 +47,7 @@ Table 3-1: Integer Types in Rust
 
 Each variant can be either signed or unsigned and has an explicit size. Signed and unsigned refer to whether it’s possible for the number to be negative or positive—in other words, whether the number needs to have a sign with it (signed) or whether it will only ever be positive and can therefore be represented without a sign (unsigned). It’s like writing numbers on paper: when the sign matters, a number is shown with a plus sign or a minus sign; however, when it’s safe to assume the number is positive, it’s shown with no sign. Signed numbers are stored using [two’s complement](https://en.wikipedia.org/wiki/Two%27s_complement) representation.
 
-Each signed variant can store numbers from $-(2^(n - 1))$ to $2^(n - 1) - 1$ inclusive, where n is the number of bits that variant uses. So an `i8` can store numbers from $-(2^7)$ to $2^7 - 1$, which equals -128 to 127. Unsigned variants can store numbers from 0 to $2^n - 1$, so a `u8` can store numbers from 0 to $2^8 - 1$, which equals 0 to 255.
+Each signed variant can store numbers from -2^(n - 1) to 2^(n - 1) - 1 inclusive, where n is the number of bits that variant uses. So an `i8` can store numbers from -2^7 to 2^7 - 1, which equals -128 to 127. Unsigned variants can store numbers from 0 to 2^n - 1, so a `u8` can store numbers from 0 to 2^8 - 1, which equals 0 to 255.
 
 Additionally, the `isize` and `usize` types depend on the kind of computer your program is running on: 64 bits if you’re on a 64-bit architecture and 32 bits if you’re on a 32-bit architecture.
 
