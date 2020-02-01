@@ -47,7 +47,7 @@ error[E0282]: type annotations needed
 
 每种变体都可能是有符号或无符号的，并且也指明了大小。有符号和无符号表示数字是否可能为负数 —— 换句话说，有符号数需要一个符号来指定正负，而无符号数一定是正数，因此就不需要符号表示。这和我们书写数字很类似：当符号有意义时，数字前面就需要写一个加号或者减号；而当数字一定是正数时，就不需要写符号了。有符号数使用[补码形式](https://en.wikipedia.org/wiki/Two%27s_complement)存储。
 
-有符号类型的变体可以存储 <img src='https://latex.codecogs.com/gif.latex?-2^(n - 1)'/> 到 <img src='https://latex.codecogs.com/gif.latex?2^(n - 1) - 1'/> 之内的数字（包括 <img src='https://latex.codecogs.com/gif.latex?-2^(n - 1)'/> 和 <img src='https://latex.codecogs.com/gif.latex?2^(n - 1) - 1'/>），其中 n 表示该变体使用的比特数。因此 `i8` 可以存储 <img src='https://latex.codecogs.com/gif.latex?-2^7'/> 到 <img src='https://latex.codecogs.com/gif.latex?2^7 - 1'/> 的数字，也就是 -128 到 127。而无符号类型的变体存储从 0 到 <img src='https://latex.codecogs.com/gif.latex?2^n - 1'/> 的数字，因此 `u8` 可以存储从 0 到 <img src='https://latex.codecogs.com/gif.latex?2^8 - 1'/> 即 0 到 255 的数字。
+有符号类型的变体可以存储 <img src='https://latex.codecogs.com/gif.latex?-2^{n - 1}'/> 到 <img src='https://latex.codecogs.com/gif.latex?2^{n - 1} - 1'/> 之内的数字（包括 <img src='https://latex.codecogs.com/gif.latex?-2^{n - 1}'/> 和 <img src='https://latex.codecogs.com/gif.latex?2^{n - 1} - 1'/>），其中 n 表示该变体使用的比特数。因此 `i8` 可以存储 <img src='https://latex.codecogs.com/gif.latex?-2^7'/> 到 <img src='https://latex.codecogs.com/gif.latex?2^7 - 1'/> 的数字，也就是 -128 到 127。而无符号类型的变体存储从 0 到 <img src='https://latex.codecogs.com/gif.latex?2^n - 1'/> 的数字，因此 `u8` 可以存储从 0 到 <img src='https://latex.codecogs.com/gif.latex?2^8 - 1'/> 即 0 到 255 的数字。
 
 另外，`isize` 和 `usize` 两类则需要依赖于程序运行的设备：如果您的设备是 64 比特的，那么该值占用空间长度也为 64 比特；32 比特设备同理。
 
