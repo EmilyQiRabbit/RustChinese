@@ -1,11 +1,11 @@
-## Rust 中文文档 
+# Rust 中文文档 
 
 **几点说明：**
 
 1. 参与文档校对的 Rustacean 们：「虚位以待」
 2. [原文链接](https://doc.rust-lang.org/book/title-page.html)
 
-### 目录
+## 目录
 
 0. 开篇词
    1. [Rust 编程语言](https://github.com/EmilyQiRabbit/RustChinese/blob/master/0-The-Rust-Programming-Language.md)
