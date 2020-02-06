@@ -71,14 +71,13 @@ error[E0282]: type annotations needed
 > 一个 `u8` 类型的变量能保存的数值为 0 到 255。而如果试图将变量值修改为一个此范围外的数字，例如 256，就会发生整型溢出。Rust 有一些很有意思的规则会涉及这种行为。当我们在调试模式编译时，Rust 会检查整型溢出，并在发生溢出时使程序 panic。每当程序由于错误而退出时，Rust 都会使用这种形式；我们将会在第九章的“不可恢复的错误与 panic”章节中详细讨论 panic。
 > 而当我们使用标识 `--release` 在发版（release）模式下编译时，Rust 则不会检查整型溢出，也不会使程序 panic。而如果此时还是发生了整型溢出，Rust 会使用补码包装。简单来说，大于类型最大值的数值将会被“环绕”回该类型最小值处。例如如果是数值为 256 的 `u8` 类型，那么它就会变为 0，257 就会变为 1，以此类推。程序不会进入 panic，但是变量也不是你想要的那个值了。依赖整型溢出的环绕行为来完成功能其实是一种错误。而如果您想要明确指定让数值进行“环绕”，可以使用标准库类型 [`Wrapping`](https://doc.rust-lang.org/std/num/struct.Wrapping.html)。
 
-### Floating-Point Types
 ### 浮点类型
 
-Rust also has two primitive types for floating-point numbers, which are numbers with decimal points. Rust’s floating-point types are `f32` and `f64`, which are 32 bits and 64 bits in size, respectively. The default type is `f64` because on modern CPUs it’s roughly the same speed as `f32` but is capable of more precision.
+Rust 有两种原生浮点数类型，它们是带小数点的数字。Rust 中的浮点类型是 `f32` 和 `f64`，分别为 32 比特和 64 比特大小。Rust 默认的浮点类型是 `f64`，因为这两种类型在现代 CPU 中运算速度相同，而 `f64` 能够存储精度更高的数字。
 
-Here’s an example that shows floating-point numbers in action:
+下面这个例子向我们展示了如何在代码中操作浮点数：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -88,7 +87,7 @@ fn main() {
 }
 ```
 
-Floating-point numbers are represented according to the IEEE-754 standard. The `f32` type is a single-precision float, and `f64` has double precision.
+浮点数的表示遵守 IEEE-754 标准。`f32` 类型是单精度浮点，而 `f64` 是双精度浮点。
 
 ### Numeric Operations
 ### 数值运算
