@@ -89,33 +89,32 @@ fn main() {
 
 浮点数的表示遵守 IEEE-754 标准。`f32` 类型是单精度浮点，而 `f64` 是双精度浮点。
 
-### Numeric Operations
 ### 数值运算
 
-Rust supports the basic mathematical operations you’d expect for all of the number types: addition, subtraction, multiplication, division, and remainder. The following code shows how you’d use each one in a `let` statement:
+Rust 支持所有数字类型的基本数学运算，例如加法、减法、乘法、除法和取余。如下代码展示了如何在 `let` 语句中使用这些运算：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
-    // addition
+    // 加法
     let sum = 5 + 10;
 
-    // subtraction
+    // 减法
     let difference = 95.5 - 4.3;
 
-    // multiplication
+    // 乘法
     let product = 4 * 30;
 
-    // division
+    // 除法
     let quotient = 56.7 / 32.2;
 
-    // remainder
+    // 取余
     let remainder = 43 % 5;
 }
 ```
 
-Each expression in these statements uses a mathematical operator and evaluates to a single value, which is then bound to a variable. Appendix B contains a list of all operators that Rust provides.
+上述每个语句中的表达式都使用了一种数学运算，并都会得出一个将会和变量绑定的数值。如果您想知道 Rust 所支持的所有运算符，请参考附录 B 中的列表。
 
 ### The Boolean Type
 ### 布尔类型
