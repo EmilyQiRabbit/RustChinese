@@ -116,22 +116,23 @@ fn main() {
 
 上述每个语句中的表达式都使用了一种数学运算，并都会得出一个将会和变量绑定的数值。如果您想知道 Rust 所支持的所有运算符，请参考附录 B 中的列表。
 
-### The Boolean Type
 ### 布尔类型
 
-As in most other programming languages, a Boolean type in Rust has two possible values: `true` and `false`. Booleans are one byte in size. The Boolean type in Rust is specified using `bool`. For example:
+和其他大部分编程语言类似，Rust 布尔类型只有两种可能的值：`true` 和 `false`。布尔值占用一个字节空间。Rust 中的布尔类型使用 `bool` 声明。例如：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
     let t = true;
 
-    let f: bool = false; // with explicit type annotation
+    let f: bool = false; // 使用显式类型注解
 }
 ```
 
-The main way to use Boolean values is through conditionals, such as an `if` expression. We’ll cover how `if` expressions work in Rust in the “Control Flow” section.
+使用布尔值最主要的场景是在条件表达式中，例如 `if` 表达式。我们将会在“控制流”章节中详细介绍 Rust 中 `if` 表达式的原理。
+
+（译者注：感觉这里应该是 `if` 语句而非表达式）
 
 ### The Character Type
 ### 字符类型
