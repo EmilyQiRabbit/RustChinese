@@ -134,12 +134,11 @@ fn main() {
 
 （译者注：感觉这里应该是 `if` 语句而非表达式）
 
-### The Character Type
 ### 字符类型
 
-So far we’ve worked only with numbers, but Rust supports letters too. Rust’s `char` type is the language’s most primitive alphabetic type, and the following code shows one way to use it. (Note that `char` literals are specified with single quotes, as opposed to string literals, which use double quotes.)
+到目前为止，我们只接触到了数字类型，而其实 Rust 也支持字母。`char` 类型是 Rust 语言中最基础的字母类型，如下代码向我们展示了使用 `char` 的一种方式。（注意，`char` 类型文字使用单引号包裹，而字符串文字则使用双引号。）
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -149,7 +148,7 @@ fn main() {
 }
 ```
 
-Rust’s `char` type is four bytes in size and represents a Unicode Scalar Value, which means it can represent a lot more than just ASCII. Accented letters; Chinese, Japanese, and Korean characters; emoji; and zero-width spaces are all valid `char` values in Rust. Unicode Scalar Values range from `U+0000` to `U+D7FF` and `U+E000` to `U+10FFFF` inclusive. However, a “character” isn’t really a concept in Unicode, so your human intuition for what a “character” is may not match up with what a `char` is in Rust. We’ll discuss this topic in detail in “Storing UTF-8 Encoded Text with Strings” in Chapter 8.
+Rust 的 `char` 类型占用 4 字节空间，它代表了一个 Unicode 编码的标量值，这就意味着它可以表示的字符范围将远多于 ASCII。拼音、中文、日文和韩文字符，emoji 表情符号，以及零长度空格字符都可以是 Rust `char` 类型的有效值。Unicode 标量值包含从 `U+0000` 到 `U+D7FF`，以及从 `U+E000` 到 `U+10FFFF` 的闭区间内的所有值。但是“字符”并不是 Unicode 中的概念，所以我们直觉中的“字符”也许和 Rust 中的 `char` 是不同的。我们将会在第八章的“使用字符串存储 UTF-8 编码的文本”章节中详细讨论这个问题。
 
 ## Compound Types
 ## 复合类型
