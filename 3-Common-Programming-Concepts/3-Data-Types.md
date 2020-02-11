@@ -150,19 +150,17 @@ fn main() {
 
 Rust 的 `char` 类型占用 4 字节空间，它代表了一个 Unicode 编码的标量值，这就意味着它可以表示的字符范围将远多于 ASCII。拼音、中文、日文和韩文字符，emoji 表情符号，以及零长度空格字符都可以是 Rust `char` 类型的有效值。Unicode 标量值包含从 `U+0000` 到 `U+D7FF`，以及从 `U+E000` 到 `U+10FFFF` 的闭区间内的所有值。但是“字符”并不是 Unicode 中的概念，所以我们直觉中的“字符”也许和 Rust 中的 `char` 是不同的。我们将会在第八章的“使用字符串存储 UTF-8 编码的文本”章节中详细讨论这个问题。
 
-## Compound Types
 ## 复合类型
 
-Compound types can group multiple values into one type. Rust has two primitive compound types: tuples and arrays.
+复合类型可以将多个值组合在一起。Rust 有两种原生复合类型：元组和数组。
 
-### The Tuple Type
-### 元组类型
+### 元组类型（Tuple Type）
 
-A tuple is a general way of grouping together a number of values with a variety of types into one compound type. Tuples have a fixed length: once declared, they cannot grow or shrink in size.
+元组常用来组合多个不同类型的值。元组长度固定：即一旦元组完成声明，就不可增长或缩短了。
 
-We create a tuple by writing a comma-separated list of values inside parentheses. Each position in the tuple has a type, and the types of the different values in the tuple don’t have to be the same. We’ve added optional type annotations in this example:
+多个值组成列表并使用逗号分隔，将其包裹于括号内即可创建一个元组。元组中每个值都有自己的类型，不同值的类型也不必相同。下面这个例子中添加了类型注解（类型注解可省略）：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -170,9 +168,9 @@ fn main() {
 }
 ```
 
-The variable `tup` binds to the entire tuple, because a tuple is considered a single compound element. To get the individual values out of a tuple, we can use pattern matching to destructure a tuple value, like this:
+由于元组是一个单独的复合类型元素，所以变量 `tup` 将会和整个元组绑定。如果想要获取元组中的某一个值，可以像下面这样使用模式匹配来解构元组值：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -184,11 +182,11 @@ fn main() {
 }
 ```
 
-This program first creates a tuple and binds it to the variable `tup`. It then uses a pattern with `let` to take `tup` and turn it into three separate variables, `x`, `y`, and `z`. This is called destructuring, because it breaks the single tuple into three parts. Finally, the program prints the value of `y`, which is `6.4`.
+这段程序首先创建了一个元组并将其绑定到变量 `tup`。接下来使用 `let` 加一个模式将元组拆分为三个变量：`x`、`y` 和 `z`。这就称为解构，解构可以将单一元组拆分为多个部分。最后，程序打印出了 `y` 的值，即 `6.4`。
 
-In addition to destructuring through pattern matching, we can access a tuple element directly by using a period (`.`) followed by the index of the value we want to access. For example:
+除了使用模式匹配来解构元组，我们还可以使用点号 `.` 加索引序号来直接访问元组元素。例如：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -202,7 +200,7 @@ fn main() {
 }
 ```
 
-This program creates a tuple, `x`, and then makes new variables for each element by using their respective indices. As with most programming languages, the first index in a tuple is 0.
+这段程序首先创建了元组和变量 `x`，然后使用元素各自的索引为其创建了新的变量。和大多数的编程语言一样，元组首个索引值为 0。
 
 ### The Array Type
 ### 数组类型
