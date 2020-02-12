@@ -202,14 +202,14 @@ fn main() {
 
 这段程序首先创建了元组和变量 `x`，然后使用元素各自的索引为其创建了新的变量。和大多数的编程语言一样，元组首个索引值为 0。
 
-### The Array Type
 ### 数组类型
 
 Another way to have a collection of multiple values is with an array. Unlike a tuple, every element of an array must have the same type. Arrays in Rust are different from arrays in some other languages because arrays in Rust have a fixed length, like tuples.
+另一种集合多个值的方式就是使用数组。和元组不同，数组中所有元素必须属于同一种类型。
 
 In Rust, the values going into an array are written as a comma-separated list inside square brackets:
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
