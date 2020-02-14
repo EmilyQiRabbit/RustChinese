@@ -204,10 +204,9 @@ fn main() {
 
 ### 数组类型
 
-Another way to have a collection of multiple values is with an array. Unlike a tuple, every element of an array must have the same type. Arrays in Rust are different from arrays in some other languages because arrays in Rust have a fixed length, like tuples.
-另一种集合多个值的方式就是使用数组。和元组不同，数组中所有元素必须属于同一种类型。
+另一种集合多个值的方式就是使用数组。和元组不同，数组中所有元素必须属于同一种类型。Rust 数组和其他语言中的数组不同，它的长度必须固定，这点和元组一样。
 
-In Rust, the values going into an array are written as a comma-separated list inside square brackets:
+Rust 数组中的值使用逗号分隔，并使用方括号包裹：
 
 文件名：src/main.rs
 
@@ -217,16 +216,16 @@ fn main() {
 }
 ```
 
-Arrays are useful when you want your data allocated on the stack rather than the heap (we will discuss the stack and the heap more in Chapter 4) or when you want to ensure you always have a fixed number of elements. An array isn’t as flexible as the vector type, though. A vector is a similar collection type provided by the standard library that is allowed to grow or shrink in size. If you’re unsure whether to use an array or a vector, you should probably use a vector. Chapter 8 discusses vectors in more detail.
+当我们希望数据以栈而不是堆的形式（我们在第四章会深入讨论栈和堆）操控，或者希望能确保元素数量固定的时候，数组就很实用了。但是数组确实不如向量（vector）类型那样灵活。向量类型是标准库提供的一种和数组很类似的集合类型，但是它的长度可以改变。如果您无法确定是使用数组还是向量，那么建议使用向量。我们将会在第八章详细讨论向量类型
 
-An example of when you might want to use an array rather than a vector is in a program that needs to know the names of the months of the year. It’s very unlikely that such a program will need to add or remove months, so you can use an array because you know it will always contain 12 elements:
+例如程序需要一年中所有月份的名字，那么我们就应该使用数组而不是向量。因为我们几乎不可能会需要程序增加或减少月份，我们此时就应该使用数组，它一定包含 12 个元素：
 
 ```sh
 let months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 ```
 
-You would write an array’s type by using square brackets, and within the brackets include the type of each element, a semicolon, and then the number of elements in the array, like so:
+在方括号中写入数组元素的类型，紧跟着写一个分号，然后是数组元素的个数，这样就组成了数组的类型，如下：
 
 ```rs
 #![allow(unused_variables)]
@@ -235,7 +234,7 @@ fn main() {
 }
 ```
 
-Here, `i32` is the type of each element. After the semicolon, the number `5` indicates the array contains five elements.
+`i32` 表示数组中元素的类型。分号后的数字 `5` 表示数组中包含了五个元素。
 
 Writing an array’s type this way looks similar to an alternative syntax for initializing an array: if you want to create an array that contains the same value for each element, you can specify the initial value, followed by a semicolon, and then the length of the array in square brackets, as shown here:
 
