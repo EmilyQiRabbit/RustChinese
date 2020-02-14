@@ -236,7 +236,7 @@ fn main() {
 
 `i32` 表示数组中元素的类型。分号后的数字 `5` 表示数组中包含了五个元素。
 
-Writing an array’s type this way looks similar to an alternative syntax for initializing an array: if you want to create an array that contains the same value for each element, you can specify the initial value, followed by a semicolon, and then the length of the array in square brackets, as shown here:
+这样的数组类型格式和初始化数组另一种方式很像：如果想要创建一个包含数个相同值的元素的数组，我们可以指明元素的值，紧跟着一个分号，然后给出数组的长度，并用方括号包裹，如下所示：
 
 ```rs
 #![allow(unused_variables)]
@@ -245,16 +245,15 @@ fn main() {
 }
 ```
 
-The array named `a` will contain `5` elements that will all be set to the value `3` initially. This is the same as writing `let a = [3, 3, 3, 3, 3];` but in a more concise way.
+数组 `a` 将会包含 `5` 个元素，它们的值都会被初始化为 `3`。这种方式和 `let a = [3, 3, 3, 3, 3];` 的结果是一样的，但是更加精简。
 
-#### Accessing Array Elements
 #### 访问数组元素
 
-An array is a single chunk of memory allocated on the stack. You can access elements of an array using indexing, like this:
+数组是栈中分配的一块内存。可以这样使用索引访问数组元素：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
-```re
+```rs
 fn main() {
     let a = [1, 2, 3, 4, 5];
 
@@ -263,7 +262,7 @@ fn main() {
 }
 ```
 
-In this example, the variable named `first` will get the value `1`, because that is the value at index `[0]` in the array. The variable named `second` will get the value `2` from index `[1]` in the array.
+这段代码中，变量 `first` 的值是 `1`，即数组中索引为 `[0]` 的值。变量 `second` 的值是 `2`，即数组中索引为 `[1]` 的值。
 
 #### Invalid Array Element Access
 #### 无效数组元素访问
@@ -271,6 +270,7 @@ In this example, the variable named `first` will get the value `1`, because that
 What happens if you try to access an element of an array that is past the end of the array? Say you change the example to the following code, which will compile but exit with an error when it runs:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code panics!
 ```rs
