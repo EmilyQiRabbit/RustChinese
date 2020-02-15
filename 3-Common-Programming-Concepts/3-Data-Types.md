@@ -249,10 +249,9 @@ fn main() {
 
 #### 访问数组元素
 
-数组是栈中分配的一块内存。可以这样使用索引访问数组元素：
+数组是栈中分配的一整块内存。我们可以使用索引访问数组元素，像这样：
 
 文件名：src/main.rs
-
 ```rs
 fn main() {
     let a = [1, 2, 3, 4, 5];
@@ -264,15 +263,13 @@ fn main() {
 
 这段代码中，变量 `first` 的值是 `1`，即数组中索引为 `[0]` 的值。变量 `second` 的值是 `2`，即数组中索引为 `[1]` 的值。
 
-#### Invalid Array Element Access
-#### 无效数组元素访问
+#### 访问无效的数组元素
 
-What happens if you try to access an element of an array that is past the end of the array? Say you change the example to the following code, which will compile but exit with an error when it runs:
+如果我们尝试使用数组最大长度之外的索引获取数组元素会怎样呢？假如我们将代码修改为如下所示，那么这段代码将可以完成编译，但是会在运行时报错：
 
-Filename: src/main.rs
 文件名：src/main.rs
 
-This code panics!
+代码将会 panic！
 ```rs
 fn main() {
     let a = [1, 2, 3, 4, 5];
@@ -284,7 +281,7 @@ fn main() {
 }
 ```
 
-Running this code using `cargo run` produces the following result:
+使用 `cargo run` 运行代码，我们将会看到如下输出结果：
 
 ```sh
 $ cargo run
@@ -296,6 +293,6 @@ thread 'main' panicked at 'index out of bounds: the len is 5 but the index is
 note: Run with `RUST_BACKTRACE=1` for a backtrace.
 ```
 
-The compilation didn’t produce any errors, but the program resulted in a runtime error and didn’t exit successfully. When you attempt to access an element using indexing, Rust will check that the index you’ve specified is less than the array length. If the index is greater than or equal to the array length, Rust will panic.
+编译过程没有报错，但最终程序还是会在运行时报错，并且没有成功退出。当我们尝试使用索引访问数组元素时，Rust 将会检查该索引是否小于数组长度。如果索引大于等于数组长度，Rust 将会 panic。
 
-This is the first example of Rust’s safety principles in action. In many low-level languages, this kind of check is not done, and when you provide an incorrect index, invalid memory can be accessed. Rust protects you against this kind of error by immediately exiting instead of allowing the memory access and continuing. Chapter 9 discusses more of Rust’s error handling.
+这是我们实践 Rust 代码安全准则的第一个例子。在很多底层语言中并没有这种检查，而当开发者使用了错误的索引时，就会访问到无效内存。但 Rust 则会马上退出，而不是允许开发者访问无效内存并继续执行程序，如此可以让开发者尽可能避免此类错误。在第九章中我们将详细谈论 Rust 的错误处理。
