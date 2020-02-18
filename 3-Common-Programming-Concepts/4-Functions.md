@@ -1,10 +1,10 @@
-# Functions
+# 函数
 
-Functions are pervasive in Rust code. You’ve already seen one of the most important functions in the language: the `main` function, which is the entry point of many programs. You’ve also seen the `fn` keyword, which allows you to declare new functions.
+在 Rust 代码中，函数随处可见。我们已经遇到过 Rust 中最重要的 main 函数了，它是程序的入口。同时我们也知道了关键字 `fn`，使用它可以声明新的函数。
 
-Rust code uses snake case as the conventional style for function and variable names. In snake case, all letters are lowercase and underscores separate words. Here’s a program that contains an example function definition:
+Rust 代码中，我们习惯使用蛇式命名法来为函数和变量命名。即所有字母都使用小写并用下划线连接。如下程序包含了一个函数定义的示例：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -18,11 +18,11 @@ fn another_function() {
 }
 ```
 
-Function definitions in Rust start with `fn` and have a set of parentheses after the function name. The curly brackets tell the compiler where the function body begins and ends.
+函数声明以 `fn` 开头，并需要在函数名后跟一组括号。而花括号将会为编译器提供函数体开始和结束的位置信息。
 
-We can call any function we’ve defined by entering its name followed by a set of parentheses. Because `another_function` is defined in the program, it can be called from inside the `main` function. Note that we defined `another_function` after the `main` function in the source code; we could have defined it before as well. Rust doesn’t care where you define your functions, only that they’re defined somewhere.
+使用函数名加上一组括号即可调用任意函数。由于 `another_function` 函数已经在程序中被定义过，所以它可以在 `main` 函数中被调用。注意这里我们是在 `main` 函数后定义 `another_function` 函数；其实将其定义在 `main` 函数之前也是完全可以的。Rust 不关心我们在哪里定义函数，只要定义过即可。
 
-Let’s start a new binary project named functions to explore functions further. Place the `another_function` example in src/main.rs and run it. You should see the following output:
+为了进一步探索函数，现在我们新建名为 functions 的二进制项目。将上文 `another_function` 示例代码拷贝进 src/main.rs 并运行。我们将能看到如下输出：
 
 ```sh
 $ cargo run
@@ -33,9 +33,10 @@ Hello, world!
 Another function.
 ```
 
-The lines execute in the order in which they appear in the `main` function. First, the “Hello, world!” message prints, and then `another_function` is called and its message is printed.
+程序将会按 `main` 函数中的顺序逐行执行。首先 “Hello, world!” 信息被打印出来，然后 `another_function` 函数被调用，并打印出其相应的信息。
 
 ## Function Parameters
+## 函数参数
 
 Functions can also be defined to have parameters, which are special variables that are part of a function’s signature. When a function has parameters, you can provide it with concrete values for those parameters. Technically, the concrete values are called arguments, but in casual conversation, people tend to use the words parameter and argument interchangeably for either the variables in a function’s definition or the concrete values passed in when you call a function.
 
@@ -98,6 +99,7 @@ The value of y is: 6
 Because we called the function with `5` as the value for `x` and `6` is passed as the value for `y`, the two strings are printed with these values.
 
 ## Function Bodies Contain Statements and Expressions
+## 包含了语句和表达式的函数体
 
 Function bodies are made up of a series of statements optionally ending in an expression. So far, we’ve only covered functions without an ending expression, but you have seen an expression as part of a statement. Because Rust is an expression-based language, this is an important distinction to understand. Other languages don’t have the same distinctions, so let’s look at what statements and expressions are and how their differences affect the bodies of functions.
 
@@ -170,6 +172,7 @@ This expression:
 is a block that, in this case, evaluates to `4`. That value gets bound to `y` as part of the `let` statement. Note the `x + 1` line without a semicolon at the end, which is unlike most of the lines you’ve seen so far. Expressions do not include ending semicolons. If you add a semicolon to the end of an expression, you turn it into a statement, which will then not return a value. Keep this in mind as you explore function return values and expressions next.
 
 ## Functions with Return Values
+## 带返回值的函数
 
 Functions can return values to the code that calls them. We don’t name return values, but we do declare their type after an arrow (`->`). In Rust, the return value of the function is synonymous with the value of the final expression in the block of the body of a function. You can return early from a function by using the `return` keyword and specifying a value, but most functions return the last expression implicitly. Here’s an example of a function that returns a value:
 
