@@ -35,14 +35,13 @@ Another function.
 
 程序将会按 `main` 函数中的顺序逐行执行。首先 “Hello, world!” 信息被打印出来，然后 `another_function` 函数被调用，并打印出其相应的信息。
 
-## Function Parameters
 ## 函数参数
 
-Functions can also be defined to have parameters, which are special variables that are part of a function’s signature. When a function has parameters, you can provide it with concrete values for those parameters. Technically, the concrete values are called arguments, but in casual conversation, people tend to use the words parameter and argument interchangeably for either the variables in a function’s definition or the concrete values passed in when you call a function.
+函数也可以被定义为有参数（parameter）的形式，参数是特殊的变量，是函数签名的一部分。当函数有参数时，我们可以为其参数提供确切的值。技术上来说，这些具体的值被称为 argument（其对应的中文也是参数），但是在日常交流中，人们通常不会区分 parameter 和 argument 的概念，它们都可以用来指函数定义时的变量或者调用函数时的具体值。
 
-The following rewritten version of `another_function` shows what parameters look like in Rust:
+下面这版重写了 `another_function` 函数的代码为我们展示出了 Rust 中函数的参数：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -54,7 +53,7 @@ fn another_function(x: i32) {
 }
 ```
 
-Try running this program; you should get the following output:
+尝试运行程序；我们将会得到如下输出：
 
 ```sh
 $ cargo run
@@ -64,13 +63,13 @@ $ cargo run
 The value of x is: 5
 ```
 
-The declaration of `another_function` has one parameter named `x`. The type of `x` is specified as `i32`. When `5` is passed to `another_function`, the `println!` macro puts `5` where the pair of curly brackets were in the format string.
+`another_function` 函数的声明中包含了一个名为 `x` 的参数。`x` 的类型被指定为 `i32`。当 `5` 被传入 `another_function` 函数时，宏 `println!` 将 `5` 放到格式化字符串中花括号的位置中。
 
-In function signatures, you must declare the type of each parameter. This is a deliberate decision in Rust’s design: requiring type annotations in function definitions means the compiler almost never needs you to use them elsewhere in the code to figure out what you mean.
+在函数签名中，必须声明所有参数的类型。这在 Rust 设计中是一个反复斟酌后作出的决定：函数定义需要类型注解意味着，编译器不需要开发者在其他位置使用类型注解来指明函数的意图。
 
-When you want a function to have multiple parameters, separate the parameter declarations with commas, like this:
+如果希望函数有多个参数时，可以使用逗号分隔不同参数，如下所示：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -83,9 +82,9 @@ fn another_function(x: i32, y: i32) {
 }
 ```
 
-This example creates a function with two parameters, both of which are `i32` types. The function then prints the values in both of its parameters. Note that function parameters don’t all need to be the same type, they just happen to be in this example.
+这段代码示例创建了一个有两个参数的函数，两个参数都是 `i32` 类型。接下来函数打印出了两个参数的值。注意，函数的参数不需要总是同一类型，只是在这个例子中碰巧相同罢了。
 
-Let’s try running this code. Replace the program currently in your functions project’s src/main.rs file with the preceding example and run it using `cargo run`:
+我们来运行这段代码。使用上面的示例代码替换掉 functions 项目下 src/main.rs 文件中的程序代码，然后使用 `cargo run` 运行：
 
 ```sh
 $ cargo run
@@ -96,7 +95,7 @@ The value of x is: 5
 The value of y is: 6
 ```
 
-Because we called the function with `5` as the value for `x` and `6` is passed as the value for `y`, the two strings are printed with these values.
+因为我们使用了 `5` 作为参数 `x` 的值，`6` 作为参数 `y` 的值来调用函数，因此两段字符串就连同这两个值被打印了出来。
 
 ## Function Bodies Contain Statements and Expressions
 ## 包含了语句和表达式的函数体
