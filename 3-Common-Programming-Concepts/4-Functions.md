@@ -97,16 +97,15 @@ The value of y is: 6
 
 因为我们使用了 `5` 作为参数 `x` 的值，`6` 作为参数 `y` 的值来调用函数，因此两段字符串就连同这两个值被打印了出来。
 
-## Function Bodies Contain Statements and Expressions
 ## 包含了语句和表达式的函数体
 
-Function bodies are made up of a series of statements optionally ending in an expression. So far, we’ve only covered functions without an ending expression, but you have seen an expression as part of a statement. Because Rust is an expression-based language, this is an important distinction to understand. Other languages don’t have the same distinctions, so let’s look at what statements and expressions are and how their differences affect the bodies of functions.
+函数体由一系列语句和一个可选的结尾表达式组成。虽然目前为止我们看到的函数都没有结尾表达式，但我们已经见过表达式了，它是语句的一部分。Rust 是一门基于表达式的语言，这是我们需要理解的一个 Rust 不同于其他语言的重要区别，其他语言都不具备这样的特点，那么我们现在就一起了解什么是语句和表达式，以及它们分别是如何影响函数体的。
 
 We’ve actually already used statements and expressions. Statements are instructions that perform some action and do not return a value. Expressions evaluate to a resulting value. Let’s look at some examples.
 
 Creating a variable and assigning a value to it with the `let` keyword is a statement. In Listing 3-1, `let y = 6;` is a statement.
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -120,6 +119,7 @@ Function definitions are also statements; the entire preceding example is a stat
 Statements do not return values. Therefore, you can’t assign a `let` statement to another variable, as the following code tries to do; you’ll get an error:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```re
 fn main() {
@@ -145,6 +145,7 @@ The `let y = 6` statement does not return a value, so there isn’t anything for
 Expressions evaluate to something and make up most of the rest of the code that you’ll write in Rust. Consider a simple math operation, such as `5 + 6`, which is an expression that evaluates to the value `11`. Expressions can be part of statements: in Listing 3-1, the `6` in the statement `let y = 6;` is an expression that evaluates to the value `6`. Calling a function is an expression. Calling a macro is an expression. The block that we use to create new scopes, `{}`, is an expression, for example:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -170,7 +171,6 @@ This expression:
 
 is a block that, in this case, evaluates to `4`. That value gets bound to `y` as part of the `let` statement. Note the `x + 1` line without a semicolon at the end, which is unlike most of the lines you’ve seen so far. Expressions do not include ending semicolons. If you add a semicolon to the end of an expression, you turn it into a statement, which will then not return a value. Keep this in mind as you explore function return values and expressions next.
 
-## Functions with Return Values
 ## 带返回值的函数
 
 Functions can return values to the code that calls them. We don’t name return values, but we do declare their type after an arrow (`->`). In Rust, the return value of the function is synonymous with the value of the final expression in the block of the body of a function. You can return early from a function by using the `return` keyword and specifying a value, but most functions return the last expression implicitly. Here’s an example of a function that returns a value:
