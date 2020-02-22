@@ -99,11 +99,11 @@ The value of y is: 6
 
 ## 包含了语句和表达式的函数体
 
-函数体由一系列语句和一个可选的结尾表达式组成。虽然目前为止我们看到的函数都没有结尾表达式，但我们已经见过表达式了，它是语句的一部分。Rust 是一门基于表达式的语言，这是我们需要理解的一个 Rust 不同于其他语言的重要区别，其他语言都不具备这样的特点，那么我们现在就一起了解什么是语句和表达式，以及它们分别是如何影响函数体的。
+函数体由一系列语句和一个可选的结尾表达式组成。虽然目前为止我们只介绍了没有表达式结尾的函数，但我们已经见过作为语句一部分的表达式了。Rust 是一门基于表达式的语言，这是我们需要理解的一个 Rust 不同于其他语言的重要区别，其他语言都无此特点，下面我们就来学习什么是语句和表达式，以及它们分别是如何影响函数体的。
 
-We’ve actually already used statements and expressions. Statements are instructions that perform some action and do not return a value. Expressions evaluate to a resulting value. Let’s look at some examples.
+我们已经使用过语句和表达式了。语句是指令，它执行某些操作但并没有返回值。而表达式会计算并返回某个值。我们来看几个例子：
 
-Creating a variable and assigning a value to it with the `let` keyword is a statement. In Listing 3-1, `let y = 6;` is a statement.
+使用 `let` 关键字创建变量并赋值，这就是一个语句。在下面示例中，`let y = 6;` 就是一个语句。
 
 文件名：src/main.rs
 
@@ -112,16 +112,16 @@ fn main() {
     let y = 6;
 }
 ```
-Listing 3-1: A `main` function declaration containing one statement
+示例 3-1：`main` 函数的声明中包含了一个语句
 
-Function definitions are also statements; the entire preceding example is a statement in itself.
+函数声明也属于语句；前面这个例子本身就是一个语句。
 
 Statements do not return values. Therefore, you can’t assign a `let` statement to another variable, as the following code tries to do; you’ll get an error:
 
 Filename: src/main.rs
 文件名：src/main.rs
 
-```re
+```rs
 fn main() {
     let x = (let y = 6);
 }
