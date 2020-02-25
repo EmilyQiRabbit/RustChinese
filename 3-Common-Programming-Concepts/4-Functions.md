@@ -116,7 +116,7 @@ fn main() {
 
 函数声明也属于语句；前面这个例子本身就是一个语句。
 
-Statements do not return values. Therefore, you can’t assign a `let` statement to another variable, as the following code tries to do; you’ll get an error:
+语句没有返回值。因此我们不可以像如下代码那样将 `let` 语句赋值给另一个变量，如果这样做了，代码就会报错：
 
 Filename: src/main.rs
 文件名：src/main.rs
@@ -126,7 +126,7 @@ fn main() {
     let x = (let y = 6);
 }
 ```
-When you run this program, the error you’ll get looks like this:
+运行该程序的报错信息如下：
 
 ```sh
 $ cargo run
@@ -140,11 +140,10 @@ error: expected expression, found statement (`let`)
   = note: variable declaration using `let` is a statement
 ```
 
-The `let y = 6` statement does not return a value, so there isn’t anything for `x` to bind to. This is different from what happens in other languages, such as C and Ruby, where the assignment returns the value of the assignment. In those languages, you can write `x = y = 6` and have both `x` and `y` have the value `6`; that is not the case in Rust.
+语句 `let y = 6` 没有返回值，因此 `x` 不会和任何值绑定。这一点和其他语言例如 C 或 Ruby 不同，这些语言的赋值操作会返回所赋的值。所以我们就可以这么写：`x = y = 6`，此时 `x` 和 `y` 的值都是 `6`；但在 Rust 中不能这样写。
 
 Expressions evaluate to something and make up most of the rest of the code that you’ll write in Rust. Consider a simple math operation, such as `5 + 6`, which is an expression that evaluates to the value `11`. Expressions can be part of statements: in Listing 3-1, the `6` in the statement `let y = 6;` is an expression that evaluates to the value `6`. Calling a function is an expression. Calling a macro is an expression. The block that we use to create new scopes, `{}`, is an expression, for example:
 
-Filename: src/main.rs
 文件名：src/main.rs
 
 ```rs
