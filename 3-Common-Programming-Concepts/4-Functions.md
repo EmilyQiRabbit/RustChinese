@@ -142,7 +142,7 @@ error: expected expression, found statement (`let`)
 
 语句 `let y = 6` 没有返回值，因此 `x` 不会和任何值绑定。这一点和其他语言例如 C 或 Ruby 不同，这些语言的赋值操作会返回所赋的值。所以我们就可以这么写：`x = y = 6`，此时 `x` 和 `y` 的值都是 `6`；但在 Rust 中不能这样写。
 
-Expressions evaluate to something and make up most of the rest of the code that you’ll write in Rust. Consider a simple math operation, such as `5 + 6`, which is an expression that evaluates to the value `11`. Expressions can be part of statements: in Listing 3-1, the `6` in the statement `let y = 6;` is an expression that evaluates to the value `6`. Calling a function is an expression. Calling a macro is an expression. The block that we use to create new scopes, `{}`, is an expression, for example:
+表达式负责计算，Rust 绝大部分代码是由表达式组成的。一个简单的数学运算，例如 `5 + 6`，就是表达式，它计算的结果是 `11`。表达式可以是语句的一部分：在如下代码中，语句 `let y = 6;` 中的 `6` 就是表达式，它的计算结果为 `6`。调用函数也是表达式。调用宏同样是表达式。可以创建作用域的代码块，`{}`，也是表达式，例如：
 
 文件名：src/main.rs
 
@@ -159,7 +159,7 @@ fn main() {
 }
 ```
 
-This expression:
+这个表达式：
 
 ```rs
 {
@@ -168,7 +168,7 @@ This expression:
 }
 ```
 
-is a block that, in this case, evaluates to `4`. That value gets bound to `y` as part of the `let` statement. Note the `x + 1` line without a semicolon at the end, which is unlike most of the lines you’ve seen so far. Expressions do not include ending semicolons. If you add a semicolon to the end of an expression, you turn it into a statement, which will then not return a value. Keep this in mind as you explore function return values and expressions next.
+是一个代码块，它的计算结果为 `4`。这个值会作为 `let` 语句的一部分，和 `y` 绑定。注意到 `x + 1` 这一行的结尾没有分号，这和其他代码行有所不同。因为表达式不包括结尾的分号。如果在表达式结尾增加一个分号，就会将其转换成语句，也就不会有返回值了。在后文对函数返回值和表达式的学习中要牢记这一点。
 
 ## 带返回值的函数
 
