@@ -172,9 +172,9 @@ fn main() {
 
 ## 带返回值的函数
 
-Functions can return values to the code that calls them. We don’t name return values, but we do declare their type after an arrow (`->`). In Rust, the return value of the function is synonymous with the value of the final expression in the block of the body of a function. You can return early from a function by using the `return` keyword and specifying a value, but most functions return the last expression implicitly. Here’s an example of a function that returns a value:
+函数可以向其调用者返回值。我们不必为返回值命名，但是需要在箭头 `->` 后声明其类型。在 Rust 中，函数返回值等于函数体最后一个表达式的值。我们也可以在函数任意位置使用关键字 `return` 来指明返回值，但是大部分情况下函数都隐藏会 `return` 并返回最后一个表达式的值。如下是一个函数返回值的例子：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn five() -> i32 {
@@ -209,9 +209,9 @@ fn main() {
 
 Second, the `five` function has no parameters and defines the type of the return value, but the body of the function is a lonely `5` with no semicolon because it’s an expression whose value we want to return.
 
-Let’s look at another example:
+我们来看另外一个例子：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -227,9 +227,9 @@ fn plus_one(x: i32) -> i32 {
 
 Running this code will print `The value of x is: 6`. But if we place a semicolon at the end of the line containing `x + 1`, changing it from an expression to a statement, we’ll get an error.
 
-Filename: src/main.rs
+文件名：src/main.rs
 
-This code does not compile!
+这段代码无法编译！
 ```rs
 fn main() {
     let x = plus_one(5);
@@ -242,7 +242,7 @@ fn plus_one(x: i32) -> i32 {
 }
 ```
 
-Compiling this code produces an error, as follows:
+代码编译会报错，错误信息如下：
 
 ```sh
 error[E0308]: mismatched types
