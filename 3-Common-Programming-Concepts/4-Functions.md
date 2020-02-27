@@ -188,7 +188,7 @@ fn main() {
 }
 ```
 
-There are no function calls, macros, or even `let` statements in the `five` function—just the number `5` by itself. That’s a perfectly valid function in Rust. Note that the function’s return type is specified too, as `-> i32`. Try running this code; the output should look like this:
+`five` 函数中没有其他函数或宏的调用，也没有 `let` 语句 —— 只有一个数字 `5`。但这在 Rust 中是一个绝对有效的函数。注意到，函数返回值的类型也已经制定了，即 `-> i32`。我们试着运行这段代码；控制台输出如下所示：
 
 ```sh
 $ cargo run
@@ -198,7 +198,7 @@ $ cargo run
 The value of x is: 5
 ```
 
-The `5` in `five` is the function’s return value, which is why the return type is `i32`. Let’s examine this in more detail. There are two important bits: first, the line `let x = five();` shows that we’re using the return value of a function to initialize a variable. Because the function `five` returns a `5`, that line is the same as the following:
+`five` 函数内的 `5` 就是该函数的返回值，其类型就是 `i32`。下面我们对这段代码做更详尽的探讨。这其中有两个很重要的知识点：首先，代码行 `let x = five();` 表示我们需要用函数返回值来初始化变量。由于函数 `five` 返回了 `5`，所以它其实和如下代码等价：
 
 ```rs
 #![allow(unused_variables)]
@@ -207,7 +207,7 @@ fn main() {
 }
 ```
 
-Second, the `five` function has no parameters and defines the type of the return value, but the body of the function is a lonely `5` with no semicolon because it’s an expression whose value we want to return.
+其次，`five` 函数没有参数，并且指定了返回值类型，而函数体则只有一个不带分号结尾的 `5`，它是一个表达式，它的值就是我们需要返回的值。
 
 我们来看另外一个例子：
 
@@ -225,7 +225,7 @@ fn plus_one(x: i32) -> i32 {
 }
 ```
 
-Running this code will print `The value of x is: 6`. But if we place a semicolon at the end of the line containing `x + 1`, changing it from an expression to a statement, we’ll get an error.
+运行代码将会打印出 `The value of x is: 6`。但如果我们在 `x + 1` 代码行的末尾加上一个分号，那么这个表达式就会变成语句，程序会报错。
 
 文件名：src/main.rs
 
@@ -259,4 +259,4 @@ error[E0308]: mismatched types
              found type `()`
 ```
 
-The main error message, “mismatched types,” reveals the core issue with this code. The definition of the function `plus_one` says that it will return an `i32`, but statements don’t evaluate to a value, which is expressed by `()`, an empty tuple. Therefore, nothing is returned, which contradicts the function definition and results in an error. In this output, Rust provides a message to possibly help rectify this issue: it suggests removing the semicolon, which would fix the error.
+错误信息“mismatched types,”指出了代码问题的核心。函数 `plus_one` 的定义指明它需要返回一个 `i32` 类型的值，但语句不能返回任何值，使用一个空元组 `()` 表示。这和函数定义矛盾，导致编译错误。在这段输出中，Rust 会提供可能帮助纠正错误的信息：这里给出的建议是移除分号，即可修复问题。
