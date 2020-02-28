@@ -1,8 +1,8 @@
-# Comments
+# 注释
 
-All programmers strive to make their code easy to understand, but sometimes extra explanation is warranted. In these cases, programmers leave notes, or comments, in their source code that the compiler will ignore but people reading the source code may find useful.
+所有的程序员都尽力让他们的代码易于理解，但有时额外的说明也是必要的。这时就需要在源码中留下注释，这些注释会被编译器忽略，但是当他人阅读代码时，它们可能就很有价值了。
 
-Here’s a simple comment:
+如下是一个简单的注释：
 
 ```rs
 #![allow(unused_variables)]
@@ -11,7 +11,7 @@ fn main() {
 }
 ```
 
-In Rust, comments must start with two slashes and continue until the end of the line. For comments that extend beyond a single line, you’ll need to include `//` on each line, like this:
+Rust 中的注释以两个斜杠开始，到该行结尾结束。而对于多行注释，那么每一行的开头都要有 `//`，如下所示：
 
 ```rs
 // So we’re doing something complicated here, long enough that we need
@@ -19,9 +19,9 @@ In Rust, comments must start with two slashes and continue until the end of the 
 // explain what’s going on.
 ```
 
-Comments can also be placed at the end of lines containing code:
+注释也可以写在代码行的末尾：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -29,9 +29,9 @@ fn main() {
 }
 ```
 
-But you’ll more often see them used in this format, with the comment on a separate line above the code it’s annotating:
+但是如下这样，把注释单独写在所要注解的代码行上面则更为常见：
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -39,4 +39,4 @@ fn main() {
     let lucky_number = 7;
 }
 ```
-Rust also has another kind of comment, documentation comments, which we’ll discuss in the “Publishing a Crate to Crates.io” section of Chapter 14.
+Rust 中还有另一种注释，即文档注释，我们将会在第 14 章的 “将 crate 发布到 Crates.io” 章节中详细介绍。
