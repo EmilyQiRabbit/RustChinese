@@ -17,8 +17,8 @@
    3. [Hello, World!](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/3-Hello-World.md)
    4. [Hello, Cargo!](https://github.com/EmilyQiRabbit/RustChinese/blob/master/1-Getting-Started/4-Hello-Cargo.md)
 2. Programming a Guessing Game
-3. 常用 Rust 编程概念
-   1. [常用 Rust 编程概念](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/1-Common-Programming-Concepts.md)
+3. 常用的 Rust 编程概念
+   1. [常用的 Rust 编程概念](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/1-Common-Programming-Concepts.md)
    2. [变量与可变性](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/2-Variables-and-Mutability.md)
    3. [数据类型](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/3-Data-Types.md)
    4. [函数](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/4-Functions.md)
