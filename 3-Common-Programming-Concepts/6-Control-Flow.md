@@ -1,14 +1,15 @@
-# Control Flow
+# 控制流
 
-Deciding whether or not to run some code depending on if a condition is true and deciding to run some code repeatedly while a condition is true are basic building blocks in most programming languages. The most common constructs that let you control the flow of execution of Rust code are `if` expressions and loops.
+由某条件是否为真来决定是否运行某段代码，或者当某条件为真就反复运行某段代码，这些都是大部分编程语言的基础构成。Rust 代码中最常见的控制执行流的结构体是 `if` 表达式和循环语句。
 
-## `if` Expressions
+## `if` 表达式
 
 An `if` expression allows you to branch your code depending on conditions. You provide a condition and then state, “If this condition is met, run this block of code. If the condition is not met, do not run this block of code.”
 
 Create a new project called branches in your projects directory to explore the `if` expression. In the src/main.rs file, input the following:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -55,6 +56,7 @@ condition was false
 It’s also worth noting that the condition in this code must be a `bool`. If the condition isn’t a `bool`, we’ll get an error. For example, try running the following code:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
 ```rs
@@ -83,6 +85,7 @@ error[E0308]: mismatched types
 The error indicates that Rust expected a `bool` but got an integer. Unlike languages such as Ruby and JavaScript, Rust will not automatically try to convert non-Boolean types to a Boolean. You must be explicit and always provide `if` with a Boolean as its condition. If we want the `if` code block to run only when a number is not equal to `0`, for example, we can change the `if` expression to the following:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -101,6 +104,7 @@ Running this code will print `number was something other than zero`.
 You can have multiple conditions by combining `if` and `else` in an `else if` expression. For example:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -137,6 +141,7 @@ Using too many `else if` expressions can clutter your code, so if you have more 
 Because `if` is an expression, we can use it on the right side of a `let` statement, as in Listing 3-2.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -166,6 +171,7 @@ The value of number is: 5
 Remember that blocks of code evaluate to the last expression in them, and numbers by themselves are also expressions. In this case, the value of the whole `if` expression depends on which block of code executes. This means the values that have the potential to be results from each arm of the `if` must be the same type; in Listing 3-2, the results of both the `if` arm and the `else` arm were `i32` integers. If the types are mismatched, as in the following example, we’ll get an error:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
 ```rs
@@ -215,6 +221,7 @@ The `loop` keyword tells Rust to execute a block of code over and over again for
 As an example, change the src/main.rs file in your loops directory to look like this:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -271,6 +278,7 @@ It’s often useful for a program to evaluate a condition within a loop. While t
 However, this pattern is so common that Rust has a built-in language construct for it, called a `while` loop. Listing 3-3 uses `while`: the program loops three times, counting down each time, and then, after the loop, it prints another message and exits.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -294,6 +302,7 @@ This construct eliminates a lot of nesting that would be necessary if you used `
 You could use the `while` construct to loop over the elements of a collection, such as an array. For example, let’s look at Listing 3-4.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -330,6 +339,7 @@ But this approach is error prone; we could cause the program to panic if the ind
 As a more concise alternative, you can use a `for` loop and execute some code for each item in a collection. A `for` loop looks like the code in Listing 3-5.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -351,6 +361,7 @@ The safety and conciseness of `for` loops make them the most commonly used loop 
 Here’s what the countdown would look like using a `for` loop and another method we’ve not yet talked about, `rev`, to reverse the range:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -363,7 +374,7 @@ fn main() {
 
 This code is a bit nicer, isn’t it?
 
-## Summary
+## 本章小结
 
 You made it! That was a sizable chapter: you learned about variables, scalar and compound data types, functions, comments, `if` expressions, and loops! If you want to practice with the concepts discussed in this chapter, try building programs to do the following:
 
