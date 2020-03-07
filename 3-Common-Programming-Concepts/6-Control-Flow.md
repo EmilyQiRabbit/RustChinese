@@ -4,11 +4,10 @@
 
 ## `if` 表达式
 
-An `if` expression allows you to branch your code depending on conditions. You provide a condition and then state, “If this condition is met, run this block of code. If the condition is not met, do not run this block of code.”
+`if` 表达式能够根据条件分支代码。由开发者提供条件并声明，“如果条件满足，则执行这部分代码。否则就不要执行。”
 
-Create a new project called branches in your projects directory to explore the `if` expression. In the src/main.rs file, input the following:
+在 projects 目录下创建一个名为 branches 的新项目来学习 `if` 表达式。在 src/main.rs 文件中输入如下代码：
 
-Filename: src/main.rs
 文件名：src/main.rs
 
 ```rs
@@ -24,10 +23,12 @@ fn main() {
 ```
 
 All `if` expressions start with the keyword `if`, which is followed by a condition. In this case, the condition checks whether or not the variable `number` has a value less than 5. The block of code we want to execute if the condition is true is placed immediately after the condition inside curly brackets. Blocks of code associated with the conditions in `if` expressions are sometimes called arms, just like the arms in `match` expressions that we discussed in the “Comparing the Guess to the Secret Number” section of Chapter 2.
+所有 `if` 表达式都以关键字 `if` 开头，后面紧跟一个条件。
 
 Optionally, we can also include an `else` expression, which we chose to do here, to give the program an alternative block of code to execute should the condition evaluate to false. If you don’t provide an `else` expression and the condition is false, the program will just skip the `if` block and move on to the next bit of code.
 
 Try running this code; you should see the following output:
+试着运行代码；将会看到如下输出：
 
 ```sh
 $ cargo run
