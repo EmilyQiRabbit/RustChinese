@@ -22,12 +22,10 @@ fn main() {
 }
 ```
 
-All `if` expressions start with the keyword `if`, which is followed by a condition. In this case, the condition checks whether or not the variable `number` has a value less than 5. The block of code we want to execute if the condition is true is placed immediately after the condition inside curly brackets. Blocks of code associated with the conditions in `if` expressions are sometimes called arms, just like the arms in `match` expressions that we discussed in the “Comparing the Guess to the Secret Number” section of Chapter 2.
-所有 `if` 表达式都以关键字 `if` 开头，后面紧跟一个条件。
+所有 `if` 表达式都以关键字 `if` 开头，并在它后面跟一个条件。这个例子中，条件代码会判断 `number` 变量的值是否小于 5。我们希望 if 条件为真时执行的代码就放在条件句后面的花括号中。与 `if` 表达式中条件关联的代码块有时也被称为 arms，正如我们在第二章中讨论过的 `match` 表达式中的分支一样。
 
-Optionally, we can also include an `else` expression, which we chose to do here, to give the program an alternative block of code to execute should the condition evaluate to false. If you don’t provide an `else` expression and the condition is false, the program will just skip the `if` block and move on to the next bit of code.
+我们还可以选择在代码中加入 `else` 表达式，就像上面的代码中那样，这样当条件计算结果为假，程序就会换为执行这段代码。而如果我们不提供 `else` 表达式并且 if 条件为假，程序就会直接跳过 `if` 代码块，继续执行下面的代码。
 
-Try running this code; you should see the following output:
 试着运行代码；将会看到如下输出：
 
 ```sh
@@ -38,13 +36,13 @@ $ cargo run
 condition was true
 ```
 
-Let’s try changing the value of `number` to a value that makes the condition `false` to see what happens:
+现在我们修改 `number` 的值，让条件判断的结果变为 `false`，看看会发生什么：
 
 ```rs
 let number = 7;
 ```
 
-Run the program again, and look at the output:
+重新运行程序并查看输出：
 
 ```sh
 $ cargo run
@@ -54,12 +52,11 @@ $ cargo run
 condition was false
 ```
 
-It’s also worth noting that the condition in this code must be a `bool`. If the condition isn’t a `bool`, we’ll get an error. For example, try running the following code:
+还需要指出代码中的条件结果必须是 `bool` 类型。如果不这样就会报错。例如，我们尝试运行如下代码：
 
-Filename: src/main.rs
 文件名：src/main.rs
 
-This code does not compile!
+这段代码无法编译！
 ```rs
 fn main() {
     let number = 3;
@@ -70,7 +67,7 @@ fn main() {
 }
 ```
 
-The `if` condition evaluates to a value of `3` this time, and Rust throws an error:
+`if` 条件句计算的结果是 `3`，Rust 此时抛出了错误：
 
 ```sh
 error[E0308]: mismatched types
@@ -83,9 +80,8 @@ error[E0308]: mismatched types
              found type `{integer}`
 ```
 
-The error indicates that Rust expected a `bool` but got an integer. Unlike languages such as Ruby and JavaScript, Rust will not automatically try to convert non-Boolean types to a Boolean. You must be explicit and always provide `if` with a Boolean as its condition. If we want the `if` code block to run only when a number is not equal to `0`, for example, we can change the `if` expression to the following:
+错误表明 Rust 希望此处结果为布尔（`bool`）类型，但却发现是整数（`integer`）类型。和 Ruby 或 JavaScript 不同，Rust 不会自动尝试将非布尔类型的值转化为布尔类型。我们必须严格地为 `if` 提供布尔类型的值作为其条件。例如，如果我们希望 `if` 后的代码块只在某值不为 `0` 的时候执行，那么可以将上面的代码修改为：
 
-Filename: src/main.rs
 文件名：src/main.rs
 
 ```rs
@@ -98,7 +94,7 @@ fn main() {
 }
 ```
 
-Running this code will print `number was something other than zero`.
+运行代码将会打印出 `number was something other than zero`。
 
 ### Handling Multiple Conditions with `else if`
 
