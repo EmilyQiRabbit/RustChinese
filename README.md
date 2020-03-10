@@ -23,3 +23,4 @@
    3. [数据类型](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/3-Data-Types.md)
    4. [函数](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/4-Functions.md)
    5. [注释](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/5-Comments.md)
+   6. [控制流](https://github.com/EmilyQiRabbit/RustChinese/blob/master/3-Common-Programming-Concepts/6-Control-Flow.md)
