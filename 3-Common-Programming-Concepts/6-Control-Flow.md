@@ -97,10 +97,10 @@ fn main() {
 运行代码将会打印出 `number was something other than zero`。
 
 ### Handling Multiple Conditions with `else if`
-### 使用 `else if` 处理多条件逻辑
+### 使用 `else if` 处理多重条件
 
 You can have multiple conditions by combining `if` and `else` in an `else if` expression. For example:
-可以将 `if` 和 `else` 结合为 `else if` 表达式来处理多条件逻辑。例如：
+可以将 `else if` 表达式与 `if` 和 `else` 组合来实现多重条件。例如：
 
 文件名：src/main.rs
 
