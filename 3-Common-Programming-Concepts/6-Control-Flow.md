@@ -98,7 +98,6 @@ fn main() {
 
 ### 使用 `else if` 处理多重条件
 
-You can have multiple conditions by combining `if` and `else` in an `else if` expression. For example:
 可以将 `else if` 表达式与 `if` 和 `else` 组合来实现多重条件。例如：
 
 文件名：src/main.rs
@@ -119,7 +118,7 @@ fn main() {
 }
 ```
 
-This program has four possible paths it can take. After running it, you should see the following output:
+程序提供了四个可能的执行路径。运行程序后，我们应该能看到如下输出：
 
 ```sh
 $ cargo run
@@ -129,13 +128,13 @@ $ cargo run
 number is divisible by 3
 ```
 
-When this program executes, it checks each `if` expression in turn and executes the first body for which the condition holds true. Note that even though 6 is divisible by 2, we don’t see the output `number is divisible by 2`, nor do we see the `number is not divisible by 4, 3, or 2` text from the `else` block. That’s because Rust only executes the block for the first true condition, and once it finds one, it doesn’t even check the rest.
+当程序执行时，它将会逐个检查 `if` 表达式，并执行所遇到的第一个条件为真后面的代码块。注意，尽管 6 也可以被 2 整除，但没有输出 `number is divisible by 2`，也没有输出 `else` 后面的 `number is not divisible by 4, 3, or 2`。这是因为 Rust 只会执行第一个条件为真的代码块，一旦找到，后面的条件都不会被检查。
 
-Using too many `else if` expressions can clutter your code, so if you have more than one, you might want to refactor your code. Chapter 6 describes a powerful Rust branching construct called `match` for these cases.
+使用过多的 `else if` 会让代码看起来杂乱无章，所以当我们使用多重条件时，可能会希望重构代码以变得整洁。在第六章我们将会介绍一个黑科技：Rust 分支结构 `match`，以应对这种情况。
 
-### Using `if` in a `let` Statement
+### 在 `let` 语句中使用 `if`
 
-Because `if` is an expression, we can use it on the right side of a `let` statement, as in Listing 3-2.
+由于 `if` 是表达式，我们可以将其应用于 `let` 语句的右侧，如下代码示例 3-2 所示：
 
 文件名：src/main.rs
 
@@ -152,11 +151,11 @@ fn main() {
 }
 ```
 
-Listing 3-2: Assigning the result of an if expression to a variable
+代码示例 3-2：将 `if` 表达式的结果赋值给变量
 
-The `number` variable will be bound to a value based on the outcome of the `if` expression. Run this code to see what happens:
+`if` 表达式返回的结果将会和 `number` 变量绑定。运行程序可以看到：
 
-```rs
+```sh
 $ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30 secs
@@ -168,7 +167,7 @@ Remember that blocks of code evaluate to the last expression in them, and number
 
 文件名：src/main.rs
 
-This code does not compile!
+这段代码无法编译！
 ```rs
 fn main() {
     let condition = true;
@@ -204,6 +203,7 @@ error[E0308]: if and else have incompatible types
 The expression in the `if` block evaluates to an integer, and the expression in the `else` block evaluates to a string. This won’t work because variables must have a single type. Rust needs to know at compile time what type the `number` variable is, definitively, so it can verify at compile time that its type is valid everywhere we use `number`. Rust wouldn’t be able to do that if the type of `number` was only determined at runtime; the compiler would be more complex and would make fewer guarantees about the code if it had to keep track of multiple hypothetical types for any variable.
 
 ## Repetition with Loops
+## 使用 loop 循环重复
 
 It’s often useful to execute a block of code more than once. For this task, Rust provides several loops. A loop runs through the code inside the loop body to the end and then starts immediately back at the beginning. To experiment with loops, let’s make a new project called loops.
 
