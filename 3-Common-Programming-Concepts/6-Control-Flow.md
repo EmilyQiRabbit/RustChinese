@@ -203,11 +203,12 @@ error[E0308]: if and else have incompatible types
 The expression in the `if` block evaluates to an integer, and the expression in the `else` block evaluates to a string. This won’t work because variables must have a single type. Rust needs to know at compile time what type the `number` variable is, definitively, so it can verify at compile time that its type is valid everywhere we use `number`. Rust wouldn’t be able to do that if the type of `number` was only determined at runtime; the compiler would be more complex and would make fewer guarantees about the code if it had to keep track of multiple hypothetical types for any variable.
 
 ## Repetition with Loops
-## 使用 loop 循环重复
+## 使用循环进行重复
 
 It’s often useful to execute a block of code more than once. For this task, Rust provides several loops. A loop runs through the code inside the loop body to the end and then starts immediately back at the beginning. To experiment with loops, let’s make a new project called loops.
 
 Rust has three kinds of loops: `loop`, `while`, and `for`. Let’s try each one.
+Rust 有三种类型的循环：`loop`、`while` 和 `for`。下面我们逐个测试并讲解。
 
 ### Repeating Code with loop
 
@@ -363,10 +364,12 @@ fn main() {
 ```
 
 This code is a bit nicer, isn’t it?
+代码优化了不少，不是吗？
 
 ## 本章小结
 
 You made it! That was a sizable chapter: you learned about variables, scalar and compound data types, functions, comments, `if` expressions, and loops! If you want to practice with the concepts discussed in this chapter, try building programs to do the following:
+你已成功完成了本章的学习！这一章内容丰富：我们学习了变量、标量以及复合数据类型、函数、注释、`if` 表达式还有循环！
 
 * Convert temperatures between Fahrenheit and Celsius.
 * Generate the nth Fibonacci number.
