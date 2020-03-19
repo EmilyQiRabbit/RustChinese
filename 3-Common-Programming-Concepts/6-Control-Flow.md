@@ -163,7 +163,7 @@ $ cargo run
 The value of number is: 5
 ```
 
-Remember that blocks of code evaluate to the last expression in them, and numbers by themselves are also expressions. In this case, the value of the whole `if` expression depends on which block of code executes. This means the values that have the potential to be results from each arm of the `if` must be the same type; in Listing 3-2, the results of both the `if` arm and the `else` arm were `i32` integers. If the types are mismatched, as in the following example, we’ll get an error:
+记住，代码块返回的值是其中最后一个表达式的值，而数字本身就是表达式。这个例子中，整个 `if` 表达式的值取决于哪个代码块被执行。意味着 `if` 每个分支上可能的返回值一定是同一种类型；示例代码 3-2 中，`if` 分支和 `else` 分支的结果都是 `i32` 整型。而如果像下面这个例子，分支的类型不匹配，代码就会报错：
 
 文件名：src/main.rs
 
@@ -182,7 +182,7 @@ fn main() {
 }
 ```
 
-When we try to compile this code, we’ll get an error. The `if` and `else` arms have value types that are incompatible, and Rust indicates exactly where to find the problem in the program:
+如果我们试图编译这段代码，编译器就会报错。`if` 和 `else` 分支最终值的类型不同，同时 Rust 会准确指出在程序中何处可以找到问题：
 
 ```sh
 error[E0308]: if and else have incompatible types
@@ -200,10 +200,10 @@ error[E0308]: if and else have incompatible types
              found type `&str`
 ```
 
-The expression in the `if` block evaluates to an integer, and the expression in the `else` block evaluates to a string. This won’t work because variables must have a single type. Rust needs to know at compile time what type the `number` variable is, definitively, so it can verify at compile time that its type is valid everywhere we use `number`. Rust wouldn’t be able to do that if the type of `number` was only determined at runtime; the compiler would be more complex and would make fewer guarantees about the code if it had to keep track of multiple hypothetical types for any variable.
+`if` 代码块中的表达式返回了整数，而 `else` 代码块中表达式则返回了字符串。这行不通，因为变量的类型必须是唯一的。编译时 Rust 需要确切的知道 `number` 变量的类型，这样才能保证编译时每一处使用 `number` 的地方，它的类型都是有效的。而如果 `number` 的类型只能在运行时决定，Rust 就无法做到这一点；因为这样 Rust 就不得不追踪变量多种可能的类型，于是编译过程会更加复杂，并且难以为代码提供保障。
 
 ## Repetition with Loops
-## 使用循环进行重复
+## 循环重复
 
 It’s often useful to execute a block of code more than once. For this task, Rust provides several loops. A loop runs through the code inside the loop body to the end and then starts immediately back at the beginning. To experiment with loops, let’s make a new project called loops.
 
@@ -211,6 +211,7 @@ Rust has three kinds of loops: `loop`, `while`, and `for`. Let’s try each one.
 Rust 有三种类型的循环：`loop`、`while` 和 `for`。下面我们逐个测试并讲解。
 
 ### Repeating Code with loop
+### 使用 `loop` 重复代码
 
 The `loop` keyword tells Rust to execute a block of code over and over again forever or until you explicitly tell it to stop.
 
@@ -245,6 +246,7 @@ The symbol `^C` represents where you pressed ctrl-c . You may or may not see the
 Fortunately, Rust provides another, more reliable way to break out of a loop. You can place the `break` keyword within the loop to tell the program when to stop executing the loop. Recall that we did this in the guessing game in the “Quitting After a Correct Guess” section of Chapter 2 to exit the program when the user won the game by guessing the correct number.
 
 ### Returning Values from Loops
+### 由循环返回值
 
 One of the uses of a `loop` is to retry an operation you know might fail, such as checking whether a thread has completed its job. However, you might need to pass the result of that operation to the rest of your code. To do this, you can add the value you want returned after the `break` expression you use to stop the loop; that value will be returned out of the loop so you can use it, as shown here:
 
@@ -267,6 +269,7 @@ fn main() {
 Before the loop, we declare a variable named `counter` and initialize it to `0`. Then we declare a variable named `result` to hold the value returned from the loop. On every iteration of the loop, we add `1` to the `counter` variable, and then check whether the counter is equal to `10`. When it is, we use the `break` keyword with the value `counter * 2`. After the loop, we use a semicolon to end the statement that assigns the value to `result`. Finally, we print the value in `result`, which in this case is 20.
 
 ### Conditional Loops with `while`
+### `while` 条件循环
 
 It’s often useful for a program to evaluate a condition within a loop. While the condition is true, the loop runs. When the condition ceases to be true, the program calls `break`, stopping the loop. This loop type could be implemented using a combination of `loop`, `if`, `else`, and `break`; you could try that now in a program, if you’d like.
 
@@ -292,6 +295,7 @@ Listing 3-3: Using a `while` loop to run code while a condition holds true
 This construct eliminates a lot of nesting that would be necessary if you used `loop`, `if`, `else`, and `break`, and it’s clearer. While a condition holds true, the code runs; otherwise, it exits the loop.
 
 ### Looping Through a Collection with `for`
+### 使用 `for` 循环遍历集合
 
 You could use the `while` construct to loop over the elements of a collection, such as an array. For example, let’s look at Listing 3-4.
 
