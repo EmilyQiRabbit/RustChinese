@@ -208,7 +208,7 @@ error[E0308]: if and else have incompatible types
 It’s often useful to execute a block of code more than once. For this task, Rust provides several loops. A loop runs through the code inside the loop body to the end and then starts immediately back at the beginning. To experiment with loops, let’s make a new project called loops.
 
 Rust has three kinds of loops: `loop`, `while`, and `for`. Let’s try each one.
-Rust 有三种类型的循环：`loop`、`while` 和 `for`。下面我们逐个测试并讲解。
+Rust 有三种类型的循环：`loop`、`while` 和 `for`。下面我们逐个测试讲解。
 
 ### Repeating Code with loop
 ### 使用 `loop` 重复代码
