@@ -202,20 +202,17 @@ error[E0308]: if and else have incompatible types
 
 `if` 代码块中的表达式返回了整数，而 `else` 代码块中表达式则返回了字符串。这行不通，因为变量的类型必须是唯一的。编译时 Rust 需要确切的知道 `number` 变量的类型，这样才能保证编译时每一处使用 `number` 的地方，它的类型都是有效的。而如果 `number` 的类型只能在运行时决定，Rust 就无法做到这一点；因为这样 Rust 就不得不追踪变量多种可能的类型，于是编译过程会更加复杂，并且难以为代码提供保障。
 
-## Repetition with Loops
 ## 循环重复
 
-It’s often useful to execute a block of code more than once. For this task, Rust provides several loops. A loop runs through the code inside the loop body to the end and then starts immediately back at the beginning. To experiment with loops, let’s make a new project called loops.
+我们经常需要重复执行某一段代码。为此，Rust 提供了多种循环方式。循环会将循环体中的代码从头到尾执行一遍然后立即从头再来。为了对循环进行试验，我们需要新建一个名为 loops 的项目。
 
-Rust has three kinds of loops: `loop`, `while`, and `for`. Let’s try each one.
 Rust 有三种类型的循环：`loop`、`while` 和 `for`。下面我们逐个测试讲解。
 
-### Repeating Code with loop
 ### 使用 `loop` 重复代码
 
-The `loop` keyword tells Rust to execute a block of code over and over again forever or until you explicitly tell it to stop.
+`loop` 关键字会让 Rust 不断的重复执行某段代码，直到开发者明确告诉它停止。
 
-As an example, change the src/main.rs file in your loops directory to look like this:
+我们一起来看一个例子，将 loops 目录下的 src/main.rs 文件改为如下所示：
 
 文件名：src/main.rs
 
@@ -227,7 +224,7 @@ fn main() {
 }
 ```
 
-When we run this program, we’ll see `again`! printed over and over continuously until we stop the program manually. Most terminals support a keyboard shortcut, ctrl-c, to interrupt a program that is stuck in a continual loop. Give it a try:
+运行这段程序，我们将会看到 `again!` 被重复打印出来，直到程序被手动停止。大部分终端都支持快捷键 ctrl-c 来终止陷入无限循环的程序。一起试一下：
 
 ```sh
 $ cargo run
@@ -241,14 +238,13 @@ again!
 ^Cagain!
 ```
 
-The symbol `^C` represents where you pressed ctrl-c . You may or may not see the word `again!` printed after the `^C`, depending on where the code was in the loop when it received the interrupt signal.
+`^C` 符号表明我们在这里按下了组合键 ctrl-c。`^C` 后面的这个 `again!` 可能有也可能没有，取决于收到终止信号时代码执行到了循环的何处。
 
-Fortunately, Rust provides another, more reliable way to break out of a loop. You can place the `break` keyword within the loop to tell the program when to stop executing the loop. Recall that we did this in the guessing game in the “Quitting After a Correct Guess” section of Chapter 2 to exit the program when the user won the game by guessing the correct number.
+幸运的是，Rust 提供了另一种更可靠的打断循环的方式。我们可以在循环中放置 `break` 关键字来告知程序何时停止循环。还记得吗，在第二章的“猜对后退出”章节中，就是使用它在用户猜到正确数字赢得游戏后退出程序的。
 
-### Returning Values from Loops
-### 由循环返回值
+### 循环返回值
 
-One of the uses of a `loop` is to retry an operation you know might fail, such as checking whether a thread has completed its job. However, you might need to pass the result of that operation to the rest of your code. To do this, you can add the value you want returned after the `break` expression you use to stop the loop; that value will be returned out of the loop so you can use it, as shown here:
+`loop` 的一种应用是重复尝试可能失败的操作，例如检查某线程是否完成了它的任务。我们有时可能需要将循环执行的结果传递给其他代码。此时我们需要在用来终止循环的 `break` 表达式后加上想要返回的值；该值将从循环中返回，我们就可以使用它了，如下所示：
 
 ```rs
 fn main() {
@@ -266,7 +262,7 @@ fn main() {
 }
 ```
 
-Before the loop, we declare a variable named `counter` and initialize it to `0`. Then we declare a variable named `result` to hold the value returned from the loop. On every iteration of the loop, we add `1` to the `counter` variable, and then check whether the counter is equal to `10`. When it is, we use the `break` keyword with the value `counter * 2`. After the loop, we use a semicolon to end the statement that assigns the value to `result`. Finally, we print the value in `result`, which in this case is 20.
+在循环之前，我们声明了一个名为 `counter` 的变量并将其初始化为 `0`。然后我们又声明了一个名为 `result` 的变量来接收循环返回的值。在每次循环迭代中，我们为 `counter` 变量加 `1`，然后检查它是否等于 `10`。而当条件达成，我们就使用 `break` 返回值 `counter * 2`。循环结束后，使用分号结束 `result` 赋值语句。最后，打印出 `result` 的值，也就是 20。
 
 ### Conditional Loops with `while`
 ### `while` 条件循环
