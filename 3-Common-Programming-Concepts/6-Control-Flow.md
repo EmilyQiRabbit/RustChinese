@@ -264,12 +264,11 @@ fn main() {
 
 在循环之前，我们声明了一个名为 `counter` 的变量并将其初始化为 `0`。然后我们又声明了一个名为 `result` 的变量来接收循环返回的值。在每次循环迭代中，我们为 `counter` 变量加 `1`，然后检查它是否等于 `10`。而当条件达成，我们就使用 `break` 返回值 `counter * 2`。循环结束后，使用分号结束 `result` 赋值语句。最后，打印出 `result` 的值，也就是 20。
 
-### Conditional Loops with `while`
 ### `while` 条件循环
 
-It’s often useful for a program to evaluate a condition within a loop. While the condition is true, the loop runs. When the condition ceases to be true, the program calls `break`, stopping the loop. This loop type could be implemented using a combination of `loop`, `if`, `else`, and `break`; you could try that now in a program, if you’d like.
+程序经常需要在循环中进行条件判断。条件为真则循环继续。反之，程序则调用 `break` 终止循环。这种类型的循环可以将 `loop`、`if`、`else` 和 `break` 结合而完成；如果你愿意，现在就可以在程序中试试看。
 
-However, this pattern is so common that Rust has a built-in language construct for it, called a `while` loop. Listing 3-3 uses `while`: the program loops three times, counting down each time, and then, after the loop, it prints another message and exits.
+然而，这种模式非常常见，所以 Rust 为其提供了内建的语言结构，名为 `while` 循环。如下代码示例 3-3 就使用了 `while`：程序会循环三次，每次循环变量都会递减，循环结束后打印出信息然后退出。
 
 文件名：src/main.rs
 
@@ -286,14 +285,13 @@ fn main() {
     println!("LIFTOFF!!!");
 }
 ```
-Listing 3-3: Using a `while` loop to run code while a condition holds true
+代码示例 3-3：使用 `while` 循环，当条件为真时执行代码
 
-This construct eliminates a lot of nesting that would be necessary if you used `loop`, `if`, `else`, and `break`, and it’s clearer. While a condition holds true, the code runs; otherwise, it exits the loop.
+`while` 结构消除了使用 `loop`、`if`、`else` 和 `break` 时所必需的嵌套，代码也更清晰。当条件为真，代码继续运行；否则就会退出循环。
 
-### Looping Through a Collection with `for`
 ### 使用 `for` 循环遍历集合
 
-You could use the `while` construct to loop over the elements of a collection, such as an array. For example, let’s look at Listing 3-4.
+可以使用 `while` 结构语句循环遍历集合（例如数组）的每个元素。我们来看代码示例 3-4：
 
 文件名：src/main.rs
 
@@ -309,9 +307,9 @@ fn main() {
     }
 }
 ```
-Listing 3-4: Looping through each element of a collection using a `while` loop
+代码示例 3-4：使用 `while` 循环遍历集合的每个元素
 
-Here, the code counts up through the elements in the array. It starts at index 0, and then loops until it reaches the final index in the array (that is, when index < 5 is no longer true). Running this code will print every element in the array:
+代码由小到大依次为数组中的元素计数。从索引 0 开始，循环直到数组的最大索引（也就是当 `index < 5` 结果为假时）。运行代码将会打印出数组中所有元素：
 
 ```sh
 $ cargo run
@@ -325,11 +323,11 @@ the value is: 40
 the value is: 50
 ```
 
-All five array values appear in the terminal, as expected. Even though `index` will reach a value of `5` at some point, the loop stops executing before trying to fetch a sixth value from the array.
+数组中所有值都如期地被打印在终端。尽管 `index` 最终的值会到达 `5`，但循环会在尝试获取数组第六个元素前终止执行。
 
-But this approach is error prone; we could cause the program to panic if the index length is incorrect. It’s also slow, because the compiler adds runtime code to perform the conditional check on every element on every iteration through the loop.
+但是这种方式还是容易导致错误；如果索引长度错误，就可能导致程序 panic。同时程序的运行速度也慢，因为在每次循环迭代中，编译器都增加了运行时代码来检验元素对应的条件是否为真。
 
-As a more concise alternative, you can use a `for` loop and execute some code for each item in a collection. A `for` loop looks like the code in Listing 3-5.
+我们可以使用 `for` 循环作来对集合中每个元素执行某些代码，这是一种更简洁的替代方案。`for` 循环如代码示例 3-5 所示：
 
 文件名：src/main.rs
 
@@ -342,15 +340,15 @@ fn main() {
     }
 }
 ```
-Listing 3-5: Looping through each element of a collection using a `for` loop
+代码示例 3-5：使用 `for` 循环遍历集合中每个元素
 
-When we run this code, we’ll see the same output as in Listing 3-4. More importantly, we’ve now increased the safety of the code and eliminated the chance of bugs that might result from going beyond the end of the array or not going far enough and missing some items.
+运行这段代码，我们将看到和代码示例 3-4 一样的输出。更重要的是，这种方式提高了代码的安全性，消除了因为索引长度过大、或遍历长度不够因此没能访问到某些元素而导致问题的可能。
 
-For example, in the code in Listing 3-4, if you removed an item from the `a` array but forgot to update the condition to `while index < 4`, the code would panic. Using the `for` loop, you wouldn’t need to remember to change any other code if you changed the number of values in the array.
+我们来举个例子，在代码示例 3-4 中，如果我们移除 `a` 数组中的一个元素，但是忘记将条件更新为 `while index < 4`，那么代码就会导致 panic。而如果使用 `for` 循环，修改数组元素个数后，就无需惦记着还要修改其他任何代码了。
 
-The safety and conciseness of `for` loops make them the most commonly used loop construct in Rust. Even in situations in which you want to run some code a certain number of times, as in the countdown example that used a `while` loop in Listing 3-3, most Rustaceans would use a `for` loop. The way to do that would be to use a `Range`, which is a type provided by the standard library that generates all numbers in sequence starting from one number and ending before another number.
+`for` 循环的安全性和简洁性让它成为了 Rust 中最常用的循环结构。甚至是在那些想要运行某段代码特定次数的场景下，例如代码示例 3-3 中使用 `while` 循环的倒计时的例子，大部分开发者还是会选择使用 `for` 循环。实现的方法是使用 `Range`，它是标准库提供的类型，可以生成两个数字范围内所有数字的序列。
 
-Here’s what the countdown would look like using a `for` loop and another method we’ve not yet talked about, `rev`, to reverse the range:
+如下是我们使用 `for` 循环和 `rev` 方法（我们还未曾介绍过，它可以用来反转）实现倒计时的代码：
 
 文件名：src/main.rs
 
@@ -363,16 +361,14 @@ fn main() {
 }
 ```
 
-This code is a bit nicer, isn’t it?
-代码优化了不少，不是吗？
+这段代码更棒了，不是吗？
 
 ## 本章小结
 
-You made it! That was a sizable chapter: you learned about variables, scalar and compound data types, functions, comments, `if` expressions, and loops! If you want to practice with the concepts discussed in this chapter, try building programs to do the following:
-你已成功完成了本章的学习！这一章内容丰富：我们学习了变量、标量以及复合数据类型、函数、注释、`if` 表达式还有循环！
+你已经成功完成了本章的学习！这一章内容丰富：我们学习了变量、标量、复合数据类型、函数、注释、`if` 表达式还有循环！如果您想练习本章学习的概念，尝试构建程序完成如下任务：
 
-* Convert temperatures between Fahrenheit and Celsius.
-* Generate the nth Fibonacci number.
-* Print the lyrics to the Christmas carol “The Twelve Days of Christmas,” taking advantage of the repetition in the song.
+* 转换摄氏与华氏温度。
+* 生成 n 阶斐波那契数列。
+* 打印圣诞颂歌 “The Twelve Days of Christmas” 的歌词，歌曲中有循环部分，好好利用。
 
-When you’re ready to move on, we’ll talk about a concept in Rust that doesn’t commonly exist in other programming languages: ownership.
+如果您准备好继续学习了，那么下一章我们将会讨论一个在其他编程语言中通常不存在的概念：所有权（ownership）。
