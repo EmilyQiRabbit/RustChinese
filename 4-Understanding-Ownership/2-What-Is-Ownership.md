@@ -1,8 +1,11 @@
 # What Is Ownership?
+# 所有权是什么？
 
 Rust’s central feature is ownership. Although the feature is straightforward to explain, it has deep implications for the rest of the language.
+所有权是 Rust 的核心特性之一。尽管该特性本身很直白且易于解释，但是它对 Rust 的影响十分深刻。
 
 All programs have to manage the way they use a computer’s memory while running. Some languages have garbage collection that constantly looks for no longer used memory as the program runs; in other languages, the programmer must explicitly allocate and free the memory. Rust uses a third approach: memory is managed through a system of ownership with a set of rules that the compiler checks at compile time. None of the ownership features slow down your program while it’s running.
+所有程序在运行时都必须管理使用计算机内存的方式。
 
 Because ownership is a new concept for many programmers, it does take some time to get used to. The good news is that the more experienced you become with Rust and the rules of the ownership system, the more you’ll be able to naturally develop code that is safe and efficient. Keep at it!
 
