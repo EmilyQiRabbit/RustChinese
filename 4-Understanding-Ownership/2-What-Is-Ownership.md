@@ -5,19 +5,25 @@ Rust’s central feature is ownership. Although the feature is straightforward t
 所有权是 Rust 的核心特性之一。尽管该特性本身很直白且易于解释，但是它对 Rust 的影响十分深刻。
 
 All programs have to manage the way they use a computer’s memory while running. Some languages have garbage collection that constantly looks for no longer used memory as the program runs; in other languages, the programmer must explicitly allocate and free the memory. Rust uses a third approach: memory is managed through a system of ownership with a set of rules that the compiler checks at compile time. None of the ownership features slow down your program while it’s running.
-所有程序在运行时都必须管理使用计算机内存的方式。
+所有程序在运行时都必须对使用计算机内存的方式进行管理。有些语言具有垃圾回收机制，会在运行时不断搜索不再需要的内存；而另一些语言则要求开发者必须在代码中明确内存的分配和释放。Rust 则使用了第三种方式：由所有权系统通过一系列规则管理内存，编译器会在编译时对这些规则进行检查。而所有的所有权特性都不会让程序运行速度变慢。
 
 Because ownership is a new concept for many programmers, it does take some time to get used to. The good news is that the more experienced you become with Rust and the rules of the ownership system, the more you’ll be able to naturally develop code that is safe and efficient. Keep at it!
+由于对于很多开发者来说，所有权都是一个全新的概念，因此也需要一些时间来适应。而好消息是，你越熟悉 Rust 和所有权系统的规则，你就越能自然而然的写出安全高效的代码。跟上节奏，继续学习！
 
 When you understand ownership, you’ll have a solid foundation for understanding the features that make Rust unique. In this chapter, you’ll learn ownership by working through some examples that focus on a very common data structure: strings.
+一旦理解了所有权，也就获得了理解 Rust 特性的坚实基础，而正是这些特定让 Rust 独一无二。本章中我们将通过完成一些代码示例来学习所有权，这些例子都基于一个很常见的数据结构：String。
 
 ## The Stack and the Heap
+## 栈（Stack）和堆（Heap）
 
 In many programming languages, you don’t have to think about the stack and the heap very often. But in a systems programming language like Rust, whether a value is on the stack or the heap has more of an effect on how the language behaves and why you have to make certain decisions. Parts of ownership will be described in relation to the stack and the heap later in this chapter, so here is a brief explanation in preparation.
+在很多其他编程语言中，我们不必经常考虑到堆栈。而在像 Rust 这种系统编程语言中，值是保存在栈还是堆中会更大程度的影响编程语言的行为和作出某些决策的原因。本章的后续内容涉及和堆栈相关的部分所有权，因而在这里我们先做一个简短的介绍。
 
 Both the stack and the heap are parts of memory that are available to your code to use at runtime, but they are structured in different ways. The stack stores values in the order it gets them and removes the values in the opposite order. This is referred to as last in, first out. Think of a stack of plates: when you add more plates, you put them on top of the pile, and when you need a plate, you take one off the top. Adding or removing plates from the middle or bottom wouldn’t work as well! Adding data is called pushing onto the stack, and removing data is called popping off the stack.
+堆和栈都是代码运行时可以使用的内存块，但是它们的结构不同。栈按顺序存储获取到的值，但以相反的顺序移出。也被称为后进先出。想象这里有一叠盘子：当需要放入新的盘子时，我们把它放在顶端，而当需要使用盘子时，也从顶端拿走。从中间或者底部放入或取走盘子都不可行！增加数据称为进栈，而移出数据则称为出栈。
 
 All data stored on the stack must have a known, fixed size. Data with an unknown size at compile time or a size that might change must be stored on the heap instead. The heap is less organized: when you put data on the heap, you request a certain amount of space. The operating system finds an empty spot in the heap that is big enough, marks it as being in use, and returns a pointer, which is the address of that location. This process is called allocating on the heap and is sometimes abbreviated as just allocating. Pushing values onto the stack is not considered allocating. Because the pointer is a known, fixed size, you can store the pointer on the stack, but when you want the actual data, you must follow the pointer.
+所有存储在栈中的数据的大小必须已知且固定。而编译时未知大小或者可能变化的数据则必须存储在堆中。堆的组织更弱化一些：当我们向堆中增加数据时，需要请求一个特定大小的空间。操作系统会在堆中找到一段足够大的空位，将其标记为已占用，并返回指向该地址的指针。这个过程称为分配堆内存，有时直接简称为分配。进栈操作不属于分配。而由于指针的大小是已知且固定的，我们可以将指针存储在栈中，当时当我们想要访问实际数据时，则必须访问指针所指向的内存。
 
 Think of being seated at a restaurant. When you enter, you state the number of people in your group, and the staff finds an empty table that fits everyone and leads you there. If someone in your group comes late, they can ask where you’ve been seated to find you.
 
@@ -30,6 +36,7 @@ When your code calls a function, the values passed into the function (including,
 Keeping track of what parts of code are using what data on the heap, minimizing the amount of duplicate data on the heap, and cleaning up unused data on the heap so you don’t run out of space are all problems that ownership addresses. Once you understand ownership, you won’t need to think about the stack and the heap very often, but knowing that managing heap data is why ownership exists can help explain why it works the way it does.
 
 ## Ownership Rules
+## 所有权规则
 
 First, let’s take a look at the ownership rules. Keep these rules in mind as we work through the examples that illustrate them:
 
