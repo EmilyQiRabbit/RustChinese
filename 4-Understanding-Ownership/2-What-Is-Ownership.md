@@ -30,43 +30,50 @@
 ## 所有权规则
 
 First, let’s take a look at the ownership rules. Keep these rules in mind as we work through the examples that illustrate them:
+首先，我们一起来看看所有权规则。在我们学习下文中的说明示例时，请牢记这些规则：
 
 * Each value in Rust has a variable that’s called its owner.
+* Rust 中所有的值都有一个被称为其所有者的变量。
 * There can only be one owner at a time.
+* 每一时刻该值只能有一个所有者。
 * When the owner goes out of scope, the value will be dropped.
+* 如果所有者离开作用域，这个值就会被丢弃。
 
 ## Variable Scope
+## 变量作用域
 
 We’ve walked through an example of a Rust program already in Chapter 2. Now that we’re past basic syntax, we won’t include all the `fn main() {` code in examples, so if you’re following along, you’ll have to put the following examples inside a `main` function manually. As a result, our examples will be a bit more concise, letting us focus on the actual details rather than boilerplate code.
+在第二章中，我们已经学习过一个 Rust 程序示例。现在我们也已经学过了基础语法，那么在下面的示例中，将不再包含 `fn main() {` 代码，因此如果您想要仿照示例练习，请记得将代码放入 `main` 函数中。这样代码示例将更加简洁，我们就能更加专注于代码细节，而不是模版代码。
 
 As a first example of ownership, we’ll look at the scope of some variables. A scope is the range within a program for which an item is valid. Let’s say we have a variable that looks like this:
+在所有权学习的第一个例子中，我们先了解变量作用域。作用域是指元素在程序中有效的范围。假设有这样一个变量：
 
 ```rs
-#![allow(unused_variables)]
-fn main() {
-  let s = "hello";
-}
+let s = "hello";
 ```
 The variable `s` refers to a string literal, where the value of the string is hardcoded into the text of our program. The variable is valid from the point at which it’s declared until the end of the current scope. Listing 4-1 has comments annotating where the variable `s` is valid.
+变量 `s` 绑定了一个字符串字面量，字符串的值硬编码在程序文本中。从变量声明到当前作用域止，其间变量是有效的。代码示例 4-1 的注释中指出了变量 `s` 有效的范围。
 
 ```rs
-#![allow(unused_variables)]
-fn main() {
-  {                      // s is not valid here, it’s not yet declared
-      let s = "hello";   // s is valid from this point forward
+{                      // 这里 s 无效，此时 s 还未声明
+    let s = "hello";   // s 从这里开始有效
 
-      // do stuff with s
-  }                      // this scope is now over, and s is no longer valid
-}
+    // 可以对 s 进行操作
+}                      // 作用域结束，s 无效
 ```
 Listing 4-1: A variable and the scope in which it is valid
+代码示例 4-1：变量及其作用域
 
 In other words, there are two important points in time here:
+换言之，两个非常重要的时间点：
 
 * When `s` comes into scope, it is valid.
+* 当 `s` 进入作用域，它就是有效的。
 * It remains valid until it goes out of scope.
+* 有效的状态持续到离开作用域为止。
 
 At this point, the relationship between scopes and when variables are valid is similar to that in other programming languages. Now we’ll build on top of this understanding by introducing the `String` type.
+在这一点，作用域和变量是否有效的关系与其他语言是类似的。在理解了这一点的基础上，我们继续介绍 `String` 类型。
 
 ## The `String` Type
 
