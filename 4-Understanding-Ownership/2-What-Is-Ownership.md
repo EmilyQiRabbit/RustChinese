@@ -76,20 +76,26 @@ At this point, the relationship between scopes and when variables are valid is s
 在这一点，作用域和变量是否有效的关系与其他语言是类似的。在理解了这一点的基础上，我们继续介绍 `String` 类型。
 
 ## The `String` Type
+## `String` 类型
 
 To illustrate the rules of ownership, we need a data type that is more complex than the ones we covered in the “Data Types” section of Chapter 3. The types covered previously are all stored on the stack and popped off the stack when their scope is over, but we want to look at data that is stored on the heap and explore how Rust knows when to clean up that data.
+为了说明所有权规则，我们需要一个比第三章“数据类型”章节里更复杂一些的数据类型。我们之前学过的类型都存储在栈中，作用域结束它们就会出栈，但我们希望能存在堆上的数据，并探索 Rust 是如何知道何时清理这些数据的。
 
 We’ll use `String` as the example here and concentrate on the parts of `String` that relate to ownership. These aspects also apply to other complex data types, whether they are provided by the standard library or created by you. We’ll discuss `String` in more depth in Chapter 8.
+我们将使用 `String` 作为示例，并专注于 `String` 和所有权相关的部分。这些方面同样可以应用于其他复杂的数据类型，不管这些类型是由标准库或者开发者提供的。在第八章我们将更深入的探讨 `String`。
 
 We’ve already seen string literals, where a string value is hardcoded into our program. String literals are convenient, but they aren’t suitable for every situation in which we may want to use text. One reason is that they’re immutable. Another is that not every string value can be known when we write our code: for example, what if we want to take user input and store it? For these situations, Rust has a second string type, `String`. This type is allocated on the heap and as such is able to store an amount of text that is unknown to us at compile time. You can create a `String` from a string literal using the from function, like so:
+我们已经看到过字符串字面量，字符串值是硬编码在程序中。字符串字面量使用方便，但是并不适用于所有使用文字的场景。其中一个原因即它们是不可更改的。另一个是，并不是所有字符串值在写代码的时候都是已知的：例如，如果你想要获取用户输入并存储呢？为了适配这些场景，Rust 提供了第二种字符串类型：`String`。该类型在堆中分配内存，所以可以存储编译时未知大小的文本。我们可以使用 `from` 函数，并基于字符串字面量创建 `String`，如下所示：
 
 ```rs
 let s = String::from("hello");
 ```
 
 The double colon (`::`) is an operator that allows us to namespace this particular `from` function under the `String` type rather than using some sort of name like `string_from`. We’ll discuss this syntax more in the “Method Syntax” section of Chapter 5 and when we talk about namespacing with modules in “Paths for Referring to an Item in the Module Tree” in Chapter 7.
+操作符双冒号（`::`）
 
 This kind of string can be mutated:
+这种类型的字符串可以修改：
 
 ```rs
 let mut s = String::from("hello");
@@ -102,6 +108,7 @@ println!("{}", s); // This will print `hello, world!`
 So, what’s the difference here? Why can `String` be mutated but literals cannot? The difference is how these two types deal with memory.
 
 ## Memory and Allocation
+## 内存和分配
 
 In the case of a string literal, we know the contents at compile time, so the text is hardcoded directly into the final executable. This is why string literals are fast and efficient. But these properties only come from the string literal’s immutability. Unfortunately, we can’t put a blob of memory into the binary for each piece of text whose size is unknown at compile time and whose size might change while running the program.
 
