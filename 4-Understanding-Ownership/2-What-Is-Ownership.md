@@ -46,7 +46,7 @@ We’ve walked through an example of a Rust program already in Chapter 2. Now th
 在第二章中，我们已经学习过一个 Rust 程序示例。现在我们也已经学过了基础语法，那么在下面的示例中，将不再包含 `fn main() {` 代码，因此如果您想要仿照示例练习，请记得将代码放入 `main` 函数中。这样代码示例将更加简洁，我们就能更加专注于代码细节，而不是模版代码。
 
 As a first example of ownership, we’ll look at the scope of some variables. A scope is the range within a program for which an item is valid. Let’s say we have a variable that looks like this:
-在所有权学习的第一个例子中，我们先了解变量作用域。作用域是指元素在程序中有效的范围。假设有这样一个变量：
+在所有权学习的第一个例子中，我们先了解变量作用域。作用域指项（item）在程序中有效的范围。假设有这样一个变量：
 
 ```rs
 let s = "hello";
@@ -92,47 +92,55 @@ let s = String::from("hello");
 ```
 
 The double colon (`::`) is an operator that allows us to namespace this particular `from` function under the `String` type rather than using some sort of name like `string_from`. We’ll discuss this syntax more in the “Method Syntax” section of Chapter 5 and when we talk about namespacing with modules in “Paths for Referring to an Item in the Module Tree” in Chapter 7.
-操作符双冒号（`::`）
+操作符双冒号（`::`）可以将特定的 `from` 函数置于 `String` 类型的命名空间下，而避免了使用像 `string_from` 这样的名字。我们在第五章的“方法语法”中会更详尽探讨这种双冒号语法，并在第七章的“引用模块树中项的路径”中讨论模块和命名空间。
 
 This kind of string can be mutated:
-这种类型的字符串可以修改：
+这种类型的字符串可被修改：
 
 ```rs
 let mut s = String::from("hello");
 
-s.push_str(", world!"); // push_str() appends a literal to a String
+s.push_str(", world!"); // push_str() 为 String 增加了一段字面量
 
-println!("{}", s); // This will print `hello, world!`
+println!("{}", s); // 将会打印出 `hello, world!`
 ```
 
 So, what’s the difference here? Why can `String` be mutated but literals cannot? The difference is how these two types deal with memory.
+这和之前的方式有何不同呢？为什么 `String` 可以被修改而字面量不能？区别在于，两种类型处理内存的方式不同。
 
 ## Memory and Allocation
 ## 内存和分配
 
 In the case of a string literal, we know the contents at compile time, so the text is hardcoded directly into the final executable. This is why string literals are fast and efficient. But these properties only come from the string literal’s immutability. Unfortunately, we can’t put a blob of memory into the binary for each piece of text whose size is unknown at compile time and whose size might change while running the program.
+如果我们使用字符串字面量，编译时该字符串内容已知，于是这段文本就会被直接硬编码到最后的可执行文件中。这也是字符串字面量快捷高效的原因。但这种优势只得益于字符串字面量的不可变性。然而我们不能为每一段编译时大小未知、运行时大小可变的字符串，而将一段内存编码进二进制文件中。
 
 With the `String` type, in order to support a mutable, growable piece of text, we need to allocate an amount of memory on the heap, unknown at compile time, to hold the contents. This means:
+为了支持内容可变、体积可增长的文本，可以使用 `String` 类型，此时我们需要在堆上分配一块编译时大小未知的内存来保存内容。这意味着：
 
 * The memory must be requested from the operating system at runtime.
+* 必须在运行时向系统请求内存。
 * We need a way of returning this memory to the operating system when we’re done with our `String`.
+* `String` 类型使用完毕后，需要有将内存返还给操作系统的方式。
 
 That first part is done by us: when we call `String::from`, its implementation requests the memory it needs. This is pretty much universal in programming languages.
+第一部分由开发者完成：当调用 `String::from` 时，方法执行就会请求它需要的内存。这种方式在编程语言中很常见。
 
 However, the second part is different. In languages with a garbage collector (GC), the GC keeps track and cleans up memory that isn’t being used anymore, and we don’t need to think about it. Without a GC, it’s our responsibility to identify when memory is no longer being used and call code to explicitly return it, just as we did to request it. Doing this correctly has historically been a difficult programming problem. If we forget, we’ll waste memory. If we do it too early, we’ll have an invalid variable. If we do it twice, that’s a bug too. We need to pair exactly one `allocate` with exactly one `free`.
+但是，第二部分就不同了。在有垃圾回收（garbage collector，即 GC）的语言中，GC 会追踪并清理不再需要的内存，我们无需多虑。而对于那些没有 GC 的语言，开发者就有责任指明那些无用的内存并调用某些代码将其显式的归还，正如我们请求内存那样。正确的完成这一步一直以来都是个编程难题。如果忘记了就会浪费内存；而如果过早释放，就无法获取有效的变量值；如果释放了两次，同样会导致问题。对每次内存分配，必须精确匹配一次释放。
 
 Rust takes a different path: the memory is automatically returned once the variable that owns it goes out of scope. Here’s a version of our scope example from Listing 4-1 using a String instead of a `string` literal:
+而 Rust 另辟蹊径：一旦变量离开作用域，内存就会被自动回收。如下是将作用域代码示例 4-1 中的字符串字面量换成了 `String` 的版本：
 
 ```rs
 {
-    let s = String::from("hello"); // s is valid from this point forward
+    let s = String::from("hello"); // s 从这里开始有效
 
-    // do stuff with s
-}                                  // this scope is now over, and s is no
-                                   // longer valid
+    // 可以对 s 进行操作
+}                                  // 作用域结束，s 无效
 ```
 
 There is a natural point at which we can return the memory our `String` needs to the operating system: when `s` goes out of scope. When a variable goes out of scope, Rust calls a special function for us. This function is called `drop`, and it’s where the author of `String` can put the code to return the memory. Rust calls `drop` automatically at the closing curly bracket.
+当 `s` 离开作用域，我们就很自然的将 `String` 所需的内存返还给操作系统。当变量离开作用域，Rust 会为我们调用一个特殊的函数，即 `drop`，`String` 类型的开发者可以在这里放置返还内存的代码。Rust 会在结尾的花括号处自动调用 `drop`。
 
 > Note: In C++, this pattern of deallocating resources at the end of an item’s lifetime is sometimes called Resource Acquisition Is Initialization (RAII). The `drop` function in Rust will be familiar to you if you’ve used RAII patterns.
 
