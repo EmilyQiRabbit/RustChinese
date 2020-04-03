@@ -143,12 +143,16 @@ There is a natural point at which we can return the memory our `String` needs to
 当 `s` 离开作用域，我们就很自然的将 `String` 所需的内存返还给操作系统。当变量离开作用域，Rust 会为我们调用一个特殊的函数，即 `drop`，`String` 类型的开发者可以在这里放置返还内存的代码。Rust 会在结尾的花括号处自动调用 `drop`。
 
 > Note: In C++, this pattern of deallocating resources at the end of an item’s lifetime is sometimes called Resource Acquisition Is Initialization (RAII). The `drop` function in Rust will be familiar to you if you’ve used RAII patterns.
+> 注：在 C++ 中，这种在项的生命周期结束时回收资源的模式优势也被称为资源获取即初始化（Resource Acquisition Is Initialization，RAII）。如果您使用过 RAII 模式，那么对 Rust 中的 `drop` 函数也就并不陌生。
 
 This pattern has a profound impact on the way Rust code is written. It may seem simple right now, but the behavior of code can be unexpected in more complicated situations when we want to have multiple variables use the data we’ve allocated on the heap. Let’s explore some of those situations now.
+这种模式对书写 Rust 代码的方式有深刻的影响。也许现在看上去还简单，但是在相对复杂的场景下，代码行为可能会变得不可预测，例如我们希望大量变量去使用分配在堆内存的数据。现在我们就探讨一些这种复杂场景。
 
 ### Ways Variables and Data Interact: Move
+### 变量和数据的交互方式：移动
 
 Multiple variables can interact with the same data in different ways in Rust. Let’s look at an example using an integer in Listing 4-2.
+在 Rust 中，多个变量可以以不同方式与同一数据进行交互。我们来看如下使用整数的代码示例 4-2：
 
 ```rs
 let x = 5;
@@ -156,10 +160,13 @@ let y = x;
 ```
 
 Listing 4-2: Assigning the integer value of variable `x` to `y`
+代码示例 4-2：将变量 `x` 的整数值赋值给 `y`
 
 We can probably guess what this is doing: “bind the value `5` to `x`; then make a copy of the value in `x` and bind it to `y`.” We now have two variables, `x` and `y`, and both equal `5`. This is indeed what is happening, because integers are simple values with a known, fixed size, and these two `5` values are pushed onto the stack.
+我们可以大致猜测这段代码做了什么：“将 `5` 绑定到 `x`；拷贝 `x` 的值然后再绑定到 `y`。”现在我们得到了两个变量，`x` 和 `y`，它们的值都是 `5`。事实确实如此，而由于整数是简单值，它已知且大小固定，这两个数值 `5` 都被压入栈中。
 
 Now let’s look at the `String` version:
+现在我们再看看使用 `String` 类型的版本：
 
 ```rs
 let s1 = String::from("hello");
@@ -167,10 +174,11 @@ let s2 = s1;
 ```
 
 This looks very similar to the previous code, so we might assume that the way it works would be the same: that is, the second line would make a copy of the value in `s1` and bind it to `s2`. But this isn’t quite what happens.
+这段代码和前面的非常相似，因此我们可能会假设两段代码的运行模式是一致的：即第二行代码会拷贝 `s1` 的值并赋值给 `s2`。但事实并非如此。
 
 Take a look at Figure 4-1 to see what is happening to `String` under the covers. A `String` is made up of three parts, shown on the left: a pointer to the memory that holds the contents of the string, a length, and a capacity. This group of data is stored on the stack. On the right is the memory on the heap that holds the contents.
 
-[image]()
+![ownership image 1](../images/ownership1.png)
 
 Figure 4-1: Representation in memory of a `String` holding the value `"hello"` bound to `s1`
 
@@ -178,12 +186,12 @@ The length is how much memory, in bytes, the contents of the `String` is current
 
 When we assign `s1` to `s2`, the `String` data is copied, meaning we copy the pointer, the length, and the capacity that are on the stack. We do not copy the data on the heap that the pointer refers to. In other words, the data representation in memory looks like Figure 4-2.
 
-[image]()
+![ownership image 2](../images/ownership2.png)
 Figure 4-2: Representation in memory of the variable `s2` that has a copy of the pointer, length, and capacity of `s1`
 
 The representation does not look like Figure 4-3, which is what memory would look like if Rust instead copied the heap data as well. If Rust did this, the operation `s2 = s1` could be very expensive in terms of runtime performance if the data on the heap were large.
 
-[image]()
+![ownership image 3](../images/ownership3.png)
 Figure 4-3: Another possibility for what `s2 = s1` might do if Rust copied the heap data as well
 
 Earlier, we said that when a variable goes out of scope, Rust automatically calls the `drop` function and cleans up the heap memory for that variable. But Figure 4-2 shows both data pointers pointing to the same location. This is a problem: when `s2` and `s1` go out of scope, they will both try to free the same memory. This is known as a double free error and is one of the memory safety bugs we mentioned previously. Freeing memory twice can lead to memory corruption, which can potentially lead to security vulnerabilities.
@@ -215,7 +223,8 @@ error[E0382]: use of moved value: `s1`
 
 If you’ve heard the terms shallow copy and deep copy while working with other languages, the concept of copying the pointer, length, and capacity without copying the data probably sounds like making a shallow copy. But because Rust also invalidates the first variable, instead of being called a shallow copy, it’s known as a move. In this example, we would say that `s1` was moved into `s2`. So what actually happens is shown in Figure 4-4.
 
-[image]()
+![ownership image 4](../images/ownership4.png)
+
 Figure 4-4: Representation in memory after `s1` has been invalidated
 
 That solves our problem! With only `s2` valid, when it goes out of scope, it alone will free the memory, and we’re done.
