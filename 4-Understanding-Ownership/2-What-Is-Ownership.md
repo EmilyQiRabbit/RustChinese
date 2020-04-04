@@ -26,32 +26,24 @@
 > 
 > 追踪哪些代码使用了堆上哪些数据，尽可能减少堆中的重复数据，及时清理堆上无用的数据以免空间耗尽，这些都是所有权系统要处理的问题。一旦您理解了所有权，就不需要总是考虑堆和栈了，但是搞清楚所有权可以管理堆数据，能帮助解释为何所有权要以这种方式工作。
 
-## Ownership Rules
 ## 所有权规则
 
-First, let’s take a look at the ownership rules. Keep these rules in mind as we work through the examples that illustrate them:
 首先，我们一起来看看所有权规则。在我们学习下文中的说明示例时，请牢记这些规则：
 
-* Each value in Rust has a variable that’s called its owner.
 * Rust 中所有的值都有一个被称为其所有者的变量。
-* There can only be one owner at a time.
 * 每一时刻该值只能有一个所有者。
-* When the owner goes out of scope, the value will be dropped.
 * 如果所有者离开作用域，这个值就会被丢弃。
 
-## Variable Scope
 ## 变量作用域
 
-We’ve walked through an example of a Rust program already in Chapter 2. Now that we’re past basic syntax, we won’t include all the `fn main() {` code in examples, so if you’re following along, you’ll have to put the following examples inside a `main` function manually. As a result, our examples will be a bit more concise, letting us focus on the actual details rather than boilerplate code.
 在第二章中，我们已经学习过一个 Rust 程序示例。现在我们也已经学过了基础语法，那么在下面的示例中，将不再包含 `fn main() {` 代码，因此如果您想要仿照示例练习，请记得将代码放入 `main` 函数中。这样代码示例将更加简洁，我们就能更加专注于代码细节，而不是模版代码。
 
-As a first example of ownership, we’ll look at the scope of some variables. A scope is the range within a program for which an item is valid. Let’s say we have a variable that looks like this:
 在所有权学习的第一个例子中，我们先了解变量作用域。作用域指项（item）在程序中有效的范围。假设有这样一个变量：
 
 ```rs
 let s = "hello";
 ```
-The variable `s` refers to a string literal, where the value of the string is hardcoded into the text of our program. The variable is valid from the point at which it’s declared until the end of the current scope. Listing 4-1 has comments annotating where the variable `s` is valid.
+
 变量 `s` 绑定了一个字符串字面量，字符串的值硬编码在程序文本中。从变量声明到当前作用域止，其间变量是有效的。代码示例 4-1 的注释中指出了变量 `s` 有效的范围。
 
 ```rs
@@ -61,40 +53,29 @@ The variable `s` refers to a string literal, where the value of the string is ha
     // 可以对 s 进行操作
 }                      // 作用域结束，s 无效
 ```
-Listing 4-1: A variable and the scope in which it is valid
 代码示例 4-1：变量及其作用域
 
-In other words, there are two important points in time here:
 换言之，两个非常重要的时间点：
 
-* When `s` comes into scope, it is valid.
 * 当 `s` 进入作用域，它就是有效的。
-* It remains valid until it goes out of scope.
 * 有效的状态持续到离开作用域为止。
 
-At this point, the relationship between scopes and when variables are valid is similar to that in other programming languages. Now we’ll build on top of this understanding by introducing the `String` type.
 在这一点，作用域和变量是否有效的关系与其他语言是类似的。在理解了这一点的基础上，我们继续介绍 `String` 类型。
 
-## The `String` Type
 ## `String` 类型
 
-To illustrate the rules of ownership, we need a data type that is more complex than the ones we covered in the “Data Types” section of Chapter 3. The types covered previously are all stored on the stack and popped off the stack when their scope is over, but we want to look at data that is stored on the heap and explore how Rust knows when to clean up that data.
 为了说明所有权规则，我们需要一个比第三章“数据类型”章节里更复杂一些的数据类型。我们之前学过的类型都存储在栈中，作用域结束它们就会出栈，但我们希望能存在堆上的数据，并探索 Rust 是如何知道何时清理这些数据的。
 
-We’ll use `String` as the example here and concentrate on the parts of `String` that relate to ownership. These aspects also apply to other complex data types, whether they are provided by the standard library or created by you. We’ll discuss `String` in more depth in Chapter 8.
 我们将使用 `String` 作为示例，并专注于 `String` 和所有权相关的部分。这些方面同样可以应用于其他复杂的数据类型，不管这些类型是由标准库或者开发者提供的。在第八章我们将更深入的探讨 `String`。
 
-We’ve already seen string literals, where a string value is hardcoded into our program. String literals are convenient, but they aren’t suitable for every situation in which we may want to use text. One reason is that they’re immutable. Another is that not every string value can be known when we write our code: for example, what if we want to take user input and store it? For these situations, Rust has a second string type, `String`. This type is allocated on the heap and as such is able to store an amount of text that is unknown to us at compile time. You can create a `String` from a string literal using the from function, like so:
 我们已经看到过字符串字面量，字符串值是硬编码在程序中。字符串字面量使用方便，但是并不适用于所有使用文字的场景。其中一个原因即它们是不可更改的。另一个是，并不是所有字符串值在写代码的时候都是已知的：例如，如果你想要获取用户输入并存储呢？为了适配这些场景，Rust 提供了第二种字符串类型：`String`。该类型在堆中分配内存，所以可以存储编译时未知大小的文本。我们可以使用 `from` 函数，并基于字符串字面量创建 `String`，如下所示：
 
 ```rs
 let s = String::from("hello");
 ```
 
-The double colon (`::`) is an operator that allows us to namespace this particular `from` function under the `String` type rather than using some sort of name like `string_from`. We’ll discuss this syntax more in the “Method Syntax” section of Chapter 5 and when we talk about namespacing with modules in “Paths for Referring to an Item in the Module Tree” in Chapter 7.
 操作符双冒号（`::`）可以将特定的 `from` 函数置于 `String` 类型的命名空间下，而避免了使用像 `string_from` 这样的名字。我们在第五章的“方法语法”中会更详尽探讨这种双冒号语法，并在第七章的“引用模块树中项的路径”中讨论模块和命名空间。
 
-This kind of string can be mutated:
 这种类型的字符串可被修改：
 
 ```rs
@@ -105,30 +86,21 @@ s.push_str(", world!"); // push_str() 为 String 增加了一段字面量
 println!("{}", s); // 将会打印出 `hello, world!`
 ```
 
-So, what’s the difference here? Why can `String` be mutated but literals cannot? The difference is how these two types deal with memory.
 这和之前的方式有何不同呢？为什么 `String` 可以被修改而字面量不能？区别在于，两种类型处理内存的方式不同。
 
-## Memory and Allocation
 ## 内存和分配
 
-In the case of a string literal, we know the contents at compile time, so the text is hardcoded directly into the final executable. This is why string literals are fast and efficient. But these properties only come from the string literal’s immutability. Unfortunately, we can’t put a blob of memory into the binary for each piece of text whose size is unknown at compile time and whose size might change while running the program.
 如果我们使用字符串字面量，编译时该字符串内容已知，于是这段文本就会被直接硬编码到最后的可执行文件中。这也是字符串字面量快捷高效的原因。但这种优势只得益于字符串字面量的不可变性。然而我们不能为每一段编译时大小未知、运行时大小可变的字符串，而将一段内存编码进二进制文件中。
 
-With the `String` type, in order to support a mutable, growable piece of text, we need to allocate an amount of memory on the heap, unknown at compile time, to hold the contents. This means:
 为了支持内容可变、体积可增长的文本，可以使用 `String` 类型，此时我们需要在堆上分配一块编译时大小未知的内存来保存内容。这意味着：
 
-* The memory must be requested from the operating system at runtime.
 * 必须在运行时向系统请求内存。
-* We need a way of returning this memory to the operating system when we’re done with our `String`.
 * `String` 类型使用完毕后，需要有将内存返还给操作系统的方式。
 
-That first part is done by us: when we call `String::from`, its implementation requests the memory it needs. This is pretty much universal in programming languages.
 第一部分由开发者完成：当调用 `String::from` 时，方法执行就会请求它需要的内存。这种方式在编程语言中很常见。
 
-However, the second part is different. In languages with a garbage collector (GC), the GC keeps track and cleans up memory that isn’t being used anymore, and we don’t need to think about it. Without a GC, it’s our responsibility to identify when memory is no longer being used and call code to explicitly return it, just as we did to request it. Doing this correctly has historically been a difficult programming problem. If we forget, we’ll waste memory. If we do it too early, we’ll have an invalid variable. If we do it twice, that’s a bug too. We need to pair exactly one `allocate` with exactly one `free`.
 但是，第二部分就不同了。在有垃圾回收（garbage collector，即 GC）的语言中，GC 会追踪并清理不再需要的内存，我们无需多虑。而对于那些没有 GC 的语言，开发者就有责任指明那些无用的内存并调用某些代码将其显式的归还，正如我们请求内存那样。正确的完成这一步一直以来都是个编程难题。如果忘记了就会浪费内存；而如果过早释放，就无法获取有效的变量值；如果释放了两次，同样会导致问题。对每次内存分配，必须精确匹配一次释放。
 
-Rust takes a different path: the memory is automatically returned once the variable that owns it goes out of scope. Here’s a version of our scope example from Listing 4-1 using a String instead of a `string` literal:
 而 Rust 另辟蹊径：一旦变量离开作用域，内存就会被自动回收。如下是将作用域代码示例 4-1 中的字符串字面量换成了 `String` 的版本：
 
 ```rs
@@ -139,19 +111,14 @@ Rust takes a different path: the memory is automatically returned once the varia
 }                                  // 作用域结束，s 无效
 ```
 
-There is a natural point at which we can return the memory our `String` needs to the operating system: when `s` goes out of scope. When a variable goes out of scope, Rust calls a special function for us. This function is called `drop`, and it’s where the author of `String` can put the code to return the memory. Rust calls `drop` automatically at the closing curly bracket.
 当 `s` 离开作用域，我们就很自然的将 `String` 所需的内存返还给操作系统。当变量离开作用域，Rust 会为我们调用一个特殊的函数，即 `drop`，`String` 类型的开发者可以在这里放置返还内存的代码。Rust 会在结尾的花括号处自动调用 `drop`。
 
-> Note: In C++, this pattern of deallocating resources at the end of an item’s lifetime is sometimes called Resource Acquisition Is Initialization (RAII). The `drop` function in Rust will be familiar to you if you’ve used RAII patterns.
 > 注：在 C++ 中，这种在项的生命周期结束时回收资源的模式优势也被称为资源获取即初始化（Resource Acquisition Is Initialization，RAII）。如果您使用过 RAII 模式，那么对 Rust 中的 `drop` 函数也就并不陌生。
 
-This pattern has a profound impact on the way Rust code is written. It may seem simple right now, but the behavior of code can be unexpected in more complicated situations when we want to have multiple variables use the data we’ve allocated on the heap. Let’s explore some of those situations now.
 这种模式对书写 Rust 代码的方式有深刻的影响。也许现在看上去还简单，但是在相对复杂的场景下，代码行为可能会变得不可预测，例如我们希望大量变量去使用分配在堆内存的数据。现在我们就探讨一些这种复杂场景。
 
-### Ways Variables and Data Interact: Move
 ### 变量和数据的交互方式：移动
 
-Multiple variables can interact with the same data in different ways in Rust. Let’s look at an example using an integer in Listing 4-2.
 在 Rust 中，多个变量可以以不同方式与同一数据进行交互。我们来看如下使用整数的代码示例 4-2：
 
 ```rs
@@ -159,13 +126,10 @@ let x = 5;
 let y = x;
 ```
 
-Listing 4-2: Assigning the integer value of variable `x` to `y`
 代码示例 4-2：将变量 `x` 的整数值赋值给 `y`
 
-We can probably guess what this is doing: “bind the value `5` to `x`; then make a copy of the value in `x` and bind it to `y`.” We now have two variables, `x` and `y`, and both equal `5`. This is indeed what is happening, because integers are simple values with a known, fixed size, and these two `5` values are pushed onto the stack.
-我们可以大致猜测这段代码做了什么：“将 `5` 绑定到 `x`；拷贝 `x` 的值然后再绑定到 `y`。”现在我们得到了两个变量，`x` 和 `y`，它们的值都是 `5`。事实确实如此，而由于整数是简单值，它已知且大小固定，这两个数值 `5` 都被压入栈中。
+我们可以大致猜测这段代码做了什么：“将 `5` 绑定到 `x`；复制 `x` 的值然后再绑定到 `y`。”现在我们得到了两个变量，`x` 和 `y`，它们的值都是 `5`。事实确实如此，而由于整数是简单值，它已知且大小固定，这两个数值 `5` 都被压入栈中。
 
-Now let’s look at the `String` version:
 现在我们再看看使用 `String` 类型的版本：
 
 ```rs
@@ -173,39 +137,41 @@ let s1 = String::from("hello");
 let s2 = s1;
 ```
 
-This looks very similar to the previous code, so we might assume that the way it works would be the same: that is, the second line would make a copy of the value in `s1` and bind it to `s2`. But this isn’t quite what happens.
-这段代码和前面的非常相似，因此我们可能会假设两段代码的运行模式是一致的：即第二行代码会拷贝 `s1` 的值并赋值给 `s2`。但事实并非如此。
+这段代码和前面的非常相似，因此我们可能会假设两段代码的运行模式是一致的：即第二行代码会复制 `s1` 的值并赋值给 `s2`。但事实并非如此。
 
-Take a look at Figure 4-1 to see what is happening to `String` under the covers. A `String` is made up of three parts, shown on the left: a pointer to the memory that holds the contents of the string, a length, and a capacity. This group of data is stored on the stack. On the right is the memory on the heap that holds the contents.
+如图 4-1，我们来看看使用 `String` 时到底发生了什么。图片左侧表示 `String` 类型的数据由三部分组成：指向存储字符串内存的指针，长度，和容量。这一组数据在栈中保存。图右侧表示堆中保存字符串内容的内存。
 
 ![ownership image 1](../images/ownership1.png)
 
-Figure 4-1: Representation in memory of a `String` holding the value `"hello"` bound to `s1`
+图 4-1：将值 `"hello"` 绑定给 `s1` 的 `String` 内存示意图
 
-The length is how much memory, in bytes, the contents of the `String` is currently using. The capacity is the total amount of memory, in bytes, that the `String` has received from the operating system. The difference between length and capacity matters, but not in this context, so for now, it’s fine to ignore the capacity.
+长度表示 `String` 中的内容目前在内存中占用的比特。容量表示 `String` 从操作系统中获取到的所有内存的比特总量。长度和容量之前的区别非常重要，但本章中不会涉及，目前我们可以先忽略容量这个概念。
 
-When we assign `s1` to `s2`, the `String` data is copied, meaning we copy the pointer, the length, and the capacity that are on the stack. We do not copy the data on the heap that the pointer refers to. In other words, the data representation in memory looks like Figure 4-2.
+当我们将 `s1` 赋值给 `s2`，`String` 的数据也同时被复制，即复制存储在栈中的指针、长度和容量数据。但是指针指向的堆上的数据则不会被复制。此时内存中数据如图 4-2 所示。
 
 ![ownership image 2](../images/ownership2.png)
-Figure 4-2: Representation in memory of the variable `s2` that has a copy of the pointer, length, and capacity of `s1`
 
-The representation does not look like Figure 4-3, which is what memory would look like if Rust instead copied the heap data as well. If Rust did this, the operation `s2 = s1` could be very expensive in terms of runtime performance if the data on the heap were large.
+图 4-2：拷贝了 `s1` 的指针、长度和容量后 `s2` 的内存示意图
+
+这和图 4-3 不同，图 4-3 表示了如果 Rust 也复制堆数据时的内存应该是什么样子。而如果 Rust 真的这么做了，那么当堆中的数据量很大时，操作 `s2 = s1` 就会对性能造成很大的影响。
 
 ![ownership image 3](../images/ownership3.png)
-Figure 4-3: Another possibility for what `s2 = s1` might do if Rust copied the heap data as well
 
-Earlier, we said that when a variable goes out of scope, Rust automatically calls the `drop` function and cleans up the heap memory for that variable. But Figure 4-2 shows both data pointers pointing to the same location. This is a problem: when `s2` and `s1` go out of scope, they will both try to free the same memory. This is known as a double free error and is one of the memory safety bugs we mentioned previously. Freeing memory twice can lead to memory corruption, which can potentially lead to security vulnerabilities.
+图 4-3：如果 Rust 也拷贝堆中数据，那么操作 `s2 = s1` 时可能的内存示意图
 
-To ensure memory safety, there’s one more detail to what happens in this situation in Rust. Instead of trying to copy the allocated memory, Rust considers `s1` to no longer be valid and, therefore, Rust doesn’t need to free anything when `s1` goes out of scope. Check out what happens when you try to use `s1` after `s2` is created; it won’t work:
+前文中我们说过，如果变量离开作用域，Rust 就会自动调用 `drop` 函数清理该变量的堆内存。但如图 4-2，两个数据指针指向了同一地址。那么问题是，当 `s2` 和 `s1` 离开作用域时，它们两个都会试图释放相同一段内存。这个错误被称为二次释放，也是之前提到过的内存安全性问题之一。二次释放同一内存可能导致内存污染，而内存污染可能导致安全漏洞。
 
-This code does not compile!
+为了确保内存安全，这种场景下 Rust 还会处理另一个细节。与其尝试拷贝被分配的内存，Rust 会认为 `s1` 不再有效，因此 `s1` 离开作用域时就不需要任何释放内存的操作。可以尝试在 `s2` 创建后使用 `s1`，看看会发生什么；代码是无法运行的：
+
+这段代码无法编译！
 ```rs
 let s1 = String::from("hello");
 let s2 = s1;
 
 println!("{}, world!", s1);
 ```
-You’ll get an error like this because Rust prevents you from using the invalidated reference:
+
+代码将会报错，如下所示，因为此时 Rust 会阻止你使用无效的引用：
 
 ```sh
 error[E0382]: use of moved value: `s1`
