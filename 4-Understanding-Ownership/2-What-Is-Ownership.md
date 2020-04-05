@@ -187,21 +187,21 @@ error[E0382]: use of moved value: `s1`
   not implement the `Copy` trait
 ```
 
-If you’ve heard the terms shallow copy and deep copy while working with other languages, the concept of copying the pointer, length, and capacity without copying the data probably sounds like making a shallow copy. But because Rust also invalidates the first variable, instead of being called a shallow copy, it’s known as a move. In this example, we would say that `s1` was moved into `s2`. So what actually happens is shown in Figure 4-4.
+如果您在其他语言的使用中听过浅拷贝和深拷贝，那么你可能觉得拷贝指针、长度和容量而不拷贝数据这样的概念可能和浅拷贝很相似。但是由于 Rust 同时也将第一个变量置为无效，因此我们将其称为移动，而非浅拷贝。这个例子中，我们称 `s1` 被移动到了 `s2`。具体发生了什么，如图 4-4 所示：
 
 ![ownership image 4](../images/ownership4.png)
 
-Figure 4-4: Representation in memory after `s1` has been invalidated
+图 4-4：`s1` 无效后内存示意图
 
-That solves our problem! With only `s2` valid, when it goes out of scope, it alone will free the memory, and we’re done.
+这就解决了我们刚才的问题！由于只有 `s2` 有效，当其离开作用域后，就只会释放它的内存，然后完成。
 
-In addition, there’s a design choice that’s implied by this: Rust will never automatically create “deep” copies of your data. Therefore, any automatic copying can be assumed to be inexpensive in terms of runtime performance.
+另外，这里还隐含了一个语言设计上的选择：Rust 永远不会自动创建数据的深拷贝。因此，我们可以认为任何自动完成的拷贝都不会对运行时性能造成大的影响。
 
-### Ways Variables and Data Interact: Clone
+### 变量和数据的交互方式：克隆
 
-If we do want to deeply copy the heap data of the `String`, not just the stack data, we can use a common method called `clone`. We’ll discuss method syntax in Chapter 5, but because methods are a common feature in many programming languages, you’ve probably seen them before.
+如果我们确实想要深拷贝 `String` 在堆中的数据，而不仅仅拷贝栈中数据，我们可以使用一个名为 `clone` 的通用方法。我们将会在第五章讨论该方法的语法，不过因为该方法是很多编程语言中的通用特性，你之前说不定已经见过了。
 
-Here’s an example of the `clone` method in action:
+这是一个实际使用 `clone` 方法的例子：
 
 ```rs
 let s1 = String::from("hello");
@@ -210,9 +210,9 @@ let s2 = s1.clone();
 println!("s1 = {}, s2 = {}", s1, s2);
 ```
 
-This works just fine and explicitly produces the behavior shown in Figure 4-3, where the heap data does get copied.
+这段代码可以正常运行，并且精准完成了如图 4-3 所示的操作，拷贝了堆上的数据。
 
-When you see a call to `clone`, you know that some arbitrary code is being executed and that code may be expensive. It’s a visual indicator that something different is going on.
+当出现 `clone` 的调用时，我们就知道某些可能很耗费性能的代码会被执行。这是一个显示指示，告诉你不同寻常的事情将要发生。
 
 ### Stack-Only Data: Copy
 
