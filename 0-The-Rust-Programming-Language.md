@@ -2,7 +2,7 @@
 
 *编辑者：Steve Klabnik 和 Carol Nichols，同时感谢 Rust 社区的贡献*
 
-本文档假设读者使用 1.37.0 或更新版本的 Rust，并在所有项目的 *Cargo.toml* 中配置了 `edition="2018"` 以便使用 2018 版 Rust 语法。如果您想要安装或更新 Rust，可以参考[第一章节的安装教程](https://doc.rust-lang.org/book/ch01-01-installation.html)；如果您想了解版本信息，可以查看最新章节[附录 E](https://doc.rust-lang.org/book/appendix-05-editions.html)。
+本文档假设读者使用 1.37.0 或更新版本的 Rust，并在所有项目的 *Cargo.toml* 中配置了 `edition="2018"` 以便使用 2018 版 Rust 语法。如果你想要安装或更新 Rust，可以参考[第一章节的安装教程](https://doc.rust-lang.org/book/ch01-01-installation.html)；如果你想了解版本信息，可以查看最新章节[附录 E](https://doc.rust-lang.org/book/appendix-05-editions.html)。
 
 2018 版 Rust 引入了众多优化，这让 Rust 变得更友好并且易于掌握。本文档这次迭代作出了大量修改，可以反映出这些优化：
 
