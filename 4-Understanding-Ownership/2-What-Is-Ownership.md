@@ -214,9 +214,9 @@ println!("s1 = {}, s2 = {}", s1, s2);
 
 当出现 `clone` 的调用时，我们就知道某些可能很耗费性能的代码会被执行。这是一个显示指示，告诉你不同寻常的事情将要发生。
 
-### Stack-Only Data: Copy
+### 只存储于栈中数据的拷贝
 
-There’s another wrinkle we haven’t talked about yet. This code using integers, part of which was shown in Listing 4-2, works and is valid:
+这里还有一个我们没讨论到的细节。如下代码使用了整型，其中一部分我们在示例 4-2 中见过了，此时变量均有效，且代码可以正常运行：
 
 ```rs
 let x = 5;
@@ -225,21 +225,22 @@ let y = x;
 println!("x = {}, y = {}", x, y);
 ```
 
-But this code seems to contradict what we just learned: we don’t have a call to `clone`, but `x` is still valid and wasn’t moved into `y`.
+但是这段代码似乎和我们刚学过的知识冲突了：我们并没有调用 `clone`，但是 `x` 依旧有效，没有被移动到 `y`。
 
-The reason is that types such as integers that have a known size at compile time are stored entirely on the stack, so copies of the actual values are quick to make. That means there’s no reason we would want to prevent `x` from being valid after we create the variable `y`. In other words, there’s no difference between deep and shallow copying here, so calling `clone` wouldn’t do anything different from the usual shallow copying and we can leave it out.
+这种现象的原因是，如整型这样编译时大小已知的类型，会被完全存储在栈中，因此复制其实际值能够很快捷的完成。这意味着，我们没理由期望在变量 `y` 创建后将 `x` 置为无效。即，此时深拷贝和浅拷贝是没有区别的，此时调用 `clone` 的效果和浅拷贝一样，我们这样写就可以了。
 
-Rust has a special annotation called the `Copy` trait that we can place on types like integers that are stored on the stack (we’ll talk more about traits in Chapter 10). If a type has the `Copy` trait, an older variable is still usable after assignment. Rust won’t let us annotate a type with the `Copy` trait if the type, or any of its parts, has implemented the `Drop` trait. If the type needs something special to happen when the value goes out of scope and we add the `Copy` annotation to that type, we’ll get a compile-time error. To learn about how to add the `Copy` annotation to your type, see “Derivable Traits” in Appendix C.
+Rust 还有一种名为 `Copy` trait 的特殊注解，我们可以将其用于像整型这样存储于栈中的数据上（我们会在第十章详细讨论）。如果某类型获得 `Copy` trait 注解，那么旧的变量在赋值操作进行后可以保持有效。Rust 不允许开发者为自身或其任何部分实现了 `Drop` trait 的类型使用 `Copy` trait。如果某类型需要在其值离开作用域时完成某些特殊处理，而我们为该类型添加了 `Copy` 注解，代码编译将会报错。如果想要学习如何为类型添加 `Copy` 注解，可以参见附录 C “可派生 trait”。
 
-So what types are `Copy`? You can check the documentation for the given type to be sure, but as a general rule, any group of simple scalar values can be `Copy`, and nothing that requires allocation or is some form of resource is `Copy`. Here are some of the types that are `Copy`:
+因此哪些类型是可 `Copy` 的呢？当然我们可以通过查询文档来确认，但是一般来说，简单标量值都是可 `Copy` 的，以及不需要分配内存或其他形式资源的类型也是可 `Copy` 的。如下是一些可 `Copy` 的类型：
 
-* All the integer types, such as `u32`.
-* The Boolean type, `bool`, with values `true` and `false`.
-* All the floating point types, such as `f64`.
-* The character type, `char`.
-* Tuples, if they only contain types that are also `Copy`. For example, `(i32, i32)` is `Copy`, but `(i32, String)` is not.
+* 所有的整数类型，例如 `u32`。
+* 布尔类型 `bool`，其值为 `true` 或 `false`。
+* 所有的浮点类型，例如 `f64`。
+* 字符类型 `char`。
+* 只包含可 `Copy` 类型的元组。例如 `(i32, i32)` 是可以的，但是 `(i32, String)` 不可。
 
 ## Ownership and Functions
+## 所有权与函数
 
 The semantics for passing a value to a function are similar to those for assigning a value to a variable. Passing a variable to a function will move or copy, just as assignment does. Listing 4-3 has an example with some annotations showing where variables go into and out of scope.
 
