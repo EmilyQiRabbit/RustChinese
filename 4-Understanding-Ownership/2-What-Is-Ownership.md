@@ -239,90 +239,81 @@ Rust 还有一种名为 `Copy` trait 的特殊注解，我们可以将其用于�
 * 字符类型 `char`。
 * 只包含可 `Copy` 类型的元组。例如 `(i32, i32)` 是可以的，但是 `(i32, String)` 不可。
 
-## Ownership and Functions
 ## 所有权与函数
 
-The semantics for passing a value to a function are similar to those for assigning a value to a variable. Passing a variable to a function will move or copy, just as assignment does. Listing 4-3 has an example with some annotations showing where variables go into and out of scope.
+将某个值传入函数与将值赋值给变量在语义上是很相似的。它们都会触发变量的移动或拷贝。代码示例 4-3 中的注释说明了变量何时进入和离开作用域的。
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
-    let s = String::from("hello");  // s comes into scope
+    let s = String::from("hello");  // s 进入作用域
 
-    takes_ownership(s);             // s's value moves into the function...
-                                    // ... and so is no longer valid here
+    takes_ownership(s);             // s 的值被移动进了函数...
+                                    // ...因此 s 在这里无效
 
-    let x = 5;                      // x comes into scope
+    let x = 5;                      // x 进入作用域
 
-    makes_copy(x);                  // x would move into the function,
-                                    // but i32 is Copy, so it’s okay to still
-                                    // use x afterward
+    makes_copy(x);                  // x 应该也移动进了函数
+                                    // 但是由于 i32 是 Copy 的，所以下面依旧可以继续使用 x
 
-} // Here, x goes out of scope, then s. But because s's value was moved, nothing
-  // special happens.
+} // 在 这里，x 和 s 相继离开作用域。但是由于 s 的值已经被移走了，所以不需什么特殊操作。
 
-fn takes_ownership(some_string: String) { // some_string comes into scope
+fn takes_ownership(some_string: String) { // some_string 进入作用域
     println!("{}", some_string);
-} // Here, some_string goes out of scope and `drop` is called. The backing
-  // memory is freed.
+} // 这里，some_string 离开作用域，`drop` 函数被调用。
+  // 释放了占用的内存。
 
-fn makes_copy(some_integer: i32) { // some_integer comes into scope
+fn makes_copy(some_integer: i32) { // some_integer 进入作用域
     println!("{}", some_integer);
-} // Here, some_integer goes out of scope. Nothing special happens.
+} // 这里，some_integer 离开作用域。不需要特殊操作。
 ```
 
-Listing 4-3: Functions with ownership and scope annotated
+代码示例 4-3：注释详解函数相关的所有权和作用域
 
-If we tried to use `s` after the call to `takes_ownership`, Rust would throw a compile-time error. These static checks protect us from mistakes. Try adding code to `main` that uses `s` and `x` to see where you can use them and where the ownership rules prevent you from doing so.
+如果我们在调用 `takes_ownership` 后试图使用 `s`，Rust 将会抛出编译时错误。此类静态检查可以避免我们犯错。可以试着在 `main` 函数中增加一些使用 `s` 和 `x` 的代码，看看哪里可以正常使用，而哪里是所有权规则禁止我们使用的。
 
-### Return Values and Scope
+### 返回值与作用域
 
-Returning values can also transfer ownership. Listing 4-4 is an example with similar annotations to those in Listing 4-3.
+返回值同样会移交所有权。代码示例 4-4 和 4-3 类似，使用注释详解返回值与作用域。
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
-    let s1 = gives_ownership();         // gives_ownership moves its return
-                                        // value into s1
+    let s1 = gives_ownership();         // gives_ownership 将其返回值移动到了 s1
 
-    let s2 = String::from("hello");     // s2 comes into scope
+    let s2 = String::from("hello");     // s2 进入作用域
 
-    let s3 = takes_and_gives_back(s2);  // s2 is moved into
-                                        // takes_and_gives_back, which also
-                                        // moves its return value into s3
-} // Here, s3 goes out of scope and is dropped. s2 goes out of scope but was
-  // moved, so nothing happens. s1 goes out of scope and is dropped.
+    let s3 = takes_and_gives_back(s2);  // s2 移动到了 takes_and_gives_back 中，
+                                        // takes_and_gives_back 的返回值移动到了 s3
 
-fn gives_ownership() -> String {             // gives_ownership will move its
-                                             // return value into the function
-                                             // that calls it
+} // 这里，s3 离开作用域并调用了 `drop`。s2 也离开作用域，而由于其值已被移动，不需要特殊操作。
+  // s1 离开作用域，并调用 `drop`。
 
-    let some_string = String::from("hello"); // some_string comes into scope
+fn gives_ownership() -> String {             // gives_ownership 会将其返回值移动进调用它的函数
 
-    some_string                              // some_string is returned and
-                                             // moves out to the calling
-                                             // function
+    let some_string = String::from("hello"); // some_string 进入作用域
+
+    some_string                              // 返回 some_string，将其移出到调用 gives_ownership 的函数里
 }
 
-// takes_and_gives_back will take a String and return one
-fn takes_and_gives_back(a_string: String) -> String { // a_string comes into
-                                                      // scope
+// takes_and_gives_back 函数接收一个 String 类型的参数并返回 String 类型的值
+fn takes_and_gives_back(a_string: String) -> String { // a_string 进入作用域
 
-    a_string  // a_string is returned and moves out to the calling function
+    a_string  // 返回 a_string，并将其移出到调用 takes_and_gives_back 的函数中
 }
 ```
 
-Listing 4-4: Transferring ownership of return values
+代码示例 4-4：返回值的所有权移交
 
-The ownership of a variable follows the same pattern every time: assigning a value to another variable moves it. When a variable that includes data on the heap goes out of scope, the value will be cleaned up by `drop` unless the data has been moved to be owned by another variable.
+变量所有权一直遵循着同样的模式：赋值给变量的同时完成移动。当变量包含堆中数据并离开作用域时，除非数据所有权已经被移交到其他变量了，就会由 `drop` 清理变量值。
 
-Taking ownership and then returning ownership with every function is a bit tedious. What if we want to let a function use a value but not take ownership? It’s quite annoying that anything we pass in also needs to be passed back if we want to use it again, in addition to any data resulting from the body of the function that we might want to return as well.
+每个函数都需要接收所有权，随后归还所有权可能显得有些冗长。如果我们希望函数使用某个值但是不要获取其所有权呢？所有传入函数的值如果希望在函数外继续使用，那么就必须将这个值传入，这就有点烦人了，而且除了这些传入值，我们可能还想传出函数体中得出的某些数据。
 
-It’s possible to return multiple values using a tuple, as shown in Listing 4-5.
+我们可以使用元组传出多个值，如代码示例 4-5 所示。
 
-Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -334,11 +325,12 @@ fn main() {
 }
 
 fn calculate_length(s: String) -> (String, usize) {
-    let length = s.len(); // len() returns the length of a String
+    let length = s.len(); // len() 返回 String 类型值的长度
 
     (s, length)
 }
 ```
-Listing 4-5: Returning ownership of parameters
 
-But this is too much ceremony and a lot of work for a concept that should be common. Luckily for us, Rust has a feature for this concept, called references.
+代码示例 4-5：返还参数所有权
+
+但这太形式主义了，这种很常见的需求却导致我们做了很多无用功。而幸运的是，为了解决这个问题，Rust 提供了引用（references）。
