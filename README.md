@@ -27,3 +27,4 @@
 4. 认识所有权
    1. [认识所有权](https://github.com/EmilyQiRabbit/RustChinese/blob/master/4-Understanding-Ownership/1-Understanding-Ownership.md)
    2. [所有权是什么](https://github.com/EmilyQiRabbit/RustChinese/blob/master/4-Understanding-Ownership/2-What-Is-Ownership.md)
+   3. [引用与借用](https://github.com/EmilyQiRabbit/RustChinese/blob/master/4-Understanding-Ownership/3-References-and-Borrowing.md)
