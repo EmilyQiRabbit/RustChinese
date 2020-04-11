@@ -1,10 +1,14 @@
 ## References and Borrowing
+## 引用（References）与借用（Borrowing）
 
 The issue with the tuple code in Listing 4-5 is that we have to return the `String` to the calling function so we can still use the `String` after the call to `calculate_length`, because the `String` was moved into `calculate_length`.
+代码示例 4-5 中使用了元组的代码存在的问题是，由于 `String` 值被移动进入了函数 `calculate_length`，因而我们就必须将 `String` 值的变量再返回出去，以便我们在函数 `calculate_length` 调用完成后还可以继续使用它。
 
 Here is how you would define and use a `calculate_length` function that has a reference to an object as a parameter instead of taking ownership of the value:
+如下代码展示了如何定义并使用以对象引用作为参数的函数 `calculate_length`，而非取走值的所有权：
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -21,16 +25,21 @@ fn calculate_length(s: &String) -> usize {
 ```
 
 First, notice that all the tuple code in the variable declaration and the function return value is gone. Second, note that we pass &`s1` into `calculate_length` and, in its definition, we take `&String` rather than `String`.
+首先我们可以注意到，变量声明和函数返回值中的元组代码都去掉了。其次，传递到 `calculate_length` 函数中的是 `&s1`，并且在函数定义中，`&String` 替代了 `String`。
 
 These ampersands are **references**, and they allow you to refer to some value without taking ownership of it. Figure 4-5 shows a diagram.
+这些符号即表示引用（references），我们使用它就可以使用某些值而无需取走其所有权。如图 4-5 所示。
 
-![&String s pointing at String s1]()
+![&String s pointing at String s1](https://raw.githubusercontent.com/EmilyQiRabbit/RustChinese/master/images/references.png)
 
 Figure 4-5: A diagram of `&String s` pointing at `String s1`
+图 4-5：引用 `&String s` 指向 `String s1` 示意图
 
 > Note: The opposite of referencing by using `&` is dereferencing, which is accomplished with the dereference operator, `*`. We’ll see some uses of the dereference operator in Chapter 8 and discuss details of dereferencing in Chapter 15.
+> 注：使用 `&` 符号引用相反的操作是解引用（dereferencing），使用解引用操作符 `*` 完成。我们将会在第八章接触到解引用操作的一些实际应用，并在第十五章详细讨论。
 
 Let’s take a closer look at the function call here:
+下面我们来详细解析这个函数调用：
 
 ```rs
 let s1 = String::from("hello");
@@ -39,25 +48,31 @@ let len = calculate_length(&s1);
 ```
 
 The &`s1` syntax lets us create a reference that refers to the value of `s1` but does not own it. Because it does not own it, the value it points to will not be dropped when the reference goes out of scope.
+`&s1` 语法创建了一个指向 `s1` 的值的引用，但是它并不拥有该值。由于 `&s1` 不拥有堆上的值，那么当它离开作用域时它指向的值也就不会被销毁。
 
 Likewise, the signature of the function uses `&` to indicate that the type of the parameter `s` is a reference. Let’s add some explanatory annotations:
+同样，使用了 `&` 的函数签名意味着其参数 `s` 是一个引用。我们为代码增加一些注释：
 
 ```rs
-fn calculate_length(s: &String) -> usize { // s is a reference to a String
+fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
     s.len()
-} // Here, s goes out of scope. But because it does not have ownership of what
-  // it refers to, nothing happens.
+} // 这里，s 离开作用域。但是由于它并不具有所有权，因此不需任何特殊操作。
 ```
 
 The scope in which the variable `s` is valid is the same as any function parameter’s scope, but we don’t drop what the reference points to when it goes out of scope because we don’t have ownership. When functions have references as parameters instead of the actual values, we won’t need to return the values in order to give back ownership, because we never had ownership.
+变量 `s` 有效的作用域和任何函数参数都是一样的，而由于它不具有所有权，离开作用域时也就无需任何释放内存的操作。当函数以引用而非具有所有权的值作为参数时，我们无需返回该值以返回其所有权，因为压根就没取走所有权。
 
 We call having references as function parameters borrowing. As in real life, if a person owns something, you can borrow it from them. When you’re done, you have to give it back.
+我们将使用引用作为函数参数这种形式为借用（borrowing）。正如实际生活中，你可以想某些人借走他们的东西。用完了之后再归还。
 
 So what happens if we try to modify something we’re borrowing? Try the code in Listing 4-6. Spoiler alert: it doesn’t work!
+那么如果我们试图修改借用的变量会怎么样呢？尝试编译代码示例 4-6。剧透警告：根本行不通！
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
+这段代码无法编译！
 
 ```rs
 fn main() {
@@ -72,8 +87,10 @@ fn change(some_string: &String) {
 ```
 
 Listing 4-6: Attempting to modify a borrowed value
+代码示例 4-6：尝试修改借用的值
 
 Here’s the error:
+报错信息为：
 
 ```sh
 error[E0596]: cannot borrow immutable borrowed content `*some_string` as mutable
@@ -86,6 +103,7 @@ error[E0596]: cannot borrow immutable borrowed content `*some_string` as mutable
 ```
 
 Just as variables are immutable by default, so are references. We’re not allowed to modify something we have a reference to.
+引用和变量一样，默认都是不可改的。我们不可以修改引用指向的值。
 
 ## Mutable References
 
