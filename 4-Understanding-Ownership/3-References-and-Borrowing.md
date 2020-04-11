@@ -106,10 +106,13 @@ Just as variables are immutable by default, so are references. We’re not allow
 引用和变量一样，默认都是不可改的。我们不可以修改引用指向的值。
 
 ## Mutable References
+## 可变引用
 
 We can fix the error in the code from Listing 4-6 with just a small tweak:
+稍作调整我们就能修复代码示例 4-6 的错误：
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```ts
 fn main() {
@@ -124,13 +127,16 @@ fn change(some_string: &mut String) {
 ```
 
 First, we had to change `s` to be `mut`. Then we had to create a mutable reference with `&mut s` and accept a mutable reference with `some_string: &mut String`.
+首先，我们需要将 `s` 改为 `mut` 类型变量。接下来我们使用代码 `&mut s` 创建可变引用，并使用代码 `some_string: &mut String` 接收可变引用。
 
 But mutable references have one big restriction: you can have only one mutable reference to a particular piece of data in a particular scope. This code will fail:
+但可变引用有一个很大的限制：在特定定义域内，特定数据只能有一个可变引用。因而下面这段代码无法运行：
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
-
+这段代码无法编译！
 ```rs
 let mut s = String::from("hello");
 
@@ -141,6 +147,7 @@ println!("{}, {}", r1, r2);
 ```
 
 Here’s the error:
+报错信息为：
 
 ```sh
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -156,15 +163,23 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time
 ```
 
 This restriction allows for mutation but in a very controlled fashion. It’s something that new Rustaceans struggle with, because most languages let you mutate whenever you’d like.
+可变引用可以使用，但我们必须遵守该约束条件。这对 Rust 新手来说可能难以适应，因为在大多数语言中，变量都可以任意修改。
 
 The benefit of having this restriction is that Rust can prevent data races at compile time. A data race is similar to a race condition and happens when these three behaviors occur:
+而这种限制的好处是，Rust 有能力避免编译时数据竞争（data race）。数据竞争和竞争条件类似，可由如下三种操作造成：
 
-Two or more pointers access the same data at the same time.
-At least one of the pointers is being used to write to the data.
-There’s no mechanism being used to synchronize access to the data.
+* Two or more pointers access the same data at the same time.
+* 两个或更多指针同时访问同一数据。
+* At least one of the pointers is being used to write to the data.
+* 至少一个指针被用于写入数据。
+* There’s no mechanism being used to synchronize access to the data.
+* 没有同步数据访问的机制。
+
 Data races cause undefined behavior and can be difficult to diagnose and fix when you’re trying to track them down at runtime; Rust prevents this problem from happening because it won’t even compile code with data races!
+数据竞争会导致一些未定义的行为，运行时难以追踪、诊断并修复；Rust 防止了这种问题的发生，因为它根本不会编译存在数据竞争的代码！
 
 As always, we can use curly brackets to create a new scope, allowing for multiple mutable references, just not simultaneous ones:
+和以前一样，我们可以使用花括号创建新的作用域，这样可以使用多个可变引用，只是它们不能同时存在：
 
 ```rs
 let mut s = String::from("hello");
@@ -172,35 +187,37 @@ let mut s = String::from("hello");
 {
     let r1 = &mut s;
 
-} // r1 goes out of scope here, so we can make a new reference with no problems.
+} // r1 离开作用域，从这之后就可以创建新的引用了。
 
 let r2 = &mut s;
 ```
 
 A similar rule exists for combining mutable and immutable references. This code results in an error:
+同时使用可变与不可变引用时也有类似的规则。如下代码也会报错：
 
 This code does not compile!
-
+这段代码无法编译！
 ```rs
 let mut s = String::from("hello");
 
-let r1 = &s; // no problem
-let r2 = &s; // no problem
-let r3 = &mut s; // BIG PROBLEM
+let r1 = &s; // 没问题
+let r2 = &s; // 没问题
+let r3 = &mut s; // 这是个大问题
 
 println!("{}, {}, and {}", r1, r2, r3);
 ```
 
 Here’s the error:
+报错信息为：
 
 ```sh
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
  --> src/main.rs:6:14
   |
-4 |     let r1 = &s; // no problem
+4 |     let r1 = &s; // 没问题
   |              -- immutable borrow occurs here
-5 |     let r2 = &s; // no problem
-6 |     let r3 = &mut s; // BIG PROBLEM
+5 |     let r2 = &s; // 没问题
+6 |     let r3 = &mut s; // 这是个大问题
   |              ^^^^^^ mutable borrow occurs here
 7 |
 8 |     println!("{}, {}, and {}", r1, r2, r3);
@@ -208,24 +225,29 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 ```
 
 Whew! We also cannot have a mutable reference while we have an immutable one. Users of an immutable reference don’t expect the values to suddenly change out from under them! However, multiple immutable references are okay because no one who is just reading the data has the ability to affect anyone else’s reading of the data.
+哇哦！当已经有不可修改引用时，也不能再创建可变引用了。使用不可变引用时当然不希望引用的值忽然发生了变化！但是创建多个不可修改引用却是可以的，因为所有读取数据的人都无法对其他人的数据造成影响。
 
 Note that a reference’s scope starts from where it is introduced and continues through the last time that reference is used. For instance, this code will compile because the last usage of the immutable references occurs before the mutable reference is introduced:
+我们注意到，引用的作用域从声明起到起最后使用为止。例如，这段代码能够编译，因为不可变引用最后使用的位置要先于可变引用的声明：
 
 ```rs
 let mut s = String::from("hello");
 
-let r1 = &s; // no problem
-let r2 = &s; // no problem
+let r1 = &s; // 没问题
+let r2 = &s; // 没问题
 println!("{} and {}", r1, r2);
 // r1 and r2 are no longer used after this point
+// 从这之后 r1 和 r2 都没用了
 
-let r3 = &mut s; // no problem
+let r3 = &mut s; // 没问题
 println!("{}", r3);
 ```
 
 The scopes of the immutable references `r1` and `r2` end after the `println!` where they are last used, which is before the mutable reference `r3` is created. These scopes don’t overlap, so this code is allowed.
+不可变引用 `r1` 和 `r2` 的作用域在最后一次使用 `println!` 后结束了，在这之后可变引用 `r3` 才被创建。作用域没有重叠，因而代码可行。
 
 Even though borrowing errors may be frustrating at times, remember that it’s the Rust compiler pointing out a potential bug early (at compile time rather than at runtime) and showing you exactly where the problem is. Then you don’t have to track down why your data isn’t what you thought it was.
+尽管有时报错会很恼人，但是记住这是 Rust 编译器在尽早（编译时而非运行时）指出潜在的问题，并精准展示出问题所在。这样你就不必费心思在运行时追踪为何数据并不是所期望的那样了。
 
 ## Dangling References
 
