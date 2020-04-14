@@ -1,18 +1,24 @@
 # The Slice Type
+# slice 类型
 
 Another data type that does not have ownership is the slice. Slices let you reference a contiguous sequence of elements in a collection rather than the whole collection.
+另一种没有所有权的类型是 slice。slice 可以引用集合中某个连续的集合序列，而非整个集合。
 
 Here’s a small programming problem: write a function that takes a string and returns the first word it finds in that string. If the function doesn’t find a space in the string, the whole string must be one word, so the entire string should be returned.
+我们来看一道编程小题：要求写一个函数，该函数接收一个字符串，并返回该字符串中的第一个单词。而如果字符串中没有空格，就认为整个字符串就是一个单词，此时返回整个字符串即可。
 
 Let’s think about the signature of this function:
+首先我们先想想函数签名应该怎么写：
 
-```sh
+```rs
 fn first_word(s: &String) -> ?
 ```
 
 This function, `first_word`, has a `&String` as a parameter. We don’t want ownership, so this is fine. But what should we return? We don’t really have a way to talk about part of a string. However, we could return the index of the end of the word. Let’s try that, as shown in Listing 4-7.
+函数 `first_word` 参数为 `&String` 类型。我们并不需要所有权，这样写没问题。那么我们应该返回什么呢？我们还没有正式讨论过字符串片段，不过我们可以先返回第一个单词末尾的索引。试试看示例 4-7 的代码：
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn first_word(s: &String) -> usize {
@@ -60,6 +66,7 @@ s.len()
 We now have a way to find out the index of the end of the first word in the string, but there’s a problem. We’re returning a `usize` on its own, but it’s only a meaningful number in the context of the `&String`. In other words, because it’s a separate value from the `String`, there’s no guarantee that it will still be valid in the future. Consider the program in Listing 4-8 that uses the `first_word` function from Listing 4-7.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -145,6 +152,7 @@ let slice = &s[..];
 With all this information in mind, let’s rewrite `first_word` to return a slice. The type that signifies “string slice” is written as `&str`:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn first_word(s: &String) -> &str {
@@ -173,6 +181,7 @@ fn second_word(s: &String) -> &str {
 We now have a straightforward API that’s much harder to mess up, because the compiler will ensure the references into the `String` remain valid. Remember the bug in the program in Listing 4-8, when we got the index to the end of the first word but then cleared the string so our index was invalid? That code was logically incorrect but didn’t show any immediate errors. The problems would show up later if we kept trying to use the first word index with an emptied string. Slices make this bug impossible and let us know we have a problem with our code much sooner. Using the slice version of `first_word` will throw a compile-time error:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
 
@@ -235,6 +244,7 @@ Listing 4-9: Improving the `first_word` function by using a string slice for the
 If we have a string slice, we can pass that directly. If we have a `String`, we can pass a slice of the entire `String`. Defining a function to take a `string` slice instead of a reference to a String makes our API more general and useful without losing any functionality:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
