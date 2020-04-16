@@ -1,4 +1,3 @@
-# The Slice Type
 # slice 类型
 
 Another data type that does not have ownership is the slice. Slices let you reference a contiguous sequence of elements in a collection rather than the whole collection.
@@ -35,14 +34,17 @@ fn first_word(s: &String) -> usize {
 ```
 
 Listing 4-7: The `first_word` function that returns a byte index value into the `String` parameter
+代码示例 4-7：函数 `first_word` 会返回 `String` 参数中的某一字节的索引值
 
 Because we need to go through the `String` element by element and check whether a value is a space, we’ll convert our `String` to an array of bytes using the `as_bytes` method:
+因为我们需要审查 `String` 中的每一个元素，并确认其是否为空格，因此我们使用 `as_bytes` 方法将 `String` 转化为一个字节数组：
 
 ```rs
 let bytes = s.as_bytes();
 ```
 
 Next, we create an iterator over the array of bytes using the `iter` method:
+下面我们使用 `iter` 方法在该字节数组上创建一个迭代器：
 
 ```rs
 for (i, &item) in bytes.iter().enumerate() {
