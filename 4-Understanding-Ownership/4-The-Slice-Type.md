@@ -61,6 +61,7 @@ s.len()
 ```
 
 We now have a way to find out the index of the end of the first word in the string, but there’s a problem. We’re returning a `usize` on its own, but it’s only a meaningful number in the context of the `&String`. In other words, because it’s a separate value from the `String`, there’s no guarantee that it will still be valid in the future. Consider the program in Listing 4-8 that uses the `first_word` function from Listing 4-7.
+现在我们有办法找到字符串中第一个单词结尾的索引了，但是仍旧存在一个问题。我们只返回了 `usize` 数据本身，但它仅在 `&String` 数据的上下文中才是个有意义的数字。也就是，由于这个数字和 `String` 是分离的，那么我们无法保证未来这个数字依旧有效。我们来看代码示例 4-8 的程序，它使用了 4-7 中的 `first_word` 函数。
 
 文件名：src/main.rs
 
@@ -68,18 +69,20 @@ We now have a way to find out the index of the end of the first word in the stri
 fn main() {
     let mut s = String::from("hello world");
 
-    let word = first_word(&s); // word will get the value 5
+    let word = first_word(&s); // word 的值是 5
 
-    s.clear(); // this empties the String, making it equal to ""
+    s.clear(); // 这行代码将 String 清空了，现在字符串等于 ""
 
-    // word still has the value 5 here, but there's no more string that
-    // we could meaningfully use the value 5 with. word is now totally invalid!
+    // 而 word 的值依旧是 5，但是字符串已经不存在了
+    // 也就没有我们可以有效应用 5 的地方了。word 现在已经完全无效了！
 }
 ```
 
 Listing 4-8: Storing the result from calling the `first_word` function and then changing the `String` contents
+代码示例 4-8：存储 `first_word` 函数返回的结果然后修改了 `String` 的内容
 
 This program compiles without any errors and would also do so if we used `word` after calling `s.clear()`. Because `word` isn’t connected to the state of `s` at all, `word` still contains the value `5`. We could use that value `5` with the variable `s` to try to extract the first word out, but this would be a bug because the contents of `s` have changed since we saved `5` in `word`.
+程序编译没有任何问题，并且在调用 `s.clear()` 后我们依旧可以使用 `word`。因为 `word` 和 `s` 的状态没有任何关联，其值依旧是 `5`。我们也依旧可以使用 `5` 来尝试提取出 `s` 的第一个单词，但这就会导致问题了，因为 `s` 的内容已经在将 `5` 保存至 `word` 后改变了。
 
 Having to worry about the index in `word` getting out of sync with the data in `s` is tedious and error prone! Managing these indices is even more brittle if we write a `second_word` function. Its signature would have to look like this:
 
@@ -90,8 +93,10 @@ fn second_word(s: &String) -> (usize, usize) {
 Now we’re tracking a starting and an ending index, and we have even more values that were calculated from data in a particular state but aren’t tied to that state at all. We now have three unrelated variables floating around that need to be kept in sync.
 
 Luckily, Rust has a solution to this problem: string slices.
+幸运的是，Rust 对此类问题提供了解决方案：字符串 slice。
 
 ## String Slices
+## 字符串 slice
 
 A string slice is a reference to part of a `String`, and it looks like this:
 
