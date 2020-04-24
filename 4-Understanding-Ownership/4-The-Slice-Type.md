@@ -95,7 +95,6 @@ Now we’re tracking a starting and an ending index, and we have even more value
 Luckily, Rust has a solution to this problem: string slices.
 幸运的是，Rust 对此类问题提供了解决方案：字符串 slice。
 
-## String Slices
 ## 字符串 slice
 
 A string slice is a reference to part of a `String`, and it looks like this:
