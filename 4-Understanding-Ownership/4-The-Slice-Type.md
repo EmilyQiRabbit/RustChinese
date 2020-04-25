@@ -42,13 +42,10 @@ let bytes = s.as_bytes();
 for (i, &item) in bytes.iter().enumerate() {
 ```
 
-We’ll discuss iterators in more detail in Chapter 13. For now, know that `iter` is a method that returns each element in a collection and that `enumerate` wraps the result of `iter` and returns each element as part of a tuple instead. The first element of the tuple returned from `enumerate` is the index, and the second element is a reference to the element. This is a bit more convenient than calculating the index ourselves.
 我们将会在第十三章详细讨论迭代器。现在我们只需要知道 `iter` 方法会返回一个包含所有元素的集合，`enumerate` 则会包装 `iter` 返回的结果，将每个元素包裹在元组中。元组中第一个元素是索引，第二个则是元素的引用。这比我们自己计算索引要方便的多。
 
-Because the `enumerate` method returns a tuple, we can use patterns to destructure that tuple, just like everywhere else in Rust. So in the `for` loop, we specify a pattern that has `i` for the index in the tuple and `&item` for the single byte in the tuple. Because we get a reference to the element from `.iter().enumerate()`, we use `&` in the pattern.
 我们可以使用模式解构 `enumerate` 方法返回得元组。在 `for` 循环中，定义模式中的 `i` 表示元组中的索引，`&item` 表示元组中的单个字节。而因为我们从 `.iter().enumerate()` 得到的是元素的引用，因而在模式中也要使用 `&` 符号。
 
-Inside the `for` loop, we search for the byte that represents the space by using the byte literal syntax. If we find a space, we return the position. Otherwise, we return the length of the string by using `s.len()`:
 在 `for` 循环中，我们使用字节字面值语法来搜索表示空格的字节。如果找到了，就返回空格的位置信息。否则就使用 `s.len()` 返回字符串的长度：
 
 ```rs
@@ -60,7 +57,6 @@ Inside the `for` loop, we search for the byte that represents the space by using
 s.len()
 ```
 
-We now have a way to find out the index of the end of the first word in the string, but there’s a problem. We’re returning a `usize` on its own, but it’s only a meaningful number in the context of the `&String`. In other words, because it’s a separate value from the `String`, there’s no guarantee that it will still be valid in the future. Consider the program in Listing 4-8 that uses the `first_word` function from Listing 4-7.
 现在我们有办法找到字符串中第一个单词结尾的索引了，但是仍旧存在一个问题。我们只返回了 `usize` 数据本身，但它仅在 `&String` 数据的上下文中才是个有意义的数字。也就是，由于这个数字和 `String` 是分离的，那么我们无法保证未来这个数字依旧有效。我们来看代码示例 4-8 的程序，它使用了 4-7 中的 `first_word` 函数。
 
 文件名：src/main.rs
@@ -78,26 +74,23 @@ fn main() {
 }
 ```
 
-Listing 4-8: Storing the result from calling the `first_word` function and then changing the `String` contents
 代码示例 4-8：存储 `first_word` 函数返回的结果然后修改了 `String` 的内容
 
-This program compiles without any errors and would also do so if we used `word` after calling `s.clear()`. Because `word` isn’t connected to the state of `s` at all, `word` still contains the value `5`. We could use that value `5` with the variable `s` to try to extract the first word out, but this would be a bug because the contents of `s` have changed since we saved `5` in `word`.
 程序编译没有任何问题，并且在调用 `s.clear()` 后我们依旧可以使用 `word`。因为 `word` 和 `s` 的状态没有任何关联，其值依旧是 `5`。我们也依旧可以使用 `5` 来尝试提取出 `s` 的第一个单词，但这就会导致问题了，因为 `s` 的内容已经在将 `5` 保存至 `word` 后改变了。
 
-Having to worry about the index in `word` getting out of sync with the data in `s` is tedious and error prone! Managing these indices is even more brittle if we write a `second_word` function. Its signature would have to look like this:
+我们不得不担心 `word` 保存的索引和 `s` 的数据不同步是数据冗余且容易出错的！而如果我们再写一个 `second_word` 函数来管理这些索引的逻辑甚至更加脆弱。它的函数签名如下：
 
 ```rs
 fn second_word(s: &String) -> (usize, usize) {
 ```
 
-Now we’re tracking a starting and an ending index, and we have even more values that were calculated from data in a particular state but aren’t tied to that state at all. We now have three unrelated variables floating around that need to be kept in sync.
+这次我们追踪的是单词起始和结束的索引，我们对于数据某个特殊状态计算得出的结果更多了，但它们都没有和状态绑定。现在我们有三个相互并不关联的变量，而我们需要让它们保持同步。
 
-Luckily, Rust has a solution to this problem: string slices.
 幸运的是，Rust 对此类问题提供了解决方案：字符串 slice。
 
 ## 字符串 slice
 
-A string slice is a reference to part of a `String`, and it looks like this:
+字符串 slice 是 `String` 的部分的引用，如下所示：
 
 ```rs
 let s = String::from("hello world");
@@ -106,15 +99,15 @@ let hello = &s[0..5];
 let world = &s[6..11];
 ```
 
-This is similar to taking a reference to the whole `String` but with the extra `[0..5]` bit. Rather than a reference to the entire `String`, it’s a reference to a portion of the `String`.
+这种方式和获取完整 `String` 的引用类似，但却还带有额外的 `[0..5]` 部分。它获取得不是整个 `String` 的引用，而是部分的引用。
 
-We can create slices using a range within brackets by specifying `[starting_index..ending_index]`, where `starting_index` is the first position in the slice and `ending_index` is one more than the last position in the slice. Internally, the slice data structure stores the starting position and the length of the slice, which corresponds to `ending_index` minus `starting_index`. So in the case of `let world = &s[6..11];`, `world` would be a slice that contains a pointer to the 7th byte (counting from 1) of `s` with a length value of 5.
+我们使用方括号 `[starting_index..ending_index]` 的形式创建 slices，`starting_index` 是 slice 的起始位置，`ending_index` 是 slice 终止位置的下一个索引。在引用内，slice 数据结构保存了起始位置和 slice 的长度，即 `ending_index` 减去 `starting_index` 的值。所以例如 `let world = &s[6..11];`，`world` 是一个包含了指向 `s` 第 7 个（从 1 开始计算）字节的指针，并且长度值是 5 的 slice。
 
-Figure 4-6 shows this in a diagram.
+如图 4-6 所示。
 
-![world containing a pointer to the 6th byte of String s and a length 5]()
+![world containing a pointer to the 6th byte of String s and a length 5](../images/slice.png)
 
-Figure 4-6: String slice referring to part of a `String`
+图 4-6：引用部分 `String` 的字符串 slice
 
 With Rust’s `..` range syntax, if you want to start at the first index (zero), you can drop the value before the two periods. In other words, these are equal:
 
