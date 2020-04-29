@@ -109,7 +109,7 @@ let world = &s[6..11];
 
 图 4-6：引用部分 `String` 的字符串 slice
 
-With Rust’s `..` range syntax, if you want to start at the first index (zero), you can drop the value before the two periods. In other words, these are equal:
+如果你想要以第 1 个索引（即 0 号索引）作为起始，那么可以将 `..` 语法中两点之前的数字省略。也就是说，下面这两种写法是一样的：
 
 ```rs
 let s = String::from("hello");
@@ -118,7 +118,7 @@ let slice = &s[0..2];
 let slice = &s[..2];
 ```
 
-By the same token, if your slice includes the last byte of the `String`, you can drop the trailing number. That means these are equal:
+同理，如果 slice 包含了 `String` 的最后一个字节，也可以将结尾的数字省略。即如下两种写法是一样的：
 
 ```rs
 let s = String::from("hello");
@@ -129,7 +129,7 @@ let slice = &s[3..len];
 let slice = &s[3..];
 ```
 
-You can also drop both values to take a slice of the entire string. So these are equal:
+而如果想获取整个字符串的 slice，可以将两个值都省略。因此如下的两种写法也是一样的：
 
 ```rs
 let s = String::from("hello");
