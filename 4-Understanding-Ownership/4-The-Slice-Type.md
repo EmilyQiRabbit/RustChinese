@@ -140,9 +140,9 @@ let slice = &s[0..len];
 let slice = &s[..];
 ```
 
-> Note: String slice range indices must occur at valid UTF-8 character boundaries. If you attempt to create a string slice in the middle of a multibyte character, your program will exit with an error. For the purposes of introducing string slices, we are assuming ASCII only in this section; a more thorough discussion of UTF-8 handling is in the “Storing UTF-8 Encoded Text with Strings” section of Chapter 8.
+> 注：字符串 slice 范围索引必须位于有效的 UTF-8 字符边界内。如果你尝试在多字节字符中间创建字符串 slice，程序将会报错错误退出。为了便于介绍字符串 slice，我们在本章假设只使用 ASCII 字符集；第八章的 “使用字符串存储 UTF-8 编码的文本” 部分会更加全面的讨论 UTF-8 的处理问题。
 
-With all this information in mind, let’s rewrite `first_word` to return a slice. The type that signifies “string slice” is written as `&str`:
+记住所有这些知识后，我们来重写 `first_word`，让它返回一个 slice。“字符串 slice” 的类型声明写作 `&str`：
 
 文件名：src/main.rs
 
@@ -174,7 +174,7 @@ We now have a straightforward API that’s much harder to mess up, because the c
 
 文件名：src/main.rs
 
-This code does not compile!
+这段代码无法编译！
 
 ```rs
 fn main() {
@@ -188,7 +188,7 @@ fn main() {
 }
 ```
 
-Here’s the compiler error:
+编译错误为：
 
 ```sh
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -255,6 +255,7 @@ fn main() {
 ```
 
 ## Other Slices
+## 其他类型的 slice
 
 String slices, as you might imagine, are specific to strings. But there’s a more general slice type, too. Consider this array:
 
@@ -273,6 +274,7 @@ let slice = &a[1..3];
 This slice has the type `&[i32]`. It works the same way as string slices do, by storing a reference to the first element and a length. You’ll use this kind of slice for all sorts of other collections. We’ll discuss these collections in detail when we talk about vectors in Chapter 8.
 
 ## Summary
+## 总结
 
 The concepts of ownership, borrowing, and slices ensure memory safety in Rust programs at compile time. The Rust language gives you control over your memory usage in the same way as other systems programming languages, but having the owner of data automatically clean up that data when the owner goes out of scope means you don’t have to write and debug extra code to get this control.
 
