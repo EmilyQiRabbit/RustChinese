@@ -161,10 +161,13 @@ fn first_word(s: &String) -> &str {
 ```
 
 We get the index for the end of the word in the same way as we did in Listing 4-7, by looking for the first occurrence of a space. When we find a space, we return a string slice using the start of the string and the index of the space as the starting and ending indices.
+和示例代码 4-7 方法相同，我们寻找第一个空格出现的位置然后将该索引做为第一个单词的结尾返回。当我们找到第一个空格时，我们将字符串开始和空格的索引做为字符串 slice 的开始和结束。
 
 Now when we call `first_word`, we get back a single value that is tied to the underlying data. The value is made up of a reference to the starting point of the slice and the number of elements in the slice.
+现在我们调用 `first_word` 就会得到一个和底层数据关联的值。这个值由指向字符串起始位置的引用和 slice 中元素的数量组成。
 
 Returning a slice would also work for a `second_word` function:
+对于 `second_word` 函数，返回 slice 同样可以奏效：
 
 ```rs
 fn second_word(s: &String) -> &str {
