@@ -160,13 +160,10 @@ fn first_word(s: &String) -> &str {
 }
 ```
 
-We get the index for the end of the word in the same way as we did in Listing 4-7, by looking for the first occurrence of a space. When we find a space, we return a string slice using the start of the string and the index of the space as the starting and ending indices.
 和示例代码 4-7 方法相同，我们寻找第一个空格出现的位置然后将该索引做为第一个单词的结尾返回。当我们找到第一个空格时，我们将字符串开始和空格的索引做为字符串 slice 的开始和结束。
 
-Now when we call `first_word`, we get back a single value that is tied to the underlying data. The value is made up of a reference to the starting point of the slice and the number of elements in the slice.
 现在我们调用 `first_word` 就会得到一个和底层数据关联的值。这个值由指向字符串起始位置的引用和 slice 中元素的数量组成。
 
-Returning a slice would also work for a `second_word` function:
 对于 `second_word` 函数，返回 slice 同样可以奏效：
 
 ```rs
@@ -174,6 +171,7 @@ fn second_word(s: &String) -> &str {
 ```
 
 We now have a straightforward API that’s much harder to mess up, because the compiler will ensure the references into the `String` remain valid. Remember the bug in the program in Listing 4-8, when we got the index to the end of the first word but then cleared the string so our index was invalid? That code was logically incorrect but didn’t show any immediate errors. The problems would show up later if we kept trying to use the first word index with an emptied string. Slices make this bug impossible and let us know we have a problem with our code much sooner. Using the slice version of `first_word` will throw a compile-time error:
+现在这个 API 非常直观且更不易出现问题，因为编译器将会确保指向 `String` 的引用保持有效。还记得代码示例 4-8 中程序的问题吗，我们记录下了第一个单词末尾的索引，但是清空了字符串，那么这个索引也就无效了。这段代码的逻辑已经不对了，但是却没有马上报错。而当你尝试使用索引在一个空字符串里寻找第一个单词时，问题就会浮现出来。slice 将会确保这种问题不可能发生，并且会提早让我们知道代码中的问题。使用 slice 的 `first_word` 将会报出如下的编译时错误：
 
 文件名：src/main.rs
 
@@ -208,34 +206,43 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 ```
 
 Recall from the borrowing rules that if we have an immutable reference to something, we cannot also take a mutable reference. Because `clear` needs to truncate the `String`, it needs to get a mutable reference. Rust disallows this, and compilation fails. Not only has Rust made our API easier to use, but it has also eliminated an entire class of errors at compile time!
+回忆一下借用的规则，如果创建了某一变量的不可变引用，那么就不能再创建一个可变的。由于 `clear` 函数需要清空 `String`，它需要获取一个可变引用。这是 Rust 所不允许的，于是就会报出编译错误。
 
 ### String Literals Are Slices
+### 字符串字面量就是 slice
 
 Recall that we talked about string literals being stored inside the binary. Now that we know about slices, we can properly understand string literals:
+还记得我们之前讨论过，存储在二进制程序中的字符串字面量吗。我们现在知道了 slice，我们也许能更好的理解字符串字面量：
 
 ```rs
 let s = "Hello, world!";
 ```
 
 The type of `s` here is `&str`: it’s a slice pointing to that specific point of the binary. This is also why string literals are immutable; `&str` is an immutable reference.
+这里 `s` 的类型是 `&str`：是一个指向二进制程序特定位置的 slice。因此字符串字面量是不可以修改的；因为 `&str` 是不可修改引用。
 
 ### String Slices as Parameters
+### 做为参数的字符串 slice
 
 Knowing that you can take slices of literals and `String` values leads us to one more improvement on `first_word`, and that’s its signature:
+现在我们知道，获取字面量和 `String` 的 slice，可以让我们对 `first_word` 作出优化，如下是它的函数签名：
 
 ```rs
 fn first_word(s: &String) -> &str {
 ```
 
 A more experienced Rustacean would write the signature shown in Listing 4-9 instead because it allows us to use the same function on both `&String` values and `&str` values.
+更有经验的开发者则会使用如下代码示例 4-9 中的签名，这样我们使用 `&String` 和 `&str` 类型的时候都可以使用这个函数。
 
 ```rs
 fn first_word(s: &str) -> &str {
 ```
 
 Listing 4-9: Improving the `first_word` function by using a string slice for the type of the `s` parameter
+代码示例 4-9：使用字符串 slice 做为 `s` 参数的类型，优化 `first_word` 函数
 
 If we have a string slice, we can pass that directly. If we have a `String`, we can pass a slice of the entire `String`. Defining a function to take a `string` slice instead of a reference to a String makes our API more general and useful without losing any functionality:
+
 
 文件名：src/main.rs
 
