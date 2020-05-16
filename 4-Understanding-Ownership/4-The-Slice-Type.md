@@ -170,7 +170,6 @@ fn first_word(s: &String) -> &str {
 fn second_word(s: &String) -> &str {
 ```
 
-We now have a straightforward API that’s much harder to mess up, because the compiler will ensure the references into the `String` remain valid. Remember the bug in the program in Listing 4-8, when we got the index to the end of the first word but then cleared the string so our index was invalid? That code was logically incorrect but didn’t show any immediate errors. The problems would show up later if we kept trying to use the first word index with an emptied string. Slices make this bug impossible and let us know we have a problem with our code much sooner. Using the slice version of `first_word` will throw a compile-time error:
 现在这个 API 非常直观且更不易出现问题，因为编译器将会确保指向 `String` 的引用保持有效。还记得代码示例 4-8 中程序的问题吗，我们记录下了第一个单词末尾的索引，但是清空了字符串，那么这个索引也就无效了。这段代码的逻辑已经不对了，但是却没有马上报错。而当你尝试使用索引在一个空字符串里寻找第一个单词时，问题就会浮现出来。slice 将会确保这种问题不可能发生，并且会提早让我们知道代码中的问题。使用 slice 的 `first_word` 将会报出如下的编译时错误：
 
 文件名：src/main.rs
@@ -183,7 +182,7 @@ fn main() {
 
     let word = first_word(&s);
 
-    s.clear(); // error!
+    s.clear(); // 错误！
 
     println!("the first word is: {}", word);
 }
@@ -205,44 +204,35 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
    |                                       ---- immutable borrow later used here
 ```
 
-Recall from the borrowing rules that if we have an immutable reference to something, we cannot also take a mutable reference. Because `clear` needs to truncate the `String`, it needs to get a mutable reference. Rust disallows this, and compilation fails. Not only has Rust made our API easier to use, but it has also eliminated an entire class of errors at compile time!
 回忆一下借用的规则，如果创建了某一变量的不可变引用，那么就不能再创建一个可变的。由于 `clear` 函数需要清空 `String`，它需要获取一个可变引用。这是 Rust 所不允许的，于是就会报出编译错误。
 
-### String Literals Are Slices
 ### 字符串字面量就是 slice
 
-Recall that we talked about string literals being stored inside the binary. Now that we know about slices, we can properly understand string literals:
 还记得我们之前讨论过，存储在二进制程序中的字符串字面量吗。我们现在知道了 slice，我们也许能更好的理解字符串字面量：
 
 ```rs
 let s = "Hello, world!";
 ```
 
-The type of `s` here is `&str`: it’s a slice pointing to that specific point of the binary. This is also why string literals are immutable; `&str` is an immutable reference.
 这里 `s` 的类型是 `&str`：是一个指向二进制程序特定位置的 slice。因此字符串字面量是不可以修改的；因为 `&str` 是不可修改引用。
 
-### String Slices as Parameters
 ### 做为参数的字符串 slice
 
-Knowing that you can take slices of literals and `String` values leads us to one more improvement on `first_word`, and that’s its signature:
 现在我们知道，获取字面量和 `String` 的 slice，可以让我们对 `first_word` 作出优化，如下是它的函数签名：
 
 ```rs
 fn first_word(s: &String) -> &str {
 ```
 
-A more experienced Rustacean would write the signature shown in Listing 4-9 instead because it allows us to use the same function on both `&String` values and `&str` values.
 更有经验的开发者则会使用如下代码示例 4-9 中的签名，这样我们使用 `&String` 和 `&str` 类型的时候都可以使用这个函数。
 
 ```rs
 fn first_word(s: &str) -> &str {
 ```
 
-Listing 4-9: Improving the `first_word` function by using a string slice for the type of the `s` parameter
 代码示例 4-9：使用字符串 slice 做为 `s` 参数的类型，优化 `first_word` 函数
 
-If we have a string slice, we can pass that directly. If we have a `String`, we can pass a slice of the entire `String`. Defining a function to take a `string` slice instead of a reference to a String makes our API more general and useful without losing any functionality:
-
+如果我们的变量是字符串 slice，我们可以直接将其传入函数。而如果变量时 `String` 类型，我们可以将整个 `String` 的 slice 传入。将函数参数定义为 `string` slice 而不是 `String` 的引用可以让 API 通用性更强，同时也不会影响任何功能：
 
 文件名：src/main.rs
 
@@ -250,30 +240,29 @@ If we have a string slice, we can pass that directly. If we have a `String`, we 
 fn main() {
     let my_string = String::from("hello world");
 
-    // first_word works on slices of `String`s
+    // 参数是 `String` slice 的 first_word 函数
     let word = first_word(&my_string[..]);
 
     let my_string_literal = "hello world";
 
-    // first_word works on slices of string literals
+    // 参数是字符串字面量 slice 的 first_word 函数
     let word = first_word(&my_string_literal[..]);
 
-    // Because string literals *are* string slices already,
-    // this works too, without the slice syntax!
+    // 字符串字面量已经是 slice 了，
+    // 不使用 slice 语法也同样可以工作！
     let word = first_word(my_string_literal);
 }
 ```
 
-## Other Slices
 ## 其他类型的 slice
 
-String slices, as you might imagine, are specific to strings. But there’s a more general slice type, too. Consider this array:
+字符串 slice 是针对字符串的。当然也存在更加通用的类型 slice。考虑如下数组：
 
 ```rs
 let a = [1, 2, 3, 4, 5];
 ```
 
-Just as we might want to refer to a part of a string, we might want to refer to part of an array. We’d do so like this:
+正如我们想引用字符串的一部分，我们也可能想要引用数组的一部分。那么这样就可以了：
 
 ```ts
 let a = [1, 2, 3, 4, 5];
@@ -281,11 +270,10 @@ let a = [1, 2, 3, 4, 5];
 let slice = &a[1..3];
 ```
 
-This slice has the type `&[i32]`. It works the same way as string slices do, by storing a reference to the first element and a length. You’ll use this kind of slice for all sorts of other collections. We’ll discuss these collections in detail when we talk about vectors in Chapter 8.
+slice 的类型是 `&[i32]`。它和字符串 slice 的工作方式相同，存储了是第一个元素的引用和一个长度值。你可以对其他所有集合使用这类 slice。我们将会在第八章讨论 vector 的时候详细讨论这些集合。
 
-## Summary
 ## 总结
 
-The concepts of ownership, borrowing, and slices ensure memory safety in Rust programs at compile time. The Rust language gives you control over your memory usage in the same way as other systems programming languages, but having the owner of data automatically clean up that data when the owner goes out of scope means you don’t have to write and debug extra code to get this control.
+所有权、借用和 slice 的概念保证了 Rust 程序在编译时的内存安全。Rust 语言和其他系统编程语言一样，给了你控制内存使用的能力，但它还有数据所有权的概念，当数据所有者离开作用域时将会自动清理数据，这意味着开发者不需要对此处的控制编写和调试多余的代码了。
 
-Ownership affects how lots of other parts of Rust work, so we’ll talk about these concepts further throughout the rest of the book. Let’s move on to Chapter 5 and look at grouping pieces of data together in a `struct`.
+所有权影响了 Rust 其他很多部分的工作方式，我们在余下的部分中将会更深入探讨这个概念。我们继续学习第五章吧，看看如何使用 `struct` 将多个数据片组合起来。
