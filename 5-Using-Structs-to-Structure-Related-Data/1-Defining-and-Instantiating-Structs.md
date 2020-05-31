@@ -1,8 +1,11 @@
 # Defining and Instantiating Structs
+# 结构体的定义和实例化
 
 Structs are similar to tuples, which were discussed in Chapter 3. Like tuples, the pieces of a struct can be different types. Unlike with tuples, you’ll name each piece of data so it’s clear what the values mean. As a result of these names, structs are more flexible than tuples: you don’t have to rely on the order of the data to specify or access the values of an instance.
+结构体和我们第三章讨论过的元组类似。和元组类似，结构体可以包含不同类型的数据。但不同的是，结构体中每个数据必须命名，以便指明其含义。因此就让结构体比元组更加灵活：我们不需要依靠数据的顺序（或者说索引）来指定或访问结构体实例中的值。
 
 To define a struct, we enter the keyword `struct` and name the entire struct. A struct’s name should describe the significance of the pieces of data being grouped together. Then, inside curly brackets, we define the names and types of the pieces of data, which we call fields. For example, Listing 5-1 shows a struct that stores information about a user account.
+我们可使用关键字 `struct` 来定义并命名结构体。结构体的名字应当能描述这一组数据的含义。然后在打括号中，定义每个数据的名字和类型，我们称其为字段（field）。例如在示例 5-1 中，我们使用结构体存储用户账号的信息。
 
 ```rs
 struct User {
@@ -14,19 +17,22 @@ struct User {
 ```
 
 Listing 5-1: A `User` struct definition
+代码示例 5-1：定义 `User` 结构体
 
 To use a struct after we’ve defined it, we create an instance of that struct by specifying concrete values for each of the fields. We create an instance by stating the name of the struct and then add curly brackets containing `key: value` pairs, where the keys are the names of the fields and the values are the data we want to store in those fields. We don’t have to specify the fields in the same order in which we declared them in the struct. In other words, the struct definition is like a general template for the type, and instances fill in that template with particular data to create values of the type. For example, we can declare a particular user as shown in Listing 5-2.
+通过为每个字段指定具体的值，我们可以创建已定义的结构体实例。声明实例时，首先需要写明结构体名，然后在后面加一个包含 `key: value` 键值对的大括号，这里的键是字段名，值则是希望保存在字段中的数据。结构体实例中字段的顺序不需要和声明时的顺序一致。也就是说，结构体定义就像一个类型通用模版，而实例则使用特殊的数据填写模版来创建这个类型的值。例如，我们在代码实例 5-2 中声明了一个特定的用户。
 
 ```rs
-    let user1 = User {
-        email: String::from("someone@example.com"),
-        username: String::from("someusername123"),
-        active: true,
-        sign_in_count: 1,
-    };
+let user1 = User {
+    email: String::from("someone@example.com"),
+    username: String::from("someusername123"),
+    active: true,
+    sign_in_count: 1,
+};
 ```
 
 Listing 5-2: Creating an instance of the `User` struct
+代码示例 5-2：创建 `User` 结构体实例
 
 To get a specific value from a struct, we can use dot notation. If we wanted just this user’s email address, we could use `user1.email` wherever we wanted to use this value. If the instance is mutable, we can change a value by using the dot notation and assigning into a particular field. Listing 5-3 shows how to change the value in the `email` field of a mutable `User` instance.
 
