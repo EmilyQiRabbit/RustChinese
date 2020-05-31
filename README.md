@@ -29,3 +29,6 @@
    2. [所有权是什么](https://github.com/EmilyQiRabbit/RustChinese/blob/master/4-Understanding-Ownership/2-What-Is-Ownership.md)
    3. [引用与借用](https://github.com/EmilyQiRabbit/RustChinese/blob/master/4-Understanding-Ownership/3-References-and-Borrowing.md)
    4. [slice 类型](https://github.com/EmilyQiRabbit/RustChinese/blob/master/4-Understanding-Ownership/4-The-Slice-Type.md)
+5. 使用结构体（struct）组织相关联的数据
+   1. [使用结构体（struct）组织相关联的数据](https://github.com/EmilyQiRabbit/RustChinese/blob/master/5-Using-Structs-to-Structure-Related-Data/0-Using-Structs-to-Structure-Related-Data.md)
+   2. [结构体的定义和实例化](https://github.com/EmilyQiRabbit/RustChinese/blob/master/5-Using-Structs-to-Structure-Related-Data/1-Defining-and-Instantiating-Structs.md)
