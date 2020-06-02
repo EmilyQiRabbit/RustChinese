@@ -35,23 +35,27 @@ Listing 5-2: Creating an instance of the `User` struct
 代码示例 5-2：创建 `User` 结构体实例
 
 To get a specific value from a struct, we can use dot notation. If we wanted just this user’s email address, we could use `user1.email` wherever we wanted to use this value. If the instance is mutable, we can change a value by using the dot notation and assigning into a particular field. Listing 5-3 shows how to change the value in the `email` field of a mutable `User` instance.
+我们可以使用点号获取结构体中一个特殊的值。例如，我们如果想要获取刚才这个用户的邮箱地址，在需要的地方使用 `user1.email` 即可。如果实例是可变的，我们也可以使用点号为某一特殊字段赋值。代码示例 5-3 展示了如何修改可变 `User` 实例 `email` 字段的值。
 
 ```rs
-    let mut user1 = User {
-        email: String::from("someone@example.com"),
-        username: String::from("someusername123"),
-        active: true,
-        sign_in_count: 1,
-    };
+let mut user1 = User {
+    email: String::from("someone@example.com"),
+    username: String::from("someusername123"),
+    active: true,
+    sign_in_count: 1,
+};
 
-    user1.email = String::from("anotheremail@example.com");
+user1.email = String::from("anotheremail@example.com");
 ```
 
 Listing 5-3: Changing the value in the `email` field of a `User` instance
+代码示例 5-3：修改 `User` 实例中 `email` 字段的值
 
 Note that the entire instance must be mutable; Rust doesn’t allow us to mark only certain fields as mutable. As with any expression, we can construct a new instance of the struct as the last expression in the function body to implicitly return that new instance.
+注意，必须整个实例可变；Rust 不允许仅为某些字段标注为可变。和其他表达式一样，我们可以将创建新的结构体实例作为函数的最后一个表达式，来隐式的返回这个实例。
 
 Listing 5-4 shows a `build_user` function that returns a `User` instance with the given email and username. The `active` field gets the value of `true`, and the `sign_in_count` gets a value of `1`.
+代码示例 5-4 中的 `build_user` 函数返回了一个可以指定其邮箱和用户名的 `User` 实例。`active` 字段的值为 `true`，而 `sign_in_count` 字段的值为 `1`。
 
 ```rs
 fn build_user(email: String, username: String) -> User {
@@ -65,8 +69,10 @@ fn build_user(email: String, username: String) -> User {
 ```
 
 Listing 5-4: A `build_user` function that takes an email and username and returns a `User` instance
+代码示例 5-4：`build_user` 函数接收邮箱和用户名参数，并返回 `User` 实例
 
 It makes sense to name the function parameters with the same name as the struct fields, but having to repeat the `email` and `username` field names and variables is a bit tedious. If the struct had more fields, repeating each name would get even more annoying. Luckily, there’s a convenient shorthand!
+我们将函数参数名和结构体字段名设定为相同的，这能说得通，但不得不重复写作为字段名和变量名的 `email` 和 `username` 就显得有些冗余。如果结构体字段比较多，重复写每个名字就更烦人了。好消息是，有简写的方式！
 
 ## Using the Field Init Shorthand when Variables and Fields Have the Same Name
 
