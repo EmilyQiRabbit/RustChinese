@@ -75,8 +75,10 @@ It makes sense to name the function parameters with the same name as the struct 
 我们将函数参数名和结构体字段名设定为相同的，这能说得通，但不得不重复写作为字段名和变量名的 `email` 和 `username` 就显得有些冗余。如果结构体字段比较多，重复写每个名字就更烦人了。好消息是，有简写的方式！
 
 ## Using the Field Init Shorthand when Variables and Fields Have the Same Name
+## 当变量和字段重名，可使用字段初始化简写
 
 Because the parameter names and the struct field names are exactly the same in Listing 5-4, we can use the field init shorthand syntax to rewrite `build_user` so that it behaves exactly the same but doesn’t have the repetition of `email` and `username`, as shown in Listing 5-5.
+在代码示例 5-4 中，由于参数名和结构体字段同名，我们可以使用字段初始化简写语法来重写 `build_user` 函数，改写后函数行为不变但是却无需重复写 `email` 和 `username`，如下所示：
 
 ```rs
 fn build_user(email: String, username: String) -> User {
@@ -90,8 +92,10 @@ fn build_user(email: String, username: String) -> User {
 ```
 
 Listing 5-5: A `build_user` function that uses field init shorthand because the `email` and `username` parameters have the same name as struct fields
+代码示例 5-5：使用字段初始化简写语法的 `build_user` 函数，能这样写是由于 `email` 和 `username` 参数和结构体字段同名
 
 Here, we’re creating a new instance of the `User` struct, which has a field named `email`. We want to set the `email` field’s value to the value in the `email` parameter of the `build_user` function. Because the `email` field and the `email` parameter have the same name, we only need to write `email` rather than `email: email`.
+这里我们创建了一个新的 `User` 结构体实例，它有一个字段的名字是 `email`。我们希望将 `email` 字段的值设置为 `build_user` 函数的 `email` 参数值。由于 `email` 字段和 `email` 参数同名，我们可以省略 `email: email`，直接写 `email`。
 
 ## Creating Instances From Other Instances With Struct Update Syntax
 
