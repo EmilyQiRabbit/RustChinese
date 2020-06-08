@@ -98,10 +98,13 @@ Here, we’re creating a new instance of the `User` struct, which has a field na
 这里我们创建了一个新的 `User` 结构体实例，它有一个字段的名字是 `email`。我们希望将 `email` 字段的值设置为 `build_user` 函数的 `email` 参数值。由于 `email` 字段和 `email` 参数同名，我们可以省略 `email: email`，直接写 `email`。
 
 ## Creating Instances From Other Instances With Struct Update Syntax
+## 使用结构体更新语法从实例创建实例
 
 It’s often useful to create a new instance of a struct that uses most of an old instance’s values but changes some. You’ll do this using struct update syntax.
+使用旧实例中的大部分值同时替换掉某些值，以这种方式创建新的实例非常实用。我们可以实用结构体更新语法来完成。
 
 First, Listing 5-6 shows how we create a new `User` instance in `user2` without the update syntax. We set new values for `email` and `username` but otherwise use the same values from `user1` that we created in Listing 5-2.
+首先，代码示例 5-6 展示了不使用更新语法时如何创建新的 `User` 示例 `user2`。我们将 `email` 和 `username` 设定为了新的值，但是其他值则和代码示例 5-2 中创建的 `user1` 实例的值一样。
 
 ```rs
 let user2 = User {
@@ -113,8 +116,10 @@ let user2 = User {
 ```
 
 Listing 5-6: Creating a new `User` instance using some of the values from `user1`
+代码示例 5-6：创建和 `user1` 部分值相同的新的 `User` 实例
 
 Using struct update syntax, we can achieve the same effect with less code, as shown in Listing 5-7. The syntax `..` specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance.
+而如果使用了结构体更新语法，我们就可以使用更简洁的代码实现相同的效果，如代码示例 5-7 所示。`..` 语法表示，剩余那些没有明确赋值的字段将使用和给定实例中相同的值。
 
 ```rs
 let user2 = User {
