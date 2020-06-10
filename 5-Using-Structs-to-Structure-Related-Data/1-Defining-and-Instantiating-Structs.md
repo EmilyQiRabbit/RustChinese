@@ -130,14 +130,19 @@ let user2 = User {
 ```
 
 Listing 5-7: Using struct update syntax to set new `email` and `username` values for a `User` instance but use the rest of the values from the fields of the instance in the `user1` variable
+代码示例 5-7：使用结构体更新语法为 `User` 实例的 `email` 和 `username` 设定了新的值，而其他字段的值则沿用了 `user1` 变量。
 
 The code in Listing 5-7 also creates an instance in `user2` that has a different value for `email` and `username` but has the same values for the `active` and `sign_in_count` fields from `user1`.
+示例 5-7 中的代码也创建了一个新的 `user2` 实例，它的 `email` 和 `username` 字段与 `user1` 不同，而 `active` 和 `sign_in_count` 的值则是相同的。
 
 ## Using Tuple Structs without Named Fields to Create Different Types
+## 使用没有命名字段的元组结构体来创建不同的类型
 
 You can also define structs that look similar to tuples, called tuple structs. Tuple structs have the added meaning the struct name provides but don’t have names associated with their fields; rather, they just have the types of the fields. Tuple structs are useful when you want to give the whole tuple a name and make the tuple be a different type from other tuples, and naming each field as in a regular struct would be verbose or redundant.
+我们还可以定义和元组类似的结构体，其称为元组结构体。元组结构体能够提供结构体名称，但是无需为字段命名，只需提供字段类型即可。当你想要为整个元组命名以区别于其他元组类型，但是为每个字段命名又显得麻烦和多余的时候，元组结构体就是最佳选择了。
 
 To define a tuple struct, start with the `struct` keyword and the struct name followed by the types in the tuple. For example, here are definitions and usages of two tuple structs named `Color` and `Point`:
+使用关键字 `struct` 开头，后面跟上元组的类型定义，就可以定义一个元组结构体了。如下所示即是元组结构体 `Color` 和 `Point` 的定义和使用：
 
 ```rs
 struct Color(i32, i32, i32);
