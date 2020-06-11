@@ -153,20 +153,25 @@ let origin = Point(0, 0, 0);
 ```
 
 Note that the `black` and `origin` values are different types, because they’re instances of different tuple structs. Each struct you define is its own type, even though the fields within the struct have the same types. For example, a function that takes a parameter of type `Color` cannot take a `Point` as an argument, even though both types are made up of three `i32` values. Otherwise, tuple struct instances behave like tuples: you can destructure them into their individual pieces, you can use a `.` followed by the index to access an individual value, and so on.
+注意，`black` 和 `origin` 值是不同的类型，
 
 ## Unit-Like Structs Without Any Fields
+## 没有任何字段的类单元结构体
 
 You can also define structs that don’t have any fields! These are called unit-like structs because they behave similarly to `()`, the unit type. Unit-like structs can be useful in situations in which you need to implement a trait on some type but don’t have any data that you want to store in the type itself. We’ll discuss traits in Chapter 10.
 
 ## Ownership of Struct Data
+## 结构体数据的所有权
 
 In the `User` struct definition in Listing 5-1, we used the owned `String` type rather than the `&str` string slice type. This is a deliberate choice because we want instances of this struct to own all of its data and for that data to be valid for as long as the entire struct is valid.
 
 It’s possible for structs to store references to data owned by something else, but to do so requires the use of lifetimes, a Rust feature that we’ll discuss in Chapter 10. Lifetimes ensure that the data referenced by a struct is valid for as long as the struct is. Let’s say you try to store a reference in a struct without specifying lifetimes, like this, which won’t work:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
+这段代码无法编译！
 
 ```rs
 struct User {
@@ -187,6 +192,7 @@ fn main() {
 ```
 
 The compiler will complain that it needs lifetime specifiers:
+编译器将会告知你，变量需要生命周期标识符：
 
 ```sh
 $ cargo run
@@ -212,3 +218,4 @@ To learn more, run the command again with --verbose.
 ```
 
 In Chapter 10, we’ll discuss how to fix these errors so you can store references in structs, but for now, we’ll fix errors like these using owned types like `String` instead of references like `&str`.
+我们将会在第十章讨论如何解决这类错误，到那时我们就可以在结构体中存储引用了，但是现在，我们只需要使用具有所有权的类型 `String` 来代替引用 `&str` 即可修正错误。
