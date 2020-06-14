@@ -153,19 +153,22 @@ let origin = Point(0, 0, 0);
 ```
 
 Note that the `black` and `origin` values are different types, because they’re instances of different tuple structs. Each struct you define is its own type, even though the fields within the struct have the same types. For example, a function that takes a parameter of type `Color` cannot take a `Point` as an argument, even though both types are made up of three `i32` values. Otherwise, tuple struct instances behave like tuples: you can destructure them into their individual pieces, you can use a `.` followed by the index to access an individual value, and so on.
-注意，`black` 和 `origin` 值是不同的类型，
+注意，`black` 和 `origin` 值是不同的类型，它们分别是不同的元组结构体的实例。你所定义的的每个结构体都是独立的类型，即使它们所包含的字段的类型都相同。例如，以 `Color` 作为参数的函数不可以接收 `Point` 类型的参数，尽管它们都是由三个 `i32` 类型的值组成的。而在其他方面，元组结构体实例和元组类似：可以将其解构为单独的部分，也可以使用 `.` 加索引来访问单独的值等等。
 
 ## Unit-Like Structs Without Any Fields
 ## 没有任何字段的类单元结构体
 
 You can also define structs that don’t have any fields! These are called unit-like structs because they behave similarly to `()`, the unit type. Unit-like structs can be useful in situations in which you need to implement a trait on some type but don’t have any data that you want to store in the type itself. We’ll discuss traits in Chapter 10.
+我们还可以定义没有任何字段的结构体！它们和单元类型 `()` 很类似，因此被称为类单元结构体。当你想要在某个类型上实现 trait，但却没有任何数据要保存在这个类型本身的时候，类单元结构体就很实用了。我们将会在第十章讨论 trait。
 
 ## Ownership of Struct Data
 ## 结构体数据的所有权
 
 In the `User` struct definition in Listing 5-1, we used the owned `String` type rather than the `&str` string slice type. This is a deliberate choice because we want instances of this struct to own all of its data and for that data to be valid for as long as the entire struct is valid.
+在代码示例 5-1 中定义的 `User` 结构体中，我们使用了自身拥有所有权的 `String` 类型而非 `&str` slice 类型。这是一个有意而为的选择，因为我们希望结构体实例能拥有其数据的所有权，因此在结构体有效的时候，其数据也必定有效。
 
 It’s possible for structs to store references to data owned by something else, but to do so requires the use of lifetimes, a Rust feature that we’ll discuss in Chapter 10. Lifetimes ensure that the data referenced by a struct is valid for as long as the struct is. Let’s say you try to store a reference in a struct without specifying lifetimes, like this, which won’t work:
+使用结构体保存其他变量拥有的数据引用也是可以的，但是为了这样做，就必须使用生命周期，我们将在第十章讨论这个 Rust 特性。生命周期能够保证结构体引用的数据在结构体有效时保持有效。我们先来像如下这样尝试一次，在结构体中保存引用并且不指明生命周期，这段代码是无法正常工作的：
 
 Filename: src/main.rs
 文件名：src/main.rs
