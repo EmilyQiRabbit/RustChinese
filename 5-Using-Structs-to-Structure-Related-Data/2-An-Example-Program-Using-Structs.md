@@ -38,7 +38,8 @@ The issue with this code is evident in the signature of area:
 fn area(width: u32, height: u32) -> u32 {
 The area function is supposed to calculate the area of one rectangle, but the function we wrote has two parameters. The parameters are related, but that’s not expressed anywhere in our program. It would be more readable and more manageable to group width and height together. We’ve already discussed one way we might do that in “The Tuple Type” section of Chapter 3: by using tuples.
 
-Refactoring with Tuples
+## Refactoring with Tuples
+
 Listing 5-9 shows another version of our program that uses tuples.
 
 Filename: src/main.rs
@@ -62,7 +63,8 @@ In one way, this program is better. Tuples let us add a bit of structure, and we
 
 It doesn’t matter if we mix up width and height for the area calculation, but if we want to draw the rectangle on the screen, it would matter! We would have to keep in mind that width is the tuple index 0 and height is the tuple index 1. If someone else worked on this code, they would have to figure this out and keep it in mind as well. It would be easy to forget or mix up these values and cause errors, because we haven’t conveyed the meaning of our data in our code.
 
-Refactoring with Structs: Adding More Meaning
+## Refactoring with Structs: Adding More Meaning
+
 We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a data type with a name for the whole as well as names for the parts, as shown in Listing 5-10.
 
 Filename: src/main.rs
