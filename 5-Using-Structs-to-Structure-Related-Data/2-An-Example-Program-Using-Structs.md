@@ -1,10 +1,14 @@
 # An Example Program Using Structs
+# 应用结构体编程示例
 
 To understand when we might want to use structs, let’s write a program that calculates the area of a rectangle. We’ll start with single variables, and then refactor the program until we’re using structs instead.
+为了更好的理解应用结构体的场景，我们来一起写一个计算矩形面积的小程序吧。我们先从一个变量开始，然后再使用结构体重构程序。
 
 Let’s make a new binary project with Cargo called rectangles that will take the width and height of a rectangle specified in pixels and calculate the area of the rectangle. Listing 5-8 shows a short program with one way of doing exactly that in our project’s src/main.rs.
+我们使用 Cargo 新建一个名为 rectangles 的二进制项目，它能获取矩形的长宽，并计算其面积。代码示例 5-8 就是项目 src/main.rs 文件中的小程序，这就是一种计算面积的方式。
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -23,8 +27,10 @@ fn area(width: u32, height: u32) -> u32 {
 ```
 
 Listing 5-8: Calculating the area of a rectangle specified by separate width and height variables
+代码示例 5-8：分别使用宽度和高度两个变量计算矩形面积
 
 Now, run this program using `cargo run`:
+现在，使用 `cargo run` 运行项目：
 
 ```sh
 $ cargo run
@@ -45,10 +51,12 @@ fn area(width: u32, height: u32) -> u32 {
 The `area` function is supposed to calculate the area of one rectangle, but the function we wrote has two parameters. The parameters are related, but that’s not expressed anywhere in our program. It would be more readable and more manageable to group width and height together. We’ve already discussed one way we might do that in “The Tuple Type” section of Chapter 3: by using tuples.
 
 ## Refactoring with Tuples
+## 使用元组重构程序
 
 Listing 5-9 shows another version of our program that uses tuples.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -72,10 +80,12 @@ In one way, this program is better. Tuples let us add a bit of structure, and we
 It doesn’t matter if we mix up width and height for the area calculation, but if we want to draw the rectangle on the screen, it would matter! We would have to keep in mind that `width` is the tuple index `0` and `height` is the tuple index `1`. If someone else worked on this code, they would have to figure this out and keep it in mind as well. It would be easy to forget or mix up these values and cause errors, because we haven’t conveyed the meaning of our data in our code.
 
 ## Refactoring with Structs: Adding More Meaning
+## 使用结构体重构程序：增加了更多含义
 
 We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a data type with a name for the whole as well as names for the parts, as shown in Listing 5-10.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 struct Rectangle {
@@ -109,12 +119,15 @@ Our `area` function is now defined with one parameter, which we’ve named `rect
 The `area` function accesses the `width` and `height` fields of the `Rectangle` instance. Our function signature for `area` now says exactly what we mean: calculate the area of `Rectangle`, using its width and height fields. This conveys that the `width` and `height` are related to each other, and it gives descriptive names to the values rather than using the tuple index values of `0` and `1`. This is a win for clarity.
 
 ## Adding Useful Functionality with Derived Traits
+## 使用派生 trait 增加实用功能
 
 It’d be nice to be able to print an instance of `Rectangle` while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the `println!` macro as we have used in previous chapters. This won’t work, however.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 This code does not compile!
+这段代码无法编译！
 
 ```rs
 struct Rectangle {
@@ -167,6 +180,7 @@ But again, the compiler gives us a helpful note:
 Rust does include functionality to print out debugging information, but we have to explicitly opt in to make that functionality available for our struct. To do that, we add the annotation `#[derive(Debug)]` just before the struct definition, as shown in Listing 5-12.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 #[derive(Debug)]
