@@ -5,7 +5,7 @@ To understand when we might want to use structs, let’s write a program that ca
 为了更好的理解应用结构体的场景，我们来一起写一个计算矩形面积的小程序吧。我们先从一个变量开始，然后再使用结构体重构程序。
 
 Let’s make a new binary project with Cargo called rectangles that will take the width and height of a rectangle specified in pixels and calculate the area of the rectangle. Listing 5-8 shows a short program with one way of doing exactly that in our project’s src/main.rs.
-我们使用 Cargo 新建一个名为 rectangles 的二进制项目，它能获取矩形的长宽，并计算其面积。代码示例 5-8 就是项目 src/main.rs 文件中的小程序，这就是一种计算面积的方式。
+我们使用 Cargo 新建一个名为 rectangles 的二进制项目，它能获取矩形的长宽，并计算其面积。代码示例 5-8 就是项目 src/main.rs 文件中的小程序，是一种计算面积的方式。
 
 Filename: src/main.rs
 文件名：src/main.rs
@@ -41,19 +41,23 @@ The area of the rectangle is 1500 square pixels.
 ```
 
 Even though Listing 5-8 works and figures out the area of the rectangle by calling the area function with each dimension, we can do better. The width and the height are related to each other because together they describe one rectangle.
+尽管代码示例 5-8 能正常运行，并能通过调用 `area` 函数计算出矩形的面积，但我们其实能做得更好。矩形的宽高描述的是同一个矩形，因而它们是相互关联的。
 
 The issue with this code is evident in the signature of `area`:
+这段代码的问题明显在于 `area` 函数的签名：
 
 ```rs
 fn area(width: u32, height: u32) -> u32 {
 ```
 
 The `area` function is supposed to calculate the area of one rectangle, but the function we wrote has two parameters. The parameters are related, but that’s not expressed anywhere in our program. It would be more readable and more manageable to group width and height together. We’ve already discussed one way we might do that in “The Tuple Type” section of Chapter 3: by using tuples.
+`area` 函数是为了计算一个矩形的面积，但是却需要两个参数。这两个参数是相关的，但是程序中没有任何地方对此作出说明。将宽度和高度组合起来，可以让代码的可读性和可管理性都更好。我们在第三章“元组类型”部分已经讨论过一种可行的方式了，那就是使用元组。
 
 ## Refactoring with Tuples
 ## 使用元组重构程序
 
 Listing 5-9 shows another version of our program that uses tuples.
+代码示例 5-9 是程序的另一个版本，它使用了元组。
 
 Filename: src/main.rs
 文件名：src/main.rs
@@ -74,6 +78,7 @@ fn area(dimensions: (u32, u32)) -> u32 {
 ```
 
 Listing 5-9: Specifying the width and height of the rectangle with a tuple
+代码示例 5-9：使用元组指定矩形的宽高
 
 In one way, this program is better. Tuples let us add a bit of structure, and we’re now passing just one argument. But in another way, this version is less clear: tuples don’t name their elements, so our calculation has become more confusing because we have to index into the parts of the tuple.
 
