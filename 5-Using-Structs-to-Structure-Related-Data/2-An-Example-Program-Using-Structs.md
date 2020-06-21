@@ -81,8 +81,10 @@ Listing 5-9: Specifying the width and height of the rectangle with a tuple
 代码示例 5-9：使用元组指定矩形的宽高
 
 In one way, this program is better. Tuples let us add a bit of structure, and we’re now passing just one argument. But in another way, this version is less clear: tuples don’t name their elements, so our calculation has become more confusing because we have to index into the parts of the tuple.
+一方面来说，程序结构更合理了。元组的结构让我们可以只传入一个参数。但另一方面，这个版本的代码不够明确：元组没有为元素命名，我们就只能使用索引获取元组内元素，这样这个计算就变得让人有些费解。
 
 It doesn’t matter if we mix up width and height for the area calculation, but if we want to draw the rectangle on the screen, it would matter! We would have to keep in mind that `width` is the tuple index `0` and `height` is the tuple index `1`. If someone else worked on this code, they would have to figure this out and keep it in mind as well. It would be easy to forget or mix up these values and cause errors, because we haven’t conveyed the meaning of our data in our code.
+如果我们不慎将宽高弄混，这对面积的计算不会造成影响，但如果我们想要在屏幕上画出这个矩形，那么宽高的顺序就很重要了！我们必须牢记 `width` 是元组的 `0` 号元素，而 `height` 是 `1` 号。如果其他人也要使用这段代码，他们也必须弄清楚并牢记这一点。而因为这段代码里无法传递给开发者数据含义的信息，人们会很容易忘记或者弄混顺序并导致错误。
 
 ## Refactoring with Structs: Adding More Meaning
 ## 使用结构体重构程序：增加了更多含义
