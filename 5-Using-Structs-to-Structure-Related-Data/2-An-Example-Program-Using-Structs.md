@@ -90,6 +90,7 @@ It doesn’t matter if we mix up width and height for the area calculation, but 
 ## 使用结构体重构程序：增加了更多含义
 
 We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a data type with a name for the whole as well as names for the parts, as shown in Listing 5-10.
+我们使用结构体为数据增加标签，以此为代码增加含义。我们可以将元组转化为一种整体有名字，同时每个部分也有名字的数据类型，如代码示例 5-10 所示。
 
 Filename: src/main.rs
 文件名：src/main.rs
@@ -118,12 +119,16 @@ fn area(rectangle: &Rectangle) -> u32 {
 ```
 
 Listing 5-10: Defining a `Rectangle` struct
+代码示例 5-10：定义 `Rectangle` 结构体
 
 Here we’ve defined a struct and named it `Rectangle`. Inside the curly brackets, we defined the fields as `width` and `height`, both of which have type `u32`. Then in `main`, we created a particular instance of `Rectangle` that has a width of 30 and a height of 50.
+我们在这里定义了一个名为 `Rectangle` 的结构体。在大括号内，我们定义了字段 `width` 和 `height`，它们的类型都是 `u32`。然后在 `main` 函数中，我们创建了一个具体的 `Rectangle` 实例，它的宽是 30，高是 50。
 
 Our `area` function is now defined with one parameter, which we’ve named `rectangle`, whose type is an immutable borrow of a struct `Rectangle` instance. As mentioned in Chapter 4, we want to borrow the struct rather than take ownership of it. This way, `main` retains its ownership and can continue using `rect1`, which is the reason we use the `&` in the function signature and where we call the function.
+现在，`area` 函数定义中只需要一个参数了，我们将其命名为 `rectangle`，它的类型是结构体 `Rectangle` 实例的不可变引用。我们在第四章中讨论过，我们希望借用结构体而无需取得其所有权。因此我们在函数签名和调用的时候都使用了 `&`，这样，`main` 函数将能继续保有结构体所有权并继续使用 `rect1`。
 
 The `area` function accesses the `width` and `height` fields of the `Rectangle` instance. Our function signature for `area` now says exactly what we mean: calculate the area of `Rectangle`, using its width and height fields. This conveys that the `width` and `height` are related to each other, and it gives descriptive names to the values rather than using the tuple index values of `0` and `1`. This is a win for clarity.
+`area` 函数现在可以获取得是 `Rectangle` 实例的 `width` 和 `height` 字段。函数签名现在能准确表述我们想传达的含义：使用宽高字段计算矩形面积。同时也传达出了 `width` 和 `height` 是互相关联的信息，并且为这两个值提供了描述性的名字，而不是使用元组那样的 `0` 和 `1` 索引。这种方式清晰了很多。
 
 ## Adding Useful Functionality with Derived Traits
 ## 使用派生 trait 增加实用功能
