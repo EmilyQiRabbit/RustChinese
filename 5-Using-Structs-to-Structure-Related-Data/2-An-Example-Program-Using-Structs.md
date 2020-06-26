@@ -134,6 +134,7 @@ The `area` function accesses the `width` and `height` fields of the `Rectangle` 
 ## 使用派生 trait 增加实用功能
 
 It’d be nice to be able to print an instance of `Rectangle` while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the `println!` macro as we have used in previous chapters. This won’t work, however.
+如果能在调试程序的时候打印出 `Rectangle` 实例用来观察其字段的值，那就再好不过了。代码示例 5-11 尝试使用我们在上一章使用过的 `println!` 宏来完成。但这段代码无法运行。
 
 Filename: src/main.rs
 文件名：src/main.rs
@@ -158,16 +159,20 @@ fn main() {
 ```
 
 Listing 5-11: Attempting to print a `Rectangle` instance
+代码示例 5-11：尝试打印出 `Rectangle` 实例
 
 When we compile this code, we get an error with this core message:
+代码编译时报错的关键信息是：
 
 ```sh
 error[E0277]: `Rectangle` doesn't implement `std::fmt::Display`
 ```
 
 The `println!` macro can do many kinds of formatting, and by default, the curly brackets tell `println!` to use formatting known as `Display`: output intended for direct end user consumption. The primitive types we’ve seen so far implement `Display` by default, because there’s only one way you’d want to show a `1` or any other primitive type to a user. But with structs, the way `println!` should format the output is less clear because there are more display possibilities: Do you want commas or not? Do you want to print the curly brackets? Should all the fields be shown? Due to this ambiguity, Rust doesn’t try to guess what we want, and structs don’t have a provided implementation of `Display`.
+`println!` 宏无法完成很多类型的格式化，默认情况下，`println!` 认为大括号需要使用 `Display` 格式：意在给直接终端用户提供可查看的输出。目前我们见过的类型都默认实现了 `Display`，因为对于 `1` 或者其他基本类型来说，只有一种向用户展示的方法。但是对于结构体，`println!` 格式化要输出数据的方式就很不明确，有多种可能的展示：是否需要展示逗号？是否需要打印大括号？是否所有的字段都要被展示？鉴于这些模棱两可的问题，Rust 不会去猜测我们想要什么，结构体不提供 `Display` 的实现。
 
 If we continue reading the errors, we’ll find this helpful note:
+如果我们继续阅读报错信息，将会发现这一段帮助信息：
 
 ```rs
    = help: the trait `std::fmt::Display` is not implemented for `Rectangle`
@@ -175,14 +180,17 @@ If we continue reading the errors, we’ll find this helpful note:
 ```
 
 Let’s try it! The `println!` macro call will now look like `println!("rect1 is {:?}", rect1);`. Putting the specifier `:?` inside the curly brackets tells `println!` we want to use an output format called `Debug`. The `Debug` trait enables us to print our struct in a way that is useful for developers so we can see its value while we’re debugging our code.
+我们来试试看！现在 `println!` 宏的调用将会是 `println!("rect1 is {:?}", rect1);` 这样。我们将标识符 `:?` 放入大括号中，告知 `println!` 我们希望使用 `Debug` 格式化输出。`Debug` trait 允许我们以一种对开发者很有帮助的方式打印出结构体，以便我们在调试代码时可以看到所有的值。
 
 Compile the code with this change. Drat! We still get an error:
+修改后再次编译代码。卧槽！又报错了：
 
 ```sh
 error[E0277]: `Rectangle` doesn't implement `std::fmt::Debug`
 ```
 
 But again, the compiler gives us a helpful note:
+但同时编译器也再次给出了帮助信息：
 
 ```sh
    = help: the trait `std::fmt::Debug` is not implemented for `Rectangle`
