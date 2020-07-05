@@ -2,8 +2,8 @@
 
 **几点说明：**
 
-1. 参与文档校对的 Rustacean 们：「虚位以待」
-2. [原文链接](https://doc.rust-lang.org/book/title-page.html)
+1. 参与文档校对的 Rustacean 们：「虚位以待」...
+2. [原文链接](https://doc.rust-lang.org/book/title-page.html)。
 
 ## 目录
 
