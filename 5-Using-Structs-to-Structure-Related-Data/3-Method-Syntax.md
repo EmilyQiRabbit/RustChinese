@@ -1,12 +1,17 @@
 # Method Syntax
+# 方法的语法
 
 Methods are similar to functions: they’re declared with the `fn` keyword and their name, they can have parameters and a return value, and they contain some code that is run when they’re called from somewhere else. However, methods are different from functions in that they’re defined within the context of a struct (or an enum or a trait object, which we cover in Chapters 6 and 17, respectively), and their first parameter is always `self`, which represents the instance of the struct the method is being called on.
+方法和函数类似：都使用关键字 `fn` 和名字声明，具有参数和返回值，并且包含某些代码，这些代码会在被调用的时候执行。但是方法和函数也是有区别的，方法在结构体（或枚举类型以及 trait 对象中，我们将会在第六章和第十七章中分别介绍）上下文中定义，它们的第一个参数一定是 `self`，代表调用方法的结构体实例。
 
 ## Defining Methods
+## 方法定义
 
 Let’s change the `area` function that has a `Rectangle` instance as a parameter and instead make an `area` method defined on the `Rectangle` struct, as shown in Listing 5-13.
+我们来将带有 `Rectangle` 实例参数的 `area` 函数改造为定义在 `Rectangle` 结构体中的 `area` 方法，如代码示例 5-13 所示：
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 #[derive(Debug)]
@@ -35,6 +40,7 @@ fn main() {
 ```
 
 Listing 5-13: Defining an `area` method on the `Rectangle` struct
+代码示例 5-13：在 `Rectangle` 结构体中定义 `area` 方法
 
 To define the function within the context of `Rectangle`, we start an `impl` (implementation) block. Then we move the `area` function within the `impl` curly brackets and change the first (and in this case, only) parameter to be `self` in the signature and everywhere within the body. In `main`, where we called the `area` function and passed `rect1` as an argument, we can instead use method syntax to call the `area` method on our `Rectangle` instance. The method syntax goes after an instance: we add a dot followed by the method name, parentheses, and any arguments.
 
@@ -63,6 +69,7 @@ The first one looks much cleaner. This automatic referencing behavior works beca
 Let’s practice using methods by implementing a second method on the `Rectangle` struct. This time, we want an instance of `Rectangle` to take another instance of `Rectangle` and return `true` if the second `Rectangle` can fit completely within `self`; otherwise it should return `false`. That is, we want to be able to write the program shown in Listing 5-14, once we’ve defined the `can_hold` method.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 fn main() {
@@ -96,6 +103,7 @@ Can rect1 hold rect3? false
 We know we want to define a method, so it will be within the `impl Rectangle` block. The method name will be `can_hold`, and it will take an immutable borrow of another `Rectangle` as a parameter. We can tell what the type of the parameter will be by looking at the code that calls the method: `rect1.can_hold(&rect2)` passes in `&rect2`, which is an immutable borrow to `rect2`, an instance of `Rectangle`. This makes sense because we only need to read `rect2` (rather than write, which would mean we’d need a mutable borrow), and we want `main` to retain ownership of `rect2` so we can use it again after calling the `can_hold` method. The return value of `can_hold` will be a Boolean, and the implementation will check whether the width and height of `self` are both greater than the width and height of the other `Rectangle`, respectively. Let’s add the new `can_hold` method to the `impl` block from Listing 5-13, shown in Listing 5-15.
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 impl Rectangle {
@@ -120,6 +128,7 @@ Another useful feature of `impl` blocks is that we’re allowed to define functi
 Associated functions are often used for constructors that will return a new instance of the struct. For example, we could provide an associated function that would have one dimension parameter and use that as both width and height, thus making it easier to create a square `Rectangle` rather than having to specify the same value twice:
 
 Filename: src/main.rs
+文件名：src/main.rs
 
 ```rs
 impl Rectangle {
@@ -157,6 +166,7 @@ Listing 5-16: Rewriting Listing 5-15 using multiple `impl` blocks
 There’s no reason to separate these methods into multiple `impl` blocks here, but this is valid syntax. We’ll see a case in which multiple `impl` blocks are useful in Chapter 10, where we discuss generic types and traits.
 
 ## Summary
+## 总结
 
 Structs let you create custom types that are meaningful for your domain. By using structs, you can keep associated pieces of data connected to each other and name each piece to make your code clear. Methods let you specify the behavior that instances of your structs have, and associated functions let you namespace functionality that is particular to your struct without having an instance available.
 
