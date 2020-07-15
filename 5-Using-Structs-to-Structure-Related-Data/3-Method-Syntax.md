@@ -4,7 +4,6 @@
 Methods are similar to functions: they’re declared with the `fn` keyword and their name, they can have parameters and a return value, and they contain some code that is run when they’re called from somewhere else. However, methods are different from functions in that they’re defined within the context of a struct (or an enum or a trait object, which we cover in Chapters 6 and 17, respectively), and their first parameter is always `self`, which represents the instance of the struct the method is being called on.
 方法和函数类似：都使用关键字 `fn` 和名字声明，具有参数和返回值，并且包含某些代码，这些代码会在被调用的时候执行。但是方法和函数也是有区别的，方法在结构体（或枚举类型以及 trait 对象中，我们将会在第六章和第十七章中分别介绍）上下文中定义，它们的第一个参数一定是 `self`，代表调用方法的结构体实例。
 
-## Defining Methods
 ## 方法定义
 
 Let’s change the `area` function that has a `Rectangle` instance as a parameter and instead make an `area` method defined on the `Rectangle` struct, as shown in Listing 5-13.
