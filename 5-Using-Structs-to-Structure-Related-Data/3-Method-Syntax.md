@@ -1,5 +1,5 @@
 # Method Syntax
-# 方法的语法
+# 方法语法
 
 Methods are similar to functions: they’re declared with the `fn` keyword and their name, they can have parameters and a return value, and they contain some code that is run when they’re called from somewhere else. However, methods are different from functions in that they’re defined within the context of a struct (or an enum or a trait object, which we cover in Chapters 6 and 17, respectively), and their first parameter is always `self`, which represents the instance of the struct the method is being called on.
 方法和函数类似：都使用关键字 `fn` 和名字声明，具有参数和返回值，并且包含某些代码，这些代码会在被调用的时候执行。但是方法和函数也是有区别的，方法在结构体（或枚举类型以及 trait 对象中，我们将会在第六章和第十七章中分别介绍）上下文中定义，它们的第一个参数一定是 `self`，代表调用方法的结构体实例。
@@ -42,26 +42,29 @@ Listing 5-13: Defining an `area` method on the `Rectangle` struct
 代码示例 5-13：在 `Rectangle` 结构体中定义 `area` 方法
 
 To define the function within the context of `Rectangle`, we start an `impl` (implementation) block. Then we move the `area` function within the `impl` curly brackets and change the first (and in this case, only) parameter to be `self` in the signature and everywhere within the body. In `main`, where we called the `area` function and passed `rect1` as an argument, we can instead use method syntax to call the `area` method on our `Rectangle` instance. The method syntax goes after an instance: we add a dot followed by the method name, parentheses, and any arguments.
+我们使用 `impl`（implementation）代码块在 `Rectangle` 上下文中定义函数。然后我们将 `area` 函数移动到 `impl` 打括号中，在本例中，我们还需要将函数签名的第一个参数和函数体对应位置改为 `self`。在 `area` 函数中，调用 `area` 函数需要将 `rect1` 作为参数传入，而现在使用方法语法只需要在 `Rectangle` 实例调用 `area` 方法。方法语法在实例后加上一个点号，然后再加上方法名、一对括号以及方法参数。
 
 In the signature for `area`, we use `&self` instead of `rectangle: &Rectangle` because Rust knows the type of `self` is `Rectangle` due to this method’s being inside the `impl Rectangle` context. Note that we still need to use the `&` before `self`, just as we did in `&Rectangle`. Methods can take ownership of `self`, borrow `self` immutably as we’ve done here, or borrow `self` mutably, just as they can any other parameter.
+在 `area` 的签名中，我们没有使用 `rectangle: &Rectangle` 而是使用了 `&self`，这是由于方法是定义在 `impl Rectangle` 的上下文中，Rust 能知道 `self` 的类型是 `Rectangle`。
 
 We’ve chosen `&self` here for the same reason we used `&Rectangle` in the function version: we don’t want to take ownership, and we just want to read the data in the struct, not write to it. If we wanted to change the instance that we’ve called the method on as part of what the method does, we’d use `&mut self` as the first parameter. Having a method that takes ownership of the instance by using just `self` as the first parameter is rare; this technique is usually used when the method transforms `self` into something else and you want to prevent the caller from using the original instance after the transformation.
 
 The main benefit of using methods instead of functions, in addition to using method syntax and not having to repeat the type of `self` in every method’s signature, is for organization. We’ve put all the things we can do with an instance of a type in one `impl` block rather than making future users of our code search for capabilities of `Rectangle` in various places in the library we provide.
 
-Where’s the `->` Operator?
-In C and C++, two different operators are used for calling methods: you use `.` if you’re calling a method on the object directly and `->` if you’re calling the method on a pointer to the object and need to dereference the pointer first. In other words, if `object` is a pointer, `object->something()` is similar to `(*object).something()`.
+## Where’s the `->` Operator?
 
-Rust doesn’t have an equivalent to the `->` operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust that has this behavior.
+> In C and C++, two different operators are used for calling methods: you use `.` if you’re calling a method on the object directly and `->` if you’re calling the method on a pointer to the object and need to dereference the pointer first. In other words, if `object` is a pointer, `object->something()` is similar to `(*object).something()`.
 
-Here’s how it works: when you call a method with `object.something()`, Rust automatically adds in `&`, `&mut`, or `*` so `object` matches the signature of the method. In other words, the following are the same:
+> Rust doesn’t have an equivalent to the `->` operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust that has this behavior.
+
+> Here’s how it works: when you call a method with `object.something()`, Rust automatically adds in `&`, `&mut`, or `*` so `object` matches the signature of the method. In other words, the following are the same:
 
 ```rs
 p1.distance(&p2);
 (&p1).distance(&p2);
 ```
 
-The first one looks much cleaner. This automatic referencing behavior works because methods have a clear receiver—the type of `self`. Given the receiver and name of a method, Rust can figure out definitively whether the method is reading (`&self`), mutating (`&mut self`), or consuming (`self`). The fact that Rust makes borrowing implicit for method receivers is a big part of making ownership ergonomic in practice.
+> The first one looks much cleaner. This automatic referencing behavior works because methods have a clear receiver—the type of `self`. Given the receiver and name of a method, Rust can figure out definitively whether the method is reading (`&self`), mutating (`&mut self`), or consuming (`self`). The fact that Rust makes borrowing implicit for method receivers is a big part of making ownership ergonomic in practice.
 
 ## Methods with More Parameters
 
