@@ -48,9 +48,10 @@ In the signature for `area`, we use `&self` instead of `rectangle: &Rectangle` b
 我们在 `area` 的签名中使用了 `&self` 而不是 `rectangle: &Rectangle`，这是由于该方法位于 `impl Rectangle` 上下中，因此 Rust 知道 `self` 的类型是 `Rectangle`。注意，正如 `&Rectangle`，我们在 `self` 之前也需要使用 `&` 符号。方法可以选择拿走 `self` 所有权，也可以像这段代码，使用不可变引用，或者也可以像其他任何参数都可以的那样，使用可变引用。
 
 We’ve chosen `&self` here for the same reason we used `&Rectangle` in the function version: we don’t want to take ownership, and we just want to read the data in the struct, not write to it. If we wanted to change the instance that we’ve called the method on as part of what the method does, we’d use `&mut self` as the first parameter. Having a method that takes ownership of the instance by using just `self` as the first parameter is rare; this technique is usually used when the method transforms `self` into something else and you want to prevent the caller from using the original instance after the transformation.
-在这里我们选择了 `&self`，理由和在函数版本中选择 `&Rectangle` 一样：我们不想拿走所有权，并且只需要读取结构体数据，无需写入。
+在这里我们选择了 `&self`，理由和在函数版本中选择 `&Rectangle` 一样：我们不想拿走所有权，并且只需要读取结构体数据，无需写入。而如果我们想要在实例调用的方法中修改该实例，我们就需要将 `&mut self` 作为第一个参数。仅使用 `self` 作为第一个参数方法很少见，这样的方法会把实例所有权拿走；一般只有当方法需要将 `self` 转换为其他类型，并且开发者想要防止调用者在转换后使用原实例的时候才会使用。
 
 The main benefit of using methods instead of functions, in addition to using method syntax and not having to repeat the type of `self` in every method’s signature, is for organization. We’ve put all the things we can do with an instance of a type in one `impl` block rather than making future users of our code search for capabilities of `Rectangle` in various places in the library we provide.
+使用方法代替函数，除了能无需在每个方法签名中重复 `self` 类型，其最重要优势是能让代码组织结构更好。
 
 ## Where’s the `->` Operator?
 ## 操作符 `->` 在哪里？
