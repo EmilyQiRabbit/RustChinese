@@ -32,3 +32,4 @@
 5. 使用结构体（struct）组织相关联的数据
    1. [使用结构体（struct）组织相关联的数据](https://github.com/EmilyQiRabbit/RustChinese/blob/master/5-Using-Structs-to-Structure-Related-Data/0-Using-Structs-to-Structure-Related-Data.md)
    2. [结构体的定义和实例化](https://github.com/EmilyQiRabbit/RustChinese/blob/master/5-Using-Structs-to-Structure-Related-Data/1-Defining-and-Instantiating-Structs.md)
+   3. [方法语法](./5-Using-Structs-to-Structure-Related-Data/3-Method-Syntax.md)
