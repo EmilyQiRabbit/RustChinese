@@ -32,5 +32,5 @@
 5. 使用结构体（struct）组织相关联的数据
    1. [使用结构体（struct）组织相关联的数据](./5-Using-Structs-to-Structure-Related-Data/0-Using-Structs-to-Structure-Related-Data.md)
    2. [结构体的定义和实例化](./5-Using-Structs-to-Structure-Related-Data/1-Defining-and-Instantiating-Structs.md)
-   3. [结构体的定义和实例化](./5-Using-Structs-to-Structure-Related-Data/2-References-and-Borrowing.md)
+   3. [应用结构体编程示例](./5-Using-Structs-to-Structure-Related-Data/2-An-Example-Program-Using-Structs.md)
    4. [方法语法](./5-Using-Structs-to-Structure-Related-Data/3-Method-Syntax.md)
