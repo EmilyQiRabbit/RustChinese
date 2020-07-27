@@ -51,16 +51,19 @@ We’ve chosen `&self` here for the same reason we used `&Rectangle` in the func
 在这里我们选择了 `&self`，理由和在函数版本中选择 `&Rectangle` 一样：我们不想拿走所有权，并且只需要读取结构体数据，无需写入。而如果我们想要在实例调用的方法中修改该实例，我们就需要将 `&mut self` 作为第一个参数。仅使用 `self` 作为第一个参数方法很少见，这样的方法会把实例所有权拿走；一般只有当方法需要将 `self` 转换为其他类型，并且开发者想要防止调用者在转换后使用原实例的时候才会使用。
 
 The main benefit of using methods instead of functions, in addition to using method syntax and not having to repeat the type of `self` in every method’s signature, is for organization. We’ve put all the things we can do with an instance of a type in one `impl` block rather than making future users of our code search for capabilities of `Rectangle` in various places in the library we provide.
-使用方法代替函数，除了能无需在每个方法签名中重复 `self` 类型，其最重要优势是能让代码组织结构更好。
+使用方法代替函数，除了能无需在每个方法签名中重复 `self` 的类型，其最重要优势是能让代码组织结构更好。我们可以将所有处理类型实例的方法都放在一个 `impl` 块中，这样将来使用这段代码的用户就无需在我们提供仓库的不同位置搜索 `Rectangle` 具备的功能。
 
 ## Where’s the `->` Operator?
 ## 操作符 `->` 在哪里？
 
 > In C and C++, two different operators are used for calling methods: you use `.` if you’re calling a method on the object directly and `->` if you’re calling the method on a pointer to the object and need to dereference the pointer first. In other words, if `object` is a pointer, `object->something()` is similar to `(*object).something()`.
+> 在 C 和 C++ 中，有两种不同的操作符都可以用来调用方法：使用 `.` 直接在对象上调用方法，或使用 `->` 在对象指针上调用方法，但此时需要先将指针解引用（dereference）。换句话说，如果 `object` 是一个指针，那么 `object->something()` 和 `(*object).something()` 这两种写法是类似的。
 
 > Rust doesn’t have an equivalent to the `->` operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust that has this behavior.
+> 而 Rust 没有和 `->` 等价的操作符；但 Rust 有一个名为自动引用和解引用的功能。调用方法就是 Rust 中为数不多的使用了这种功能的地方。
 
 > Here’s how it works: when you call a method with `object.something()`, Rust automatically adds in `&`, `&mut`, or `*` so `object` matches the signature of the method. In other words, the following are the same:
+> 它的工作原理是：当我们使用 `object.something()` 调用方法时，Rust 会自动加上 `&`、`&mut` 或者 `*`，这样 `object` 就可以和方法签名匹配。换句话说，下面两种写法是等价的：
 
 ```rs
 p1.distance(&p2);
@@ -68,8 +71,10 @@ p1.distance(&p2);
 ```
 
 > The first one looks much cleaner. This automatic referencing behavior works because methods have a clear receiver—the type of `self`. Given the receiver and name of a method, Rust can figure out definitively whether the method is reading (`&self`), mutating (`&mut self`), or consuming (`self`). The fact that Rust makes borrowing implicit for method receivers is a big part of making ownership ergonomic in practice.
+> 第一种写法要简洁得多。这种自动引用的行为能够生效是因为方法有明确的接收者 —— `self` 的类型。只要给定接收者和方法名，Rust 完全可以推断出方法是读取、修改还是获取所有权。事实上，Rust 对方法接收者的隐式借用让所有权的实际使用对开发者更加友好。
 
 ## Methods with More Parameters
+## 具有更多参数的方法
 
 Let’s practice using methods by implementing a second method on the `Rectangle` struct. This time, we want an instance of `Rectangle` to take another instance of `Rectangle` and return `true` if the second `Rectangle` can fit completely within `self`; otherwise it should return `false`. That is, we want to be able to write the program shown in Listing 5-14, once we’ve defined the `can_hold` method.
 
