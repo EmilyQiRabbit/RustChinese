@@ -77,6 +77,7 @@ p1.distance(&p2);
 ## 具有更多参数的方法
 
 Let’s practice using methods by implementing a second method on the `Rectangle` struct. This time, we want an instance of `Rectangle` to take another instance of `Rectangle` and return `true` if the second `Rectangle` can fit completely within `self`; otherwise it should return `false`. That is, we want to be able to write the program shown in Listing 5-14, once we’ve defined the `can_hold` method.
+TODO...
 
 Filename: src/main.rs
 文件名：src/main.rs
